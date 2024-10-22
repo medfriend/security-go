@@ -14,7 +14,11 @@ func InitHttpServer(taskQueue chan *http.Request) {
 		fmt.Sprintf("%s/*path", os.Getenv("SERVICE_PATH")),
 		func(c *gin.Context) {
 			taskQueue <- c.Request
-			fmt.Println("service ok")
+			c.JSON(200, gin.H{
+				"data": gin.H{
+					"status": "ok",
+				},
+			})
 		})
 
 	err := r.Run(fmt.Sprintf(":%s", os.Getenv("SERVICE_PORT")))
