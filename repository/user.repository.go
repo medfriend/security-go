@@ -3,6 +3,7 @@ package repository
 import (
 	"gorm.io/gorm"
 	"security-go/entity"
+	"security-go/util"
 )
 
 type UserRepository interface {
@@ -13,12 +14,12 @@ type UserRepository interface {
 }
 
 type UserRepositoryImpl struct {
-	Base BaseRepository[entity.User]
+	Base util.BaseRepository[entity.User]
 }
 
 func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserRepositoryImpl{
-		Base: BaseRepository[entity.User]{DB: db},
+		Base: util.BaseRepository[entity.User]{DB: db},
 	}
 }
 

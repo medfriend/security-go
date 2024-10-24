@@ -5,10 +5,14 @@ import (
 	"github.com/medfriend/shared-commons-go/util/consul"
 	"github.com/medfriend/shared-commons-go/util/env"
 	"github.com/medfriend/shared-commons-go/util/worker"
+	"gorm.io/gorm"
 	"net/http"
 	"runtime"
 	"security-go/httpServer"
+	"security-go/util"
 )
+
+var db *gorm.DB
 
 func main() {
 	env.LoadEnv()
@@ -25,7 +29,9 @@ func main() {
 
 	worker.CreateWorkers(numCPUs, stop, taskQueue)
 
-	httpServer.InitHttpServer(taskQueue)
+	util.InitDB(db)
+
+	httpServer.InitHttpServer(taskQueue, db)
 
 	worker.HandleShutdown(stop, consulClient)
 }
