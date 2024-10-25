@@ -16,6 +16,7 @@ func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB) {
 	fmt.Println(taskQueue)
 
 	router.NewUserRouter(api, db)
+	router.NewHospitalRouter(api, db)
 
 	err := r.Run(fmt.Sprintf(":%s", os.Getenv("SERVICE_PORT")))
 
