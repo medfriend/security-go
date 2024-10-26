@@ -10,7 +10,7 @@ func NewPermisoRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	permisoController := module.InitializePermisoModule(db)
 
-	routerGroup := router.Group("permisos")
+	routerGroup := router.Group("permission")
 
 	routerGroup.POST("/", permisoController.CreatePermiso)
 	routerGroup.GET("/:id", permisoController.GetPermisoById)

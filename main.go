@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"github.com/medfriend/shared-commons-go/util/consul"
 	"github.com/medfriend/shared-commons-go/util/env"
+	gormUtil "github.com/medfriend/shared-commons-go/util/gorm"
 	"github.com/medfriend/shared-commons-go/util/worker"
 	"gorm.io/gorm"
 	"net/http"
+	"os"
 	"runtime"
 	"security-go/httpServer"
-	"security-go/util"
 )
 
 var db *gorm.DB
@@ -17,7 +18,7 @@ var db *gorm.DB
 func main() {
 	env.LoadEnv()
 
-	consulClient := consul.ConnectToConsul()
+	consulClient := consul.ConnectToConsulKey(os.Getenv("SERVICE_NAME"))
 
 	numCPUs := runtime.NumCPU()
 
@@ -29,7 +30,7 @@ func main() {
 
 	worker.CreateWorkers(numCPUs, stop, taskQueue)
 
-	initDB, err := util.InitDB(db)
+	initDB, err := gormUtil.InitDB(db, consulClient)
 
 	if err != nil {
 		return

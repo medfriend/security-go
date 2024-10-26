@@ -3,6 +3,7 @@ package service
 import (
 	"security-go/entity"
 	"security-go/repository"
+	"security-go/util"
 )
 
 type UserService interface {
@@ -23,6 +24,14 @@ func NewUserService(userRepo repository.UserRepository) UserService {
 }
 
 func (s *userServiceImpl) CreateUser(user *entity.User) error {
+	hashedPassword, err := util.HashPassword(user.Clave)
+
+	if err != nil {
+		return err
+	}
+
+	user.Clave = hashedPassword
+
 	return s.userRepo.Save(user)
 }
 
