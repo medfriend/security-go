@@ -1,6 +1,8 @@
 package util
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type BaseRepository[T any] struct {
 	DB *gorm.DB

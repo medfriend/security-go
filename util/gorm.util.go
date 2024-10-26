@@ -5,11 +5,19 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
+	"os"
 )
 
-func InitDB(db *gorm.DB) {
+func InitDB(db *gorm.DB) (*gorm.DB, error) {
 
-	dsn := "host=localhost user=elliot password=H0sp1T4l dbname=med-friend port=7500 sslmode=disable TimeZone=UTC"
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
+		host, user, password, dbname, port)
 
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -27,4 +35,6 @@ func InitDB(db *gorm.DB) {
 	sqlDB.SetConnMaxLifetime(0) // Tiempo de vida máximo de una conexión
 
 	fmt.Println("Conexión a la base de datos exitosa")
+
+	return db, nil
 }
