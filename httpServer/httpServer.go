@@ -2,11 +2,12 @@ package httpServer
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"net/http"
 	"os"
 	"security-go/router"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB) {
@@ -18,6 +19,7 @@ func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB) {
 	router.NewUserRouter(api, db)
 	router.NewHospitalRouter(api, db)
 	router.NewPermisoRouter(api, db)
+	router.NewResourceRouter(api, db)
 
 	err := r.Run(fmt.Sprintf(":%s", os.Getenv("SERVICE_PORT")))
 
