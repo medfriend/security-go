@@ -29,9 +29,13 @@ func main() {
 
 	worker.CreateWorkers(numCPUs, stop, taskQueue)
 
-	util.InitDB(db)
+	initDB, err := util.InitDB(db)
 
-	httpServer.InitHttpServer(taskQueue, db)
+	if err != nil {
+		return
+	}
+
+	httpServer.InitHttpServer(taskQueue, initDB)
 
 	worker.HandleShutdown(stop, consulClient)
 }
