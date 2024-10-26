@@ -19,6 +19,8 @@ func InitDB(db *gorm.DB) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
 		host, user, password, dbname, port)
 
+	fmt.Println(dsn)
+
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
