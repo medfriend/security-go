@@ -6,7 +6,7 @@ import (
 )
 
 type ResourceService interface {
-	CreateResource(user *entity.Resource) error
+	CreateResource(resource *entity.Resource) error
 	GetResourceById(id uint) (*entity.Resource, error)
 	UpdateResource(resource *entity.Resource) error
 	DeleteResource(id uint) error
