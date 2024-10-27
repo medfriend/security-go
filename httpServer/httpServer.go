@@ -2,20 +2,24 @@ package httpServer
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
+	"security-go/router"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func InitHttpServer(taskQueue chan *http.Request) {
+func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB) {
 	r := gin.Default()
+	api := r.Group(os.Getenv("SERVICE_PATH"))
 
-	r.Any(
-		fmt.Sprintf("%s/*path", os.Getenv("SERVICE_PATH")),
-		func(c *gin.Context) {
-			taskQueue <- c.Request
-			fmt.Println("service ok")
-		})
+	fmt.Println(taskQueue)
+
+	router.NewUserRouter(api, db)
+	router.NewEntityRouter(api, db)
+	router.NewPermisoRouter(api, db)
+	router.NewResourceRouter(api, db)
 
 	err := r.Run(fmt.Sprintf(":%s", os.Getenv("SERVICE_PORT")))
 
