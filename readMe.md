@@ -1,7 +1,7 @@
 ## inicializacion 
 
 primer levantar el proyecto de getway y agregar
-el servicename dentro de .env 
+el servicename dentro de .env SERVICENAME=SECURITY
 
 ## instalacion 
 
