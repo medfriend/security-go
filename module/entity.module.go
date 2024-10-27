@@ -8,11 +8,11 @@ import (
 	"security-go/util"
 )
 
-func InitializeHospitalModule(db *gorm.DB) *controller.HospitalController {
+func InitializeEntityModule(db *gorm.DB) *controller.EntityController {
 	return util.GenericModuleInitializer(
 		db,
-		repository.NewHospitalRepository,
-		service.NewHospitalService,
-		controller.NewHospitalController,
+		repository.NewEntityRepository,
+		service.NewEntityService,
+		controller.NewEntityController,
 	)
 }

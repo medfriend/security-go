@@ -17,7 +17,7 @@ func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB) {
 	fmt.Println(taskQueue)
 
 	router.NewUserRouter(api, db)
-	router.NewHospitalRouter(api, db)
+	router.NewEntityRouter(api, db)
 	router.NewPermisoRouter(api, db)
 	router.NewResourceRouter(api, db)
 
