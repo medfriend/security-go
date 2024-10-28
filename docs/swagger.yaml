@@ -14,6 +14,20 @@ definitions:
       razon_social:
         type: string
     type: object
+  entity.Menu:
+    properties:
+      descripcion:
+        type: string
+      entidad_id:
+        type: integer
+      menuID:
+        type: integer
+      nombre:
+        type: string
+      recurso_id:
+        description: ItemPadreId *uint  `gorm:"column:item_padre_id" json:"item_padre_id,omitempty"`
+        type: integer
+    type: object
   entity.Resource:
     properties:
       acceso:
@@ -57,48 +71,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /medfri-securiry/user:
-    post:
-      consumes:
-      - application/json
-      description: Este endpoint permite crear un nuevo usuario en el sistema
-      parameters:
-      - description: Información del usuario
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/entity.User'
-      tags:
-      - usuarios
-    put:
-      consumes:
-      - application/json
-      description: Este endpoint permite actualizar la información de un usuario existente.
-      parameters:
-      - description: Información del usuario
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/entity.User'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Usuario actualizado
-          schema:
-            $ref: '#/definitions/entity.User'
-      summary: Actualizar un usuario
-      tags:
-      - usuarios
   /medfri-securiry/user/{id}:
     delete:
       description: Este endpoint permite eliminar un usuario específico dado su ID.
@@ -112,27 +84,6 @@ paths:
         "204":
           description: Usuario eliminado con éxito
       summary: Eliminar un usuario por ID
-      tags:
-      - usuarios
-    get:
-      consumes:
-      - application/json
-      description: Este endpoint devuelve la información de un usuario específico
-        dado su ID.
-      parameters:
-      - description: ID del usuario
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Usuario encontrado
-          schema:
-            $ref: '#/definitions/entity.User'
-      summary: Obtener un usuario por ID
       tags:
       - usuarios
   /medfri-security/entity:
@@ -256,6 +207,40 @@ paths:
       summary: Obtener una entidad por ID
       tags:
       - entidades
+  /medfri-security/menu:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo menu en el sistema.
+      parameters:
+      - description: Información del menu
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Menu creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Menu'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un menu
+      tags:
+      - menus
   /medfri-security/resources:
     post:
       consumes:
@@ -376,4 +361,68 @@ paths:
       summary: Obtener un recurso por ID
       tags:
       - recursos
+  /medfri-security/user:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo usuario en el sistema
+      parameters:
+      - description: Información del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.User'
+      tags:
+      - usuarios
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un usuario existente.
+      parameters:
+      - description: Información del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario actualizado
+          schema:
+            $ref: '#/definitions/entity.User'
+      summary: Actualizar un usuario
+      tags:
+      - usuarios
+  /medfri-security/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un usuario específico
+        dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario encontrado
+          schema:
+            $ref: '#/definitions/entity.User'
+      summary: Obtener un usuario por ID
+      tags:
+      - usuarios
 swagger: "2.0"

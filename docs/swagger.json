@@ -4,102 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/medfri-securiry/user": {
-            "put": {
-                "description": "Este endpoint permite actualizar la información de un usuario existente.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "usuarios"
-                ],
-                "summary": "Actualizar un usuario",
-                "parameters": [
-                    {
-                        "description": "Información del usuario",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Usuario actualizado",
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Este endpoint permite crear un nuevo usuario en el sistema",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "usuarios"
-                ],
-                "parameters": [
-                    {
-                        "description": "Información del usuario",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                }
-            }
-        },
         "/medfri-securiry/user/{id}": {
-            "get": {
-                "description": "Este endpoint devuelve la información de un usuario específico dado su ID.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "usuarios"
-                ],
-                "summary": "Obtener un usuario por ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID del usuario",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Usuario encontrado",
-                        "schema": {
-                            "$ref": "#/definitions/entity.User"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "description": "Este endpoint permite eliminar un usuario específico dado su ID.",
                 "tags": [
@@ -301,6 +206,58 @@
                 }
             }
         },
+        "/medfri-security/menu": {
+            "post": {
+                "description": "Este endpoint permite crear un nuevo menu en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Crear un menu",
+                "parameters": [
+                    {
+                        "description": "Información del menu",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Menu creado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/resources": {
             "put": {
                 "description": "Este endpoint permite actualizar la información de un recurso existente.",
@@ -479,6 +436,103 @@
                     }
                 }
             }
+        },
+        "/medfri-security/user": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de un usuario existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Actualizar un usuario",
+                "parameters": [
+                    {
+                        "description": "Información del usuario",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Este endpoint permite crear un nuevo usuario en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "parameters": [
+                    {
+                        "description": "Información del usuario",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/user/{id}": {
+            "get": {
+                "description": "Este endpoint devuelve la información de un usuario específico dado su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Obtener un usuario por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del usuario",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -502,6 +556,27 @@
                 },
                 "razon_social": {
                     "type": "string"
+                }
+            }
+        },
+        "entity.Menu": {
+            "type": "object",
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "entidad_id": {
+                    "type": "integer"
+                },
+                "menuID": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "recurso_id": {
+                    "description": "ItemPadreId *uint  `gorm:\"column:item_padre_id\" json:\"item_padre_id,omitempty\"`",
+                    "type": "integer"
                 }
             }
         },
