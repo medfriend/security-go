@@ -1,0 +1,175 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/medfri-securiry/user": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de un usuario existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Actualizar un usuario",
+                "parameters": [
+                    {
+                        "description": "Información del usuario",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Este endpoint permite crear un nuevo usuario en el sistema",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "parameters": [
+                    {
+                        "description": "Información del usuario",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-securiry/user/{id}": {
+            "get": {
+                "description": "Este endpoint devuelve la información de un usuario específico dado su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Obtener un usuario por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del usuario",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Este endpoint permite eliminar un usuario específico dado su ID.",
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Eliminar un usuario por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del usuario",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuario eliminado con éxito"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "apellido_materno": {
+                    "type": "string"
+                },
+                "apellido_paterno": {
+                    "type": "string"
+                },
+                "cambiar_clave": {
+                    "type": "boolean"
+                },
+                "clave": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "fecha_cambio_clave": {
+                    "type": "string"
+                },
+                "fecha_creacion": {
+                    "type": "string"
+                },
+                "fecha_retiro": {
+                    "type": "string"
+                },
+                "nombre_1": {
+                    "type": "string"
+                },
+                "nombre_2": {
+                    "type": "string"
+                },
+                "tiempo_valides_token": {
+                    "type": "string"
+                },
+                "usuario": {
+                    "type": "integer"
+                },
+                "usuario_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

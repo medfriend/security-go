@@ -1,0 +1,114 @@
+definitions:
+  entity.User:
+    properties:
+      activo:
+        type: boolean
+      apellido_materno:
+        type: string
+      apellido_paterno:
+        type: string
+      cambiar_clave:
+        type: boolean
+      clave:
+        type: string
+      email:
+        type: string
+      fecha_cambio_clave:
+        type: string
+      fecha_creacion:
+        type: string
+      fecha_retiro:
+        type: string
+      nombre_1:
+        type: string
+      nombre_2:
+        type: string
+      tiempo_valides_token:
+        type: string
+      usuario:
+        type: integer
+      usuario_id:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /medfri-securiry/user:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo usuario en el sistema
+      parameters:
+      - description: Información del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.User'
+      tags:
+      - usuarios
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un usuario existente.
+      parameters:
+      - description: Información del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario actualizado
+          schema:
+            $ref: '#/definitions/entity.User'
+      summary: Actualizar un usuario
+      tags:
+      - usuarios
+  /medfri-securiry/user/{id}:
+    delete:
+      description: Este endpoint permite eliminar un usuario específico dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Usuario eliminado con éxito
+      summary: Eliminar un usuario por ID
+      tags:
+      - usuarios
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un usuario específico
+        dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario encontrado
+          schema:
+            $ref: '#/definitions/entity.User'
+      summary: Obtener un usuario por ID
+      tags:
+      - usuarios
+swagger: "2.0"
