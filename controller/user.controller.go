@@ -25,7 +25,7 @@ func NewUserController(userService service.UserService) *UserController {
 // @Produce      json
 // @Param        user  body      entity.User       true  "Información del usuario"
 // @Success      201   {object}  entity.User
-// @Router       /medfri-securiry/user [post]
+// @Router       /medfri-security/user [post]
 func (ctrl *UserController) CreateUser(c *gin.Context) {
 	var user entity.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -47,7 +47,7 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 // @Produce      json
 // @Param        id  path      uint  true  "ID del usuario"
 // @Success      200 {object}  entity.User   "Usuario encontrado"
-// @Router       /medfri-securiry/user/{id} [get]
+// @Router       /medfri-security/user/{id} [get]
 func (ctrl *UserController) GetUserById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	user, err := ctrl.userService.GetUserById(id)
@@ -66,7 +66,7 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 // @Produce      json
 // @Param        user  body      entity.User  true  "Información del usuario"
 // @Success      200   {object}  entity.User   "Usuario actualizado"
-// @Router       /medfri-securiry/user [put]
+// @Router       /medfri-security/user [put]
 func (ctrl *UserController) UpdateUser(c *gin.Context) {
 	var user entity.User
 	if err := c.ShouldBindJSON(&user); err != nil {

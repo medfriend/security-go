@@ -15,7 +15,440 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/medfri-securiry/user": {
+        "/medfri-securiry/user/{id}": {
+            "delete": {
+                "description": "Este endpoint permite eliminar un usuario específico dado su ID.",
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Eliminar un usuario por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del usuario",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuario eliminado con éxito"
+                    }
+                }
+            }
+        },
+        "/medfri-security/entity": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de una entidad existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "entidades"
+                ],
+                "summary": "Actualizar una entidad",
+                "parameters": [
+                    {
+                        "description": "Información de la entidad actualizada",
+                        "name": "entity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Entity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Entidad actualizada con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Este endpoint permite crear una nueva entidad en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "entidades"
+                ],
+                "summary": "Crear una entidad",
+                "parameters": [
+                    {
+                        "description": "Información de la entidad",
+                        "name": "entity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Entity"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Entidad creada con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/entity/{id}": {
+            "get": {
+                "description": "Este endpoint permite obtener la información de una entidad específica usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "entidades"
+                ],
+                "summary": "Obtener una entidad por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID de la entidad",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Entidad encontrada",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Entity"
+                        }
+                    },
+                    "404": {
+                        "description": "Entidad no encontrada",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Este endpoint permite eliminar una entidad específica usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "entidades"
+                ],
+                "summary": "Eliminar una entidad",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID de la entidad",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Entidad eliminada con éxito"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/menu": {
+            "post": {
+                "description": "Este endpoint permite crear un nuevo menu en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Crear un menu",
+                "parameters": [
+                    {
+                        "description": "Información del menu",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Menu creado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/resources": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de un recurso existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos"
+                ],
+                "summary": "Actualizar un recurso",
+                "parameters": [
+                    {
+                        "description": "Información del recurso actualizada",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Resource"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recurso actualizado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Resource"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Este endpoint permite crear un nuevo recurso en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos"
+                ],
+                "summary": "Crear un recurso",
+                "parameters": [
+                    {
+                        "description": "Información del recurso",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Resource"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Recurso creado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Resource"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/resources/{id}": {
+            "get": {
+                "description": "Este endpoint permite obtener la información de un recurso específico usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos"
+                ],
+                "summary": "Obtener un recurso por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del recurso",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Recurso encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Resource"
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso no encontrado",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Este endpoint permite eliminar un recurso específico usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos"
+                ],
+                "summary": "Eliminar un recurso",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del recurso",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Recurso eliminado con éxito"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/user": {
             "put": {
                 "description": "Este endpoint permite actualizar la información de un usuario existente.",
                 "consumes": [
@@ -80,7 +513,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-securiry/user/{id}": {
+        "/medfri-security/user/{id}": {
             "get": {
                 "description": "Este endpoint devuelve la información de un usuario específico dado su ID.",
                 "consumes": [
@@ -110,31 +543,68 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Este endpoint permite eliminar un usuario específico dado su ID.",
-                "tags": [
-                    "usuarios"
-                ],
-                "summary": "Eliminar un usuario por ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID del usuario",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Usuario eliminado con éxito"
-                    }
-                }
             }
         }
     },
     "definitions": {
+        "entity.Entity": {
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "entidad_id": {
+                    "type": "integer"
+                },
+                "nit": {
+                    "type": "integer"
+                },
+                "nit_alterno": {
+                    "type": "string"
+                },
+                "razon_social": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Menu": {
+            "type": "object",
+            "properties": {
+                "descripcion": {
+                    "type": "string"
+                },
+                "entidad_id": {
+                    "type": "integer"
+                },
+                "menuID": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "recurso_id": {
+                    "description": "ItemPadreId *uint  ` + "`" + `gorm:\"column:item_padre_id\" json:\"item_padre_id,omitempty\"` + "`" + `",
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.Resource": {
+            "type": "object",
+            "properties": {
+                "acceso": {
+                    "type": "string"
+                },
+                "descripcion": {
+                    "type": "string"
+                },
+                "recurso_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "entity.User": {
             "type": "object",
             "properties": {

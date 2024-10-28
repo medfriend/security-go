@@ -1,4 +1,42 @@
 definitions:
+  entity.Entity:
+    properties:
+      activo:
+        type: boolean
+      email:
+        type: string
+      entidad_id:
+        type: integer
+      nit:
+        type: integer
+      nit_alterno:
+        type: string
+      razon_social:
+        type: string
+    type: object
+  entity.Menu:
+    properties:
+      descripcion:
+        type: string
+      entidad_id:
+        type: integer
+      menuID:
+        type: integer
+      nombre:
+        type: string
+      recurso_id:
+        description: ItemPadreId *uint  `gorm:"column:item_padre_id" json:"item_padre_id,omitempty"`
+        type: integer
+    type: object
+  entity.Resource:
+    properties:
+      acceso:
+        type: string
+      descripcion:
+        type: string
+      recurso_id:
+        type: integer
+    type: object
   entity.User:
     properties:
       activo:
@@ -33,7 +71,297 @@ definitions:
 info:
   contact: {}
 paths:
-  /medfri-securiry/user:
+  /medfri-securiry/user/{id}:
+    delete:
+      description: Este endpoint permite eliminar un usuario específico dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Usuario eliminado con éxito
+      summary: Eliminar un usuario por ID
+      tags:
+      - usuarios
+  /medfri-security/entity:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear una nueva entidad en el sistema.
+      parameters:
+      - description: Información de la entidad
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Entity'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Entidad creada con éxito
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear una entidad
+      tags:
+      - entidades
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de una entidad
+        existente.
+      parameters:
+      - description: Información de la entidad actualizada
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Entity'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Entidad actualizada con éxito
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualizar una entidad
+      tags:
+      - entidades
+  /medfri-security/entity/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar una entidad específica usando su
+        ID.
+      parameters:
+      - description: ID de la entidad
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Entidad eliminada con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Eliminar una entidad
+      tags:
+      - entidades
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint permite obtener la información de una entidad específica
+        usando su ID.
+      parameters:
+      - description: ID de la entidad
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Entidad encontrada
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "404":
+          description: Entidad no encontrada
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Obtener una entidad por ID
+      tags:
+      - entidades
+  /medfri-security/menu:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo menu en el sistema.
+      parameters:
+      - description: Información del menu
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Menu creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Menu'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un menu
+      tags:
+      - menus
+  /medfri-security/resources:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo recurso en el sistema.
+      parameters:
+      - description: Información del recurso
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Resource'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Recurso creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un recurso
+      tags:
+      - recursos
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un recurso existente.
+      parameters:
+      - description: Información del recurso actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Resource'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recurso actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualizar un recurso
+      tags:
+      - recursos
+  /medfri-security/resources/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un recurso específico usando su
+        ID.
+      parameters:
+      - description: ID del recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Recurso eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Eliminar un recurso
+      tags:
+      - recursos
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint permite obtener la información de un recurso específico
+        usando su ID.
+      parameters:
+      - description: ID del recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recurso encontrado
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "404":
+          description: Recurso no encontrado
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Obtener un recurso por ID
+      tags:
+      - recursos
+  /medfri-security/user:
     post:
       consumes:
       - application/json
@@ -75,21 +403,7 @@ paths:
       summary: Actualizar un usuario
       tags:
       - usuarios
-  /medfri-securiry/user/{id}:
-    delete:
-      description: Este endpoint permite eliminar un usuario específico dado su ID.
-      parameters:
-      - description: ID del usuario
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "204":
-          description: Usuario eliminado con éxito
-      summary: Eliminar un usuario por ID
-      tags:
-      - usuarios
+  /medfri-security/user/{id}:
     get:
       consumes:
       - application/json
