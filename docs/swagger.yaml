@@ -18,14 +18,21 @@ definitions:
     properties:
       descripcion:
         type: string
+      entidad:
+        $ref: '#/definitions/entity.Entity'
       entidad_id:
+        type: integer
+      menu_padre:
+        $ref: '#/definitions/entity.Menu'
+      menu_padre_id:
         type: integer
       menuID:
         type: integer
       nombre:
         type: string
+      recurso:
+        $ref: '#/definitions/entity.Resource'
       recurso_id:
-        description: ItemPadreId *uint  `gorm:"column:item_padre_id" json:"item_padre_id,omitempty"`
         type: integer
     type: object
   entity.Resource:
@@ -239,6 +246,85 @@ paths:
               type: string
             type: object
       summary: Crear un menu
+      tags:
+      - menus
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un menu existente.
+      parameters:
+      - description: Información del menu actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.Menu'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualizar un menu
+      tags:
+      - menus
+  /medfri-security/menu/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un menu específico usando su ID.
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: menu eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Eliminar un menu
+      tags:
+      - menus
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un menu específico dado
+        su ID.
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu encontrado
+          schema:
+            $ref: '#/definitions/entity.Menu'
+      summary: Obtener un menu por ID
       tags:
       - menus
   /medfri-security/resources:

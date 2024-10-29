@@ -218,6 +218,56 @@ const docTemplate = `{
             }
         },
         "/medfri-security/menu": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de un menu existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Actualizar un menu",
+                "parameters": [
+                    {
+                        "description": "Información del menu actualizada",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "menu actualizado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Este endpoint permite crear un nuevo menu en el sistema.",
                 "consumes": [
@@ -256,6 +306,74 @@ const docTemplate = `{
                                 "type": "string"
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/menu/{id}": {
+            "get": {
+                "description": "Este endpoint devuelve la información de un menu específico dado su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Obtener un menu por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del menu",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "menu encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Este endpoint permite eliminar un menu específico usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Eliminar un menu",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del menu",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "menu eliminado con éxito"
                     },
                     "500": {
                         "description": "Error interno del servidor",
@@ -576,17 +694,28 @@ const docTemplate = `{
                 "descripcion": {
                     "type": "string"
                 },
+                "entidad": {
+                    "$ref": "#/definitions/entity.Entity"
+                },
                 "entidad_id": {
                     "type": "integer"
                 },
                 "menuID": {
                     "type": "integer"
                 },
+                "menu_padre": {
+                    "$ref": "#/definitions/entity.Menu"
+                },
+                "menu_padre_id": {
+                    "type": "integer"
+                },
                 "nombre": {
                     "type": "string"
                 },
+                "recurso": {
+                    "$ref": "#/definitions/entity.Resource"
+                },
                 "recurso_id": {
-                    "description": "ItemPadreId *uint  ` + "`" + `gorm:\"column:item_padre_id\" json:\"item_padre_id,omitempty\"` + "`" + `",
                     "type": "integer"
                 }
             }

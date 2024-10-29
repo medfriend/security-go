@@ -7,6 +7,9 @@ import (
 
 type MenuService interface {
 	CreateMenu(menu *entity.Menu) error
+	FindById(id uint) (*entity.Menu, error)
+	UpdateMenu(menu *entity.Menu) error
+	DeleteMenu(id uint) error
 }
 
 type MenuServiceImpl struct {
@@ -21,4 +24,16 @@ func NewMenuService(menuRepository repository.MenuRepository) MenuService {
 
 func (m MenuServiceImpl) CreateMenu(menu *entity.Menu) error {
 	return m.menuRepository.Save(menu)
+}
+
+func (m MenuServiceImpl) FindById(id uint) (*entity.Menu, error) {
+	return m.menuRepository.FindById(id)
+}
+
+func (m MenuServiceImpl) UpdateMenu(menu *entity.Menu) error {
+	return m.menuRepository.Update(menu)
+}
+
+func (m MenuServiceImpl) DeleteMenu(id uint) error {
+	return m.menuRepository.Delete(id)
 }

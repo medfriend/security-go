@@ -28,11 +28,11 @@ func (u *MenuRepositoryImpl) Save(user *entity.Menu) error {
 }
 
 func (u *MenuRepositoryImpl) FindById(id uint) (*entity.Menu, error) {
-	return u.Base.FindById(id)
+	return u.Base.FindByIdWithRelations(id, "MenuPadre", "Recurso", "Entidad")
 }
 
-func (u *MenuRepositoryImpl) Update(user *entity.Menu) error {
-	return u.Base.Update(user)
+func (u *MenuRepositoryImpl) Update(menu *entity.Menu) error {
+	return u.Base.Update(menu)
 }
 
 func (u *MenuRepositoryImpl) Delete(id uint) error {
