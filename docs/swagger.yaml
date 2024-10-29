@@ -18,14 +18,21 @@ definitions:
     properties:
       descripcion:
         type: string
+      entidad:
+        $ref: '#/definitions/entity.Entity'
       entidad_id:
+        type: integer
+      menu_padre:
+        $ref: '#/definitions/entity.Menu'
+      menu_padre_id:
         type: integer
       menuID:
         type: integer
       nombre:
         type: string
+      recurso:
+        $ref: '#/definitions/entity.Resource'
       recurso_id:
-        description: ItemPadreId *uint  `gorm:"column:item_padre_id" json:"item_padre_id,omitempty"`
         type: integer
     type: object
   entity.Resource:
@@ -239,6 +246,28 @@ paths:
               type: string
             type: object
       summary: Crear un menu
+      tags:
+      - menus
+  /medfri-security/menu/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un menu específico dado
+        su ID.
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu encontrado
+          schema:
+            $ref: '#/definitions/entity.Menu'
+      summary: Obtener un menu por ID
       tags:
       - menus
   /medfri-security/resources:

@@ -258,6 +258,38 @@
                 }
             }
         },
+        "/medfri-security/menu/{id}": {
+            "get": {
+                "description": "Este endpoint devuelve la información de un menu específico dado su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Obtener un menu por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del menu",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "menu encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/resources": {
             "put": {
                 "description": "Este endpoint permite actualizar la información de un recurso existente.",
@@ -565,17 +597,28 @@
                 "descripcion": {
                     "type": "string"
                 },
+                "entidad": {
+                    "$ref": "#/definitions/entity.Entity"
+                },
                 "entidad_id": {
                     "type": "integer"
                 },
                 "menuID": {
                     "type": "integer"
                 },
+                "menu_padre": {
+                    "$ref": "#/definitions/entity.Menu"
+                },
+                "menu_padre_id": {
+                    "type": "integer"
+                },
                 "nombre": {
                     "type": "string"
                 },
+                "recurso": {
+                    "$ref": "#/definitions/entity.Resource"
+                },
                 "recurso_id": {
-                    "description": "ItemPadreId *uint  `gorm:\"column:item_padre_id\" json:\"item_padre_id,omitempty\"`",
                     "type": "integer"
                 }
             }

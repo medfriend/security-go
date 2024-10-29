@@ -21,6 +21,23 @@ func (r *BaseRepository[T]) FindById(id uint) (*T, error) {
 	return &entity, nil
 }
 
+func (r *BaseRepository[T]) FindByIdWithRelations(id uint, relations ...string) (*T, error) {
+	var entity T
+
+	query := r.DB
+
+	for _, relation := range relations {
+		query = query.Preload(relation)
+	}
+
+	result := query.First(&entity, id)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &entity, nil
+}
+
 func (r *BaseRepository[T]) Update(entity *T) error {
 	return r.DB.Save(entity).Error
 }
