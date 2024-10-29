@@ -61,6 +61,48 @@ func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Menu not found"})
 		return
 	}
-
 	c.JSON(http.StatusOK, menu)
+}
+
+// UpdateMenu actualiza un menu existente
+// @Summary Actualizar un menu
+// @Description Este endpoint permite actualizar la información de un menu existente.
+// @Tags menus
+// @Accept json
+// @Produce json
+// @Param resource body entity.Menu true "Información del menu actualizada"
+// @Success 200 {object} entity.Menu "menu actualizado con éxito"
+// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /medfri-security/menu [put]
+func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
+	var menu entity.Menu
+	if err := c.ShouldBindJSON(&menu); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := ctrl.MenuService.UpdateMenu(&menu); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, menu)
+}
+
+// DeleteMenu elimina un menu por su ID
+// @Summary Eliminar un menu
+// @Description Este endpoint permite eliminar un menu específico usando su ID.
+// @Tags menus
+// @Accept json
+// @Produce json
+// @Param id path uint true "ID del menu"
+// @Success 204 "menu eliminado con éxito"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /medfri-security/menu/{id} [delete]
+func (ctrl *MenuController) DeleteMenu(c *gin.Context) {
+	id, _ := util.StringToUint(c.Param("id"))
+	if err := ctrl.MenuService.DeleteMenu(id); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusNoContent, nil)
 }
