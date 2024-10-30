@@ -555,6 +555,176 @@
                 }
             }
         },
+        "/medfri-security/rol": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de un Rol existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rols"
+                ],
+                "summary": "Actualizar un Rol",
+                "parameters": [
+                    {
+                        "description": "Información del Rol actualizada",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Rol"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rol actualizado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Rol"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Este endpoint permite crear un nuevo Rol en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rols"
+                ],
+                "summary": "Crear un Rol",
+                "parameters": [
+                    {
+                        "description": "Información del Rol",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Rol"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Rol creado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Rol"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/rol/{id}": {
+            "get": {
+                "description": "Este endpoint devuelve la información de un Rol específico dado su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rols"
+                ],
+                "summary": "Obtener un Rol por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del Rol",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rol encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Rol"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Este endpoint permite eliminar un Rol específico usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rols"
+                ],
+                "summary": "Eliminar un Rol",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del Rol",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Rol eliminado con éxito"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/user": {
             "put": {
                 "description": "Este endpoint permite actualizar la información de un usuario existente.",
@@ -719,6 +889,26 @@
                     "type": "string"
                 },
                 "recurso_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.Rol": {
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "descripcion": {
+                    "type": "string"
+                },
+                "entidad_id": {
+                    "type": "integer"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "rol_id": {
                     "type": "integer"
                 }
             }
