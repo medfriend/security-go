@@ -19,6 +19,18 @@ func NewResourcePermissionController(resourcePermissionService service.ResourceP
 	}
 }
 
+// CreateResourcePermission crea un nuevo ResourcePermission
+// @Summary Crear un ResourcePermission
+// @Description Este endpoint permite crear un nuevo ResourcePermission en el sistema.
+// @Tags Recursos-permisos
+// @Accept json
+// @Produce json
+// @Param resource body entity.ResourcePermission true "Información del // @Param resource body entity.ResourcePermission true "Información del ResourcePermission"
+// @Success 201 {object} entity.ResourcePermission "ResourcePermission creado con éxito"
+// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /medfri-security/resource_permission [post]"
+
 func (ctrl *ResourcePermissionController) CreateResourcePermission(c *gin.Context) {
 	var resourcePermission entity.ResourcePermission
 	if err := c.ShouldBindJSON(&resourcePermission); err != nil {
