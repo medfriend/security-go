@@ -44,6 +44,19 @@ definitions:
       recurso_id:
         type: integer
     type: object
+  entity.Rol:
+    properties:
+      activo:
+        type: boolean
+      descripcion:
+        type: string
+      entidad_id:
+        type: integer
+      nombre:
+        type: string
+      rol_id:
+        type: integer
+    type: object
   entity.User:
     properties:
       activo:
@@ -447,6 +460,119 @@ paths:
       summary: Obtener un recurso por ID
       tags:
       - recursos
+  /medfri-security/rol:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo Rol en el sistema.
+      parameters:
+      - description: Información del Rol
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Rol'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Rol creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Rol'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un Rol
+      tags:
+      - rols
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un Rol existente.
+      parameters:
+      - description: Información del Rol actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Rol'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rol actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.Rol'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualizar un Rol
+      tags:
+      - rols
+  /medfri-security/rol/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un Rol específico usando su ID.
+      parameters:
+      - description: ID del Rol
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Rol eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Eliminar un Rol
+      tags:
+      - rols
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un Rol específico dado
+        su ID.
+      parameters:
+      - description: ID del Rol
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rol encontrado
+          schema:
+            $ref: '#/definitions/entity.Rol'
+      summary: Obtener un Rol por ID
+      tags:
+      - rols
   /medfri-security/user:
     post:
       consumes:
