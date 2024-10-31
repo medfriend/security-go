@@ -2,6 +2,10 @@ package entity
 
 import "time"
 
+func (UserRol) TableName() string {
+	return "re-usuario-rol"
+}
+
 type UserRol struct {
 	UsuarioRolID uint      `gorm:"primaryKey;autoIncrement;column:re-usuario-rol_id"`
 	UsuarioID    *uint     `gorm:"column:usuario_id" json:"usuario_id"`
