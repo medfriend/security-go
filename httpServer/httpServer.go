@@ -28,6 +28,7 @@ func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB, serviceInfo map[s
 	router.NewMenuRouter(api, db)
 	router.NewResourcePermissionRouter(api, db)
 	router.NewRolRouter(api, db)
+	router.NewRoleResourceRouter(api, db)
 
 	err := r.Run(fmt.Sprintf(":%s", serviceInfo["SERVICE_PORT"]))
 

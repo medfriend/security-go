@@ -19,18 +19,17 @@ func NewResourcePermissionController(resourcePermissionService service.ResourceP
 	}
 }
 
-// CreateResourcePermission crea un nuevo ResourcePermission
-// @Summary Crear un ResourcePermission
-// @Description Este endpoint permite crear un nuevo ResourcePermission en el sistema.
-// @Tags Recursos-permisos
+// CreateResourcePermission Create a new resource permission
+// @Summary Create a new resource permission
+// @Description This endpoint allows you to create a new resource permission in the system.
+// @Tags recursos-permisos
 // @Accept json
 // @Produce json
-// @Param resource body entity.ResourcePermission true "Información del // @Param resource body entity.ResourcePermission true "Información del ResourcePermission"
-// @Success 201 {object} entity.ResourcePermission "ResourcePermission creado con éxito"
-// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
-// @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/resource_permission [post]"
-
+// @Param resource body entity.ResourcePermission true "Resource permission information"
+// @Success 201 {object} entity.ResourcePermission "Resource permission created successfully"
+// @Failure 400 {object} map[string]string "Error in the request body"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /resource-permission [post]
 func (ctrl *ResourcePermissionController) CreateResourcePermission(c *gin.Context) {
 	var resourcePermission entity.ResourcePermission
 	if err := c.ShouldBindJSON(&resourcePermission); err != nil {
@@ -46,6 +45,14 @@ func (ctrl *ResourcePermissionController) CreateResourcePermission(c *gin.Contex
 	c.JSON(http.StatusCreated, resourcePermission)
 }
 
+// GetResourcePermissionById Get a resource permission by its ID
+// @Summary Get a resource permission by ID
+// @Description This endpoint returns the information of a specific resource permission given its ID.
+// @Tags recursos-permisos
+// @Accept json
+// @Produce json
+// @Param id path uint true "Resource permission ID"
+// @Success 200 {object} entity.ResourcePermission "Resource permission found"
 func (ctrl *ResourcePermissionController) GetResourcePermissionById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -58,6 +65,17 @@ func (ctrl *ResourcePermissionController) GetResourcePermissionById(c *gin.Conte
 	c.JSON(http.StatusOK, resourcePermission)
 }
 
+// UpdateResourcePermission Update a resource permission
+// @Summary Update a resource permission
+// @Description This endpoint allows you to update a resource permission in the system.
+// @Tags recursos-permisos
+// @Accept json
+// @Produce json
+// @Param resource body entity.ResourcePermission true "Updated resource permission information"
+// @Success 200 {object} entity.ResourcePermission "Resource permission updated successfully"
+// @Failure 400 {object} map[string]string "Error in the request body"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /resource-permission [put]
 func (ctrl *ResourcePermissionController) UpdateResourcePermission(c *gin.Context) {
 	var resourcePermission entity.ResourcePermission
 	if err := c.ShouldBindJSON(&resourcePermission); err != nil {
@@ -73,6 +91,16 @@ func (ctrl *ResourcePermissionController) UpdateResourcePermission(c *gin.Contex
 	c.JSON(http.StatusOK, resourcePermission)
 }
 
+// DeleteResourcePermission Delete a resource permission
+// @Summary Delete a resource permission
+// @Description This endpoint allows you to delete an existing resource permission in the system.
+// @Tags recursos-permisos
+// @Accept json
+// @Produce json
+// @Param id path uint true "Resource permission ID"
+// @Success 204 "Resource permission deleted successfully"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /resource-permission/{id} [delete]
 func (ctrl *ResourcePermissionController) DeleteResourcePermission(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	if err != nil {
