@@ -1074,7 +1074,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "indefinido": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "rol_id": {
                     "type": "integer"

@@ -97,7 +97,7 @@ definitions:
       fecha_inicio:
         type: string
       indefinido:
-        type: string
+        type: boolean
       rol_id:
         type: integer
       usuario_id:

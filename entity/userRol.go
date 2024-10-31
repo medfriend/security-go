@@ -13,5 +13,5 @@ type UserRol struct {
 	EntidadID    *uint     `gorm:"column:entidad_id" json:"entidad_id"`
 	FechaInicio  time.Time `gorm:"column:fecha_inicio" json:"fecha_inicio"`
 	FechaFin     time.Time `gorm:"column:fecha_fin" json:"fecha_fin"`
-	Indefinido   string    `gorm:"column:indefinido" json:"indefinido"`
+	Indefinido   bool      `gorm:"column:indefinido" json:"indefinido"`
 }
