@@ -801,6 +801,96 @@ const docTemplate = `{
                 }
             }
         },
+        "/medfri-security/user-rol/asignar": {
+            "post": {
+                "description": "Este endpoint permite crear un nueva relacion usuarioRol en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "re-usuario-rol"
+                ],
+                "summary": "Crear un recurso",
+                "parameters": [
+                    {
+                        "description": "Información del recurso",
+                        "name": "UserRol",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.UserRol"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Recurso creado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.UserRol"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/user-rol/desasignar/{id}": {
+            "delete": {
+                "description": "Este endpoint permite eliminar una relacion usuario rol específico usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "re-usuario-rol"
+                ],
+                "summary": "Eliminar una relacion usuario rol",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del usuario rol",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "usuario rol eliminado con éxito"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/user/{id}": {
             "get": {
                 "description": "Este endpoint devuelve la información de un usuario específico dado su ID.",
@@ -919,7 +1009,7 @@ const docTemplate = `{
                 "nombre": {
                     "type": "string"
                 },
-                "rol_id": {
+                "rolID": {
                     "type": "integer"
                 }
             }
@@ -964,6 +1054,32 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "usuario": {
+                    "type": "integer"
+                },
+                "usuario_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.UserRol": {
+            "type": "object",
+            "properties": {
+                "entidad_id": {
+                    "type": "integer"
+                },
+                "fecha_fin": {
+                    "type": "string"
+                },
+                "fecha_inicio": {
+                    "type": "string"
+                },
+                "indefinido": {
+                    "type": "boolean"
+                },
+                "rol_id": {
+                    "type": "integer"
+                },
+                "usuarioRolID": {
                     "type": "integer"
                 },
                 "usuario_id": {
