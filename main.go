@@ -43,7 +43,11 @@ func main() {
 
 	worker.CreateWorkers(numCPUs, stop, taskQueue)
 
-	initDB, err := gormUtil.InitDB(db, consulClient)
+	initDB, err := gormUtil.InitDB(
+		db,
+		consulClient,
+		os.Getenv("SERVICE_STATUS"),
+	)
 
 	if err != nil {
 		return
