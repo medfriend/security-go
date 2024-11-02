@@ -10,14 +10,20 @@ type AuthService interface {
 }
 
 type AuthServiceImpl struct {
-	userRolService UserRolService
-	userService    UserService
+	userRolService     UserRolService
+	userService        UserService
+	rolResourceService RoleResourceService
 }
 
-func NewAuthService(userRolService UserRolService, userService UserService) *AuthServiceImpl {
+func NewAuthService(
+	userRolService UserRolService,
+	userService UserService,
+	rolResourceService RoleResourceService) AuthService {
+
 	return &AuthServiceImpl{
-		userRolService: userRolService,
-		userService:    userService,
+		userRolService:     userRolService,
+		userService:        userService,
+		rolResourceService: rolResourceService,
 	}
 }
 

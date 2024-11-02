@@ -1,18 +1,25 @@
+// filename: userRol.module.go
+// go:build wireinject
+//go:build wireinject
+// +build wireinject
+
 package module
 
 import (
+	"github.com/google/wire"
 	"gorm.io/gorm"
 	"security-go/controller"
 	"security-go/repository"
 	"security-go/service"
-	"security-go/util"
+)
+
+var UserRoleSet = wire.NewSet(
+	repository.NewUserRolRepository,
+	service.NewUserRolService,
+	controller.NewUserRolController,
 )
 
 func InitializeUserRolModule(db *gorm.DB) *controller.UserRolController {
-	return util.GenericModuleInitializer(
-		db,
-		repository.NewUserRolRepository,
-		service.NewUserRolService,
-		controller.NewUserRolController,
-	)
+	wire.Build(UserRoleSet)
+	return nil
 }
