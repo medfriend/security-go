@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/hashicorp/consul/api v1.30.0
-	github.com/medfriend/shared-commons-go v0.0.92
+	github.com/medfriend/shared-commons-go v0.0.93
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.4
