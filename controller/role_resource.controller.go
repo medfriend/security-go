@@ -29,19 +29,12 @@ func NewRoleResourceController(roleResourceService service.RoleResourceService) 
 // @Success 201 {object} entity.RoleResource "Rol recurso creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol-recurso [post]
+// @Router /medfri-security/rol-recurso/asignar [post]
 func (ctrl *RoleResourceController) CreateRoleResource(c *gin.Context) {
 	var roleResource entity.RoleResource
-	if err := c.ShouldBindJSON(&roleResource); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	if err := ctrl.RoleResource.CreateRoleResource(&roleResource); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
+	util.HandlerBindJson(c, &roleResource)
+	util.HandlerInternalError(c, ctrl.RoleResource.CreateRoleResource(&roleResource))
 	c.JSON(http.StatusCreated, roleResource)
 }
 
@@ -98,7 +91,7 @@ func (ctrl *RoleResourceController) UpdateRoleResource(c *gin.Context) {
 // @Param id path uint true "ID del rol recurso"
 // @Success 200 {string} string "Rol recurso eliminado con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol-recurso/{id} [delete]
+// @Router /medfri-security/rol-recurso/desasignar/{id} [delete]
 func (ctrl *RoleResourceController) DeleteRoleResource(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.RoleResource.DeleteRoleResource(id); err != nil {

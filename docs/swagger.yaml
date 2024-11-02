@@ -1,4 +1,11 @@
 definitions:
+  dto.AuthDTO:
+    properties:
+      contraseña:
+        type: string
+      usuario:
+        type: integer
+    type: object
   entity.Entity:
     properties:
       activo:
@@ -44,6 +51,8 @@ definitions:
       recurso_id:
         type: integer
     type: object
+  entity.ResourcePermission:
+    type: object
   entity.Rol:
     properties:
       activo:
@@ -55,6 +64,25 @@ definitions:
       nombre:
         type: string
       rolID:
+        type: integer
+    type: object
+  entity.RoleResource:
+    properties:
+      acceso:
+        type: string
+      entidad:
+        $ref: '#/definitions/entity.Entity'
+      entidad_id:
+        type: integer
+      recurso:
+        $ref: '#/definitions/entity.Resource'
+      recurso_id:
+        type: integer
+      rol:
+        $ref: '#/definitions/entity.Rol'
+      rol_id:
+        type: integer
+      rolRecursoID:
         type: integer
     type: object
   entity.User:
@@ -123,6 +151,36 @@ paths:
       summary: Eliminar un usuario por ID
       tags:
       - usuarios
+  /medfri-security/auth:
+    post:
+      consumes:
+      - application/json
+      description: Autenticacion.
+      parameters:
+      - description: Información de la entidad
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthDTO'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: login
+      tags:
+      - auth
   /medfri-security/entity:
     post:
       consumes:
@@ -544,6 +602,124 @@ paths:
       summary: Actualizar un Rol
       tags:
       - rols
+  /medfri-security/rol-recurso:
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un rol recurso
+        existente.
+      parameters:
+      - description: Información del rol recurso actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.RoleResource'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: rol recurso actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.RoleResource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualizar un rol recurso
+      tags:
+      - roles-recursos
+  /medfri-security/rol-recurso/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un rol recurso específico
+        dado su ID.
+      parameters:
+      - description: ID del rol recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: rol recurso encontrado
+          schema:
+            $ref: '#/definitions/entity.RoleResource'
+      summary: Obtener un rol recurso por ID
+      tags:
+      - roles-recursos
+  /medfri-security/rol-recurso/asignar:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo rol recurso en el sistema.
+      parameters:
+      - description: Información del rol recurso
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.RoleResource'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Rol recurso creado con éxito
+          schema:
+            $ref: '#/definitions/entity.RoleResource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un rol recurso
+      tags:
+      - roles-recursos
+  /medfri-security/rol-recurso/desasignar/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un rol recurso existente en el sistema.
+      parameters:
+      - description: ID del rol recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rol recurso eliminado con éxito
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Eliminar un rol recurso
+      tags:
+      - roles-recursos
   /medfri-security/rol/{id}:
     delete:
       consumes:
@@ -715,4 +891,99 @@ paths:
       summary: Obtener un usuario por ID
       tags:
       - usuarios
+  /resource-permission:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows you to create a new resource permission in
+        the system.
+      parameters:
+      - description: Resource permission information
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ResourcePermission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Resource permission created successfully
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+        "400":
+          description: Error in the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new resource permission
+      tags:
+      - recursos-permisos
+    put:
+      consumes:
+      - application/json
+      description: This endpoint allows you to update a resource permission in the
+        system.
+      parameters:
+      - description: Updated resource permission information
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ResourcePermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resource permission updated successfully
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+        "400":
+          description: Error in the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a resource permission
+      tags:
+      - recursos-permisos
+  /resource-permission/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint allows you to delete an existing resource permission
+        in the system.
+      parameters:
+      - description: Resource permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Resource permission deleted successfully
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a resource permission
+      tags:
+      - recursos-permisos
 swagger: "2.0"
