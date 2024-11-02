@@ -11,6 +11,7 @@ type UserService interface {
 	GetUserById(id uint) (*entity.User, error)
 	UpdateUser(user *entity.User) error
 	DeleteUser(id uint) error
+	FindByUsuario(usuario uint) (*entity.User, error)
 }
 
 type userServiceImpl struct {
@@ -45,4 +46,8 @@ func (s *userServiceImpl) UpdateUser(user *entity.User) error {
 
 func (s *userServiceImpl) DeleteUser(id uint) error {
 	return s.userRepo.Delete(id)
+}
+
+func (s *userServiceImpl) FindByUsuario(usuario uint) (*entity.User, error) {
+	return s.userRepo.FindByUsuario(usuario)
 }

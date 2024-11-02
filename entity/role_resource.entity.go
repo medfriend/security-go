@@ -5,12 +5,13 @@ func (RoleResource) TableName() string {
 }
 
 type RoleResource struct {
-	RolRecursoID uint      `gorm:"primaryKey;autoIncrement;column:rol_recurso_id"`
-	RolID        *uint     `gorm:"column:rol_id" json:"rol_id,omitempty"`
-	RecursoID    *uint     `gorm:"column:recurso_id" json:"recurso_id,omitempty"`
-	EntidadID    *uint     `gorm:"column:entidad_id" json:"entidad_id,omitempty"`
-	Acceso       string    `gorm:"column:acceso" json:"acceso"`
-	Rol          *Rol      `gorm:"foreignKey:RolID" json:"rol,omitempty"`
-	Recurso      *Resource `gorm:"foreignKey:RecursoID" json:"recurso,omitempty"`
-	Entidad      *Entity   `gorm:"foreignKey:EntidadID" json:"entidad,omitempty"`
+	RolRecursoID uint   `gorm:"primaryKey;autoIncrement;column:re-rol-recurso_id"`
+	RolID        *uint  `gorm:"column:rol_id" json:"rol_id,omitempty"`
+	RecursoID    *uint  `gorm:"column:recurso_id" json:"recurso_id,omitempty"`
+	EntidadID    *uint  `gorm:"column:entidad_id" json:"entidad_id,omitempty"`
+	Acceso       string `gorm:"column:acceso" json:"acceso"`
+
+	Rol     *Rol      `gorm:"foreignKey:RolID" json:"rol,omitempty"`
+	Recurso *Resource `gorm:"foreignKey:RecursoID" json:"recurso,omitempty"`
+	Entidad *Entity   `gorm:"foreignKey:EntidadID" json:"entidad,omitempty"`
 }

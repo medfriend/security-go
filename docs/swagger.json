@@ -27,6 +27,52 @@
                 }
             }
         },
+        "/medfri-security/auth": {
+            "post": {
+                "description": "Autenticacion.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "login",
+                "parameters": [
+                    {
+                        "description": "Información de la entidad",
+                        "name": "entity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.AuthDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/entity": {
             "put": {
                 "description": "Este endpoint permite actualizar la información de una entidad existente.",
@@ -657,6 +703,183 @@
                 }
             }
         },
+        "/medfri-security/rol-recurso": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de un rol recurso existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "roles-recursos"
+                ],
+                "summary": "Actualizar un rol recurso",
+                "parameters": [
+                    {
+                        "description": "Información del rol recurso actualizada",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.RoleResource"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "rol recurso actualizado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.RoleResource"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/rol-recurso/asignar": {
+            "post": {
+                "description": "Este endpoint permite crear un nuevo rol recurso en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "roles-recursos"
+                ],
+                "summary": "Crear un rol recurso",
+                "parameters": [
+                    {
+                        "description": "Información del rol recurso",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.RoleResource"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Rol recurso creado con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.RoleResource"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/rol-recurso/desasignar/{id}": {
+            "delete": {
+                "description": "Este endpoint permite eliminar un rol recurso existente en el sistema.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "roles-recursos"
+                ],
+                "summary": "Eliminar un rol recurso",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del rol recurso",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rol recurso eliminado con éxito",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/rol-recurso/{id}": {
+            "get": {
+                "description": "Este endpoint devuelve la información de un rol recurso específico dado su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "roles-recursos"
+                ],
+                "summary": "Obtener un rol recurso por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del rol recurso",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "rol recurso encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.RoleResource"
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/rol/{id}": {
             "get": {
                 "description": "Este endpoint devuelve la información de un Rol específico dado su ID.",
@@ -911,9 +1134,160 @@
                     }
                 }
             }
+        },
+        "/resource-permission": {
+            "put": {
+                "description": "This endpoint allows you to update a resource permission in the system.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Update a resource permission",
+                "parameters": [
+                    {
+                        "description": "Updated resource permission information",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource permission updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the request body",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "This endpoint allows you to create a new resource permission in the system.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Create a new resource permission",
+                "parameters": [
+                    {
+                        "description": "Resource permission information",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Resource permission created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the request body",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/resource-permission/{id}": {
+            "delete": {
+                "description": "This endpoint allows you to delete an existing resource permission in the system.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Delete a resource permission",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Resource permission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resource permission deleted successfully"
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "dto.AuthDTO": {
+            "type": "object",
+            "properties": {
+                "contraseña": {
+                    "type": "string"
+                },
+                "usuario": {
+                    "type": "integer"
+                }
+            }
+        },
         "entity.Entity": {
             "type": "object",
             "properties": {
@@ -983,6 +1357,9 @@
                 }
             }
         },
+        "entity.ResourcePermission": {
+            "type": "object"
+        },
         "entity.Rol": {
             "type": "object",
             "properties": {
@@ -999,6 +1376,35 @@
                     "type": "string"
                 },
                 "rolID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.RoleResource": {
+            "type": "object",
+            "properties": {
+                "acceso": {
+                    "type": "string"
+                },
+                "entidad": {
+                    "$ref": "#/definitions/entity.Entity"
+                },
+                "entidad_id": {
+                    "type": "integer"
+                },
+                "recurso": {
+                    "$ref": "#/definitions/entity.Resource"
+                },
+                "recurso_id": {
+                    "type": "integer"
+                },
+                "rol": {
+                    "$ref": "#/definitions/entity.Rol"
+                },
+                "rolRecursoID": {
+                    "type": "integer"
+                },
+                "rol_id": {
                     "type": "integer"
                 }
             }

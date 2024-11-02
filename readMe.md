@@ -25,6 +25,18 @@ activar consul y postgress a nivel o en docker
 go install github.com/swaggo/swag/cmd/swag@latest
 ```
 
+## instalar wire para la inyeccion de dependencias
+
+```
+go install github.com/google/wire/cmd/wire@latest
+```
+## recompilar el wire dentro de module
+
+```
+wire
+```
+
+
 ## recompilar el swagger cuando se hace cambios en los controladores
 ```
 swag init

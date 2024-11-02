@@ -11,11 +11,11 @@ func NewRoleResourceRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	RoleResourceController := module.InitializeRoleResourceModule(db)
 
-	routerGroup := router.Group("role_resource")
+	routerGroup := router.Group("rol-recurso")
 
-	routerGroup.POST("/", RoleResourceController.CreateRoleResource)
+	routerGroup.POST("/asignar", RoleResourceController.CreateRoleResource)
 	routerGroup.GET("/:id", RoleResourceController.GetRoleResourceById)
 	routerGroup.PUT("/:id", RoleResourceController.UpdateRoleResource)
-	routerGroup.DELETE("/:id", RoleResourceController.DeleteRoleResource)
+	routerGroup.DELETE("/desasignar/:id", RoleResourceController.DeleteRoleResource)
 
 }

@@ -1,18 +1,25 @@
+//go:build wireinject
+// +build wireinject
+
+// filename: role_resource.module.go
+// go:build wireinject
 package module
 
 import (
+	"github.com/google/wire"
 	"gorm.io/gorm"
 	"security-go/controller"
 	"security-go/repository"
 	"security-go/service"
-	"security-go/util"
+)
+
+var RoleResourceSet = wire.NewSet(
+	repository.NewRoleResourceRepository,
+	service.NewRoleResourceService,
+	controller.NewRoleResourceController,
 )
 
 func InitializeRoleResourceModule(db *gorm.DB) *controller.RoleResourceController {
-	return util.GenericModuleInitializer(
-		db,
-		repository.NewRoleResourceRepository,
-		service.NewRoleResourceService,
-		controller.NewRoleResourceController,
-	)
+	wire.Build(RoleResourceSet)
+	return nil
 }
