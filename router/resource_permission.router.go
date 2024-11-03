@@ -17,3 +17,7 @@ func NewResourcePermissionRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.PUT("/:id", ResourcePermissionController.UpdateResourcePermission)
 	routerGroup.DELETE("/:id", ResourcePermissionController.DeleteResourcePermission)
 }
+
+func init() {
+	RegisterRouter(NewResourcePermissionRouter)
+}

@@ -13,3 +13,7 @@ func NewAuthRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup.POST("/", AuthController.Login)
 }
+
+func init() {
+	RegisterRouter(NewAuthRouter)
+}

@@ -18,3 +18,7 @@ func NewResourceRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.PUT("/:id", resourceController.UpdateResource)
 	routerGroup.DELETE("/:id", resourceController.DeleteResource)
 }
+
+func init() {
+	RegisterRouter(NewResourceRouter)
+}

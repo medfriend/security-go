@@ -21,16 +21,7 @@ func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB, serviceInfo map[s
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	router.NewUserRouter(api, db)
-	router.NewEntityRouter(api, db)
-	router.NewPermisoRouter(api, db)
-	router.NewResourceRouter(api, db)
-	router.NewMenuRouter(api, db)
-	router.NewResourcePermissionRouter(api, db)
-	router.NewRolRouter(api, db)
-	router.NewUserRolRouter(api, db)
-	router.NewRoleResourceRouter(api, db)
-	router.NewAuthRouter(api, db)
+	router.InitializeAllRouters(api, db)
 
 	err := r.Run(fmt.Sprintf(":%s", serviceInfo["SERVICE_PORT"]))
 

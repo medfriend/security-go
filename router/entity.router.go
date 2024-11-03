@@ -17,3 +17,7 @@ func NewEntityRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.PUT("/:id", EntityController.UpdateEntity)
 	routerGroup.DELETE("/:id", EntityController.DeleteEntity)
 }
+
+func init() {
+	RegisterRouter(NewEntityRouter)
+}
