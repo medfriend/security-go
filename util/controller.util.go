@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -21,6 +22,7 @@ func StringToUint(s string) (uint, error) {
 func HandlerBindJson(c *gin.Context, data interface{}) {
 	if err := c.ShouldBindJSON(&data); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 }
 
@@ -28,5 +30,21 @@ func HandlerBindJson(c *gin.Context, data interface{}) {
 func HandlerInternalError(c *gin.Context, err error) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
+}
+
+func HandlerCreatedSuccess(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusCreated, gin.H{"data": data})
+}
+
+func HandlerFoundSuccess(c *gin.Context, err error, name string) {
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("%s not found", name)})
+		return
+	}
+}
+
+func HandlerNotContent(c *gin.Context, err error) {
+	c.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
 }

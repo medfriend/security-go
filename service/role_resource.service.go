@@ -8,6 +8,7 @@ import (
 type RoleResourceService interface {
 	CreateRoleResource(roleResource *entity.RoleResource) error
 	FindById(id uint) (*entity.RoleResource, error)
+	FindResourceByRoleIds(roleIds []uint) ([]uint, error)
 	UpdateRoleResource(roleResource *entity.RoleResource) error
 	DeleteRoleResource(id uint) error
 }
@@ -36,4 +37,8 @@ func (r RoleResourceServiceImpl) UpdateRoleResource(roleResource *entity.RoleRes
 
 func (r RoleResourceServiceImpl) DeleteRoleResource(id uint) error {
 	return r.roleResourceRepository.Delete(id)
+}
+
+func (r RoleResourceServiceImpl) FindResourceByRoleIds(roleIds []uint) ([]uint, error) {
+	return r.roleResourceRepository.FindResourceByRoleIds(roleIds)
 }

@@ -31,5 +31,10 @@ func (ctrl *AuthController) Login(c *gin.Context) {
 	var authDTO dto.AuthDTO
 
 	util.HandlerBindJson(c, &authDTO)
-	util.HandlerInternalError(c, ctrl.AuthService.Auth(&authDTO))
+
+	menus, err := ctrl.AuthService.Auth(&authDTO)
+
+	util.HandlerFoundSuccess(c, err, "auth")
+	util.HandlerCreatedSuccess(c, menus)
+	
 }

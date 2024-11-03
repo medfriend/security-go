@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"security-go/entity"
 	"security-go/service"
 	"security-go/util"
@@ -31,15 +30,10 @@ func NewEntityController(EntityService service.EntityService) *EntityController 
 // @Router /medfri-security/entity [post]
 func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 	var Entity entity.Entity
-	if err := c.ShouldBindJSON(&Entity); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.EntityService.CreateEntity(&Entity); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusCreated, Entity)
+
+	util.HandlerBindJson(c, &Entity)
+	util.HandlerInternalError(c, ctrl.EntityService.CreateEntity(&Entity))
+	util.HandlerCreatedSuccess(c, Entity)
 }
 
 // GetEntityById obtiene una entidad por su ID
@@ -55,11 +49,8 @@ func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	Entity, err := ctrl.EntityService.GetEntityById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Entity not found"})
-		return
-	}
-	c.JSON(http.StatusOK, Entity)
+	util.HandlerFoundSuccess(c, err, "entidad")
+	util.HandlerCreatedSuccess(c, Entity)
 }
 
 // UpdateEntity actualiza una entidad existente
@@ -75,15 +66,9 @@ func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 // @Router /medfri-security/entity [put]
 func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 	var Entity entity.Entity
-	if err := c.ShouldBindJSON(&Entity); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.EntityService.UpdateEntity(&Entity); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, Entity)
+	util.HandlerBindJson(c, &Entity)
+	util.HandlerInternalError(c, ctrl.EntityService.UpdateEntity(&Entity))
+	util.HandlerCreatedSuccess(c, Entity)
 }
 
 // DeleteEntity elimina una entidad por su ID
@@ -98,9 +83,6 @@ func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 // @Router /medfri-security/entity/{id} [delete]
 func (ctrl *EntityController) DeleteEntity(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
-	if err := ctrl.EntityService.DeleteEntity(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusNoContent, nil)
+	util.HandlerInternalError(c, ctrl.EntityService.DeleteEntity(id))
+	util.HandlerNotContent(c, nil)
 }

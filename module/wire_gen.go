@@ -23,7 +23,9 @@ func InitializeAuthModule(db *gorm.DB) *controller.AuthController {
 	userService := service.NewUserService(userRepository)
 	roleResourceRepository := repository.NewRoleResourceRepository(db)
 	roleResourceService := service.NewRoleResourceService(roleResourceRepository)
-	authService := service.NewAuthService(userRolService, userService, roleResourceService)
+	menuRepository := repository.NewMenuRepository(db)
+	menuService := service.NewMenuService(menuRepository)
+	authService := service.NewAuthService(userRolService, userService, roleResourceService, menuService)
 	authController := controller.NewAuthController(authService)
 	return authController
 }
@@ -111,7 +113,7 @@ func InitializeUserRolModule(db *gorm.DB) *controller.UserRolController {
 
 // auth.module.go:
 
-var AuthSet = wire.NewSet(repository.NewUserRepository, repository.NewUserRolRepository, repository.NewRoleResourceRepository, service.NewUserService, service.NewUserRolService, service.NewRoleResourceService, service.NewAuthService, controller.NewAuthController)
+var AuthSet = wire.NewSet(repository.NewUserRepository, repository.NewUserRolRepository, repository.NewRoleResourceRepository, repository.NewMenuRepository, service.NewUserService, service.NewUserRolService, service.NewRoleResourceService, service.NewAuthService, service.NewMenuService, controller.NewAuthController)
 
 // entity.module.go:
 
