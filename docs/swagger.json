@@ -422,6 +422,355 @@
                 }
             }
         },
+        "/medfri-security/permission": {
+            "put": {
+                "description": "Este endpoint permite actualizar la información de una permiso existente.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "permisos"
+                ],
+                "summary": "Actualizar un permiso",
+                "parameters": [
+                    {
+                        "description": "Información de la permisos actualizada",
+                        "name": "entity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Permiso"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "permiso actualizada con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Permiso"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Este endpoint permite crear un nuevo permiso.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "permisos"
+                ],
+                "summary": "Crear un permiso",
+                "parameters": [
+                    {
+                        "description": "Información de la permisos",
+                        "name": "entity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.Permiso"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "permiso creada con éxito",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Permiso"
+                        }
+                    },
+                    "400": {
+                        "description": "Error en el cuerpo de la solicitud",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/permission/{id}": {
+            "get": {
+                "description": "Este endpoint permite obtener la información de una permiso específica usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "permisos"
+                ],
+                "summary": "Obtener una permiso por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID de la permiso",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Permiso encontrada",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Permiso"
+                        }
+                    },
+                    "404": {
+                        "description": "Permiso no encontrada",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Este endpoint permite eliminar un permiso específica usando su ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "permisos"
+                ],
+                "summary": "Eliminar un permiso",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID de la permisos",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Permisos eliminada con éxito"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/resource_permission": {
+            "put": {
+                "description": "This endpoint allows you to update a resource permission in the system.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Update a resource permission",
+                "parameters": [
+                    {
+                        "description": "Updated resource permission information",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource permission updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the request body",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "This endpoint allows you to create a new resource permission in the system.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Create a new resource permission",
+                "parameters": [
+                    {
+                        "description": "Resource permission information",
+                        "name": "resource",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Resource permission created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in the request body",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/medfri-security/resource_permission/{id}": {
+            "get": {
+                "description": "This endpoint returns the information of a specific resource permission given its ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Get a resource permission by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Resource permission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource permission found",
+                        "schema": {
+                            "$ref": "#/definitions/entity.ResourcePermission"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "This endpoint allows you to delete an existing resource permission in the system.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recursos-permisos"
+                ],
+                "summary": "Delete a resource permission",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Resource permission ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resource permission deleted successfully"
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/medfri-security/resources": {
             "put": {
                 "description": "Este endpoint permite actualizar la información de un recurso existente.",
@@ -1134,146 +1483,6 @@
                     }
                 }
             }
-        },
-        "/resource-permission": {
-            "put": {
-                "description": "This endpoint allows you to update a resource permission in the system.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "recursos-permisos"
-                ],
-                "summary": "Update a resource permission",
-                "parameters": [
-                    {
-                        "description": "Updated resource permission information",
-                        "name": "resource",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.ResourcePermission"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Resource permission updated successfully",
-                        "schema": {
-                            "$ref": "#/definitions/entity.ResourcePermission"
-                        }
-                    },
-                    "400": {
-                        "description": "Error in the request body",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "This endpoint allows you to create a new resource permission in the system.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "recursos-permisos"
-                ],
-                "summary": "Create a new resource permission",
-                "parameters": [
-                    {
-                        "description": "Resource permission information",
-                        "name": "resource",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.ResourcePermission"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Resource permission created successfully",
-                        "schema": {
-                            "$ref": "#/definitions/entity.ResourcePermission"
-                        }
-                    },
-                    "400": {
-                        "description": "Error in the request body",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/resource-permission/{id}": {
-            "delete": {
-                "description": "This endpoint allows you to delete an existing resource permission in the system.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "recursos-permisos"
-                ],
-                "summary": "Delete a resource permission",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Resource permission ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Resource permission deleted successfully"
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -1343,6 +1552,20 @@
                 }
             }
         },
+        "entity.Permiso": {
+            "type": "object",
+            "properties": {
+                "accion": {
+                    "type": "string"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "permiso_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "entity.Resource": {
             "type": "object",
             "properties": {
@@ -1358,7 +1581,30 @@
             }
         },
         "entity.ResourcePermission": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "permiso": {
+                    "$ref": "#/definitions/entity.Permiso"
+                },
+                "permiso_id": {
+                    "type": "integer"
+                },
+                "recurso": {
+                    "$ref": "#/definitions/entity.Resource"
+                },
+                "recursoPermisoID": {
+                    "type": "integer"
+                },
+                "recurso_id": {
+                    "type": "integer"
+                },
+                "rol": {
+                    "$ref": "#/definitions/entity.Rol"
+                },
+                "rol_id": {
+                    "type": "integer"
+                }
+            }
         },
         "entity.Rol": {
             "type": "object",

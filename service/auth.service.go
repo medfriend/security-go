@@ -32,13 +32,20 @@ func NewAuthService(
 }
 
 func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (menu *[]response.MenuResponse, err error) {
-	fmt.Println(auth)
+
 	user, _ := s.userService.FindByUsuario(auth.Usuario)
+
+	if user == nil {
+		return nil, fmt.Errorf("usuario no encontrado")
+	}
+
+	fmt.Println(user.Clave)
+
+	entity, _ := s.userRolService.CheckUserRole(user.UsuarioID)
+
 	roles, _ := s.userRolService.FindRolesByUserID(user.UsuarioID)
 	resource, _ := s.rolResourceService.FindResourceByRoleIds(roles)
-	menus, _ := s.menuService.FindMenuByResourceAndEntity(resource, 1)
-
-	fmt.Println(menus)
+	menus, _ := s.menuService.FindMenuByResourceAndEntity(resource, uint(entity))
 
 	return menus, nil
 }

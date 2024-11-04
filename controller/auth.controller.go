@@ -30,11 +30,16 @@ func NewAuthController(authService service.AuthService) *AuthController {
 func (ctrl *AuthController) Login(c *gin.Context) {
 	var authDTO dto.AuthDTO
 
-	util.HandlerBindJson(c, &authDTO)
+	if util.HandlerBindJson(c, &authDTO) {
+		return
+	}
 
 	menus, err := ctrl.AuthService.Auth(&authDTO)
 
-	util.HandlerFoundSuccess(c, err, "auth")
+	if util.HandlerFoundSuccess(c, err, "auth") {
+		return
+	}
+
 	util.HandlerCreatedSuccess(c, menus)
-	
+
 }

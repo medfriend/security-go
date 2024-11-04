@@ -6,19 +6,22 @@ import (
 )
 
 func MenuToMenuResponse(menu entity.Menu, hasSubmenu bool) *response.MenuResponse {
-
-	menuResponse := &response.MenuResponse{}
-
-	if !hasSubmenu {
-		menuResponse = &response.MenuResponse{
-			MenuID:      menu.MenuID,
-			Nombre:      menu.Nombre,
-			Descripcion: menu.Descripcion,
-			Recurso:     menu.Recurso.Acceso,
-		}
+	// Crear un `MenuResponse` básico
+	menuResponse := &response.MenuResponse{
+		MenuID:      menu.MenuID,
+		Nombre:      menu.Nombre,
+		Descripcion: menu.Descripcion,
+		Submenus:    []*response.MenuResponse{},
+		MenuPadreId: menu.MenuPadreID,
 	}
 
-	if hasSubmenu {
+	// Solo asignar `Recurso` si está disponible
+	if menu.Recurso != nil {
+		menuResponse.Recurso = menu.Recurso.Acceso
+	}
+
+	if hasSubmenu && menu.MenuPadre != nil {
+		// Crear una respuesta que representa al `MenuPadre`
 		menuResponse = &response.MenuResponse{
 			MenuID:      menu.MenuPadre.MenuID,
 			Nombre:      menu.MenuPadre.Nombre,

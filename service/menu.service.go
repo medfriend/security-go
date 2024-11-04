@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"security-go/entity"
 	"security-go/mapper"
 	"security-go/repository"
@@ -43,40 +42,27 @@ func (m MenuServiceImpl) DeleteMenu(id uint) error {
 }
 
 func (m MenuServiceImpl) FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]response.MenuResponse, error) {
-
 	menus, _ := m.menuRepository.FindMenuByResourceAndEntity(resourceIds, entityId)
 
-	fmt.Println(menus)
-
 	menuMap := make(map[uint]*response.MenuResponse)
-
 	var rootMenus []*response.MenuResponse
 
 	for _, menu := range *menus {
-
 		currentMenu := mapper.MenuToMenuResponse(menu, false)
 
 		if menu.MenuPadreID != nil {
+			parent := addParentIfNotExists(menuMap, menu)
 
-			parent, exists := menuMap[*menu.MenuPadreID]
-
-			if !exists {
-
-				parent = mapper.MenuToMenuResponse(menu, true)
-
-				menuMap[*menu.MenuPadreID] = parent
-
-				if menu.MenuPadre.MenuPadreID == nil {
-					rootMenus = append(rootMenus, parent)
-				}
+			if parent != nil {
+				parent.Submenus = append(parent.Submenus, currentMenu)
 			}
-
-			parent.Submenus = append(parent.Submenus, currentMenu)
-		} else {
-			rootMenus = append(rootMenus, currentMenu)
 		}
+	}
 
-		menuMap[menu.MenuID] = currentMenu
+	for _, menu := range menuMap {
+		if menu.MenuPadreId == nil {
+			rootMenus = append(rootMenus, menu)
+		}
 	}
 
 	finalRootMenus := make([]response.MenuResponse, len(rootMenus))
@@ -85,4 +71,27 @@ func (m MenuServiceImpl) FindMenuByResourceAndEntity(resourceIds []uint, entityI
 	}
 
 	return &finalRootMenus, nil
+}
+
+func addParentIfNotExists(menuMap map[uint]*response.MenuResponse, menu entity.Menu) *response.MenuResponse {
+	if menu.MenuPadreID == nil {
+		return nil
+	}
+
+	parent, exists := menuMap[*menu.MenuPadreID]
+	if exists {
+		return parent
+	}
+
+	parent = mapper.MenuToMenuResponse(*menu.MenuPadre, true)
+	menuMap[*menu.MenuPadreID] = parent
+
+	if menu.MenuPadre.MenuPadreID != nil {
+		grandParent := addParentIfNotExists(menuMap, *menu.MenuPadre)
+		if grandParent != nil {
+			grandParent.Submenus = append(grandParent.Submenus, parent)
+		}
+	}
+
+	return parent
 }

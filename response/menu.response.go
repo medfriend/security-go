@@ -6,4 +6,5 @@ type MenuResponse struct {
 	Descripcion string          `json:"descripcion"`
 	Submenus    []*MenuResponse `json:"submenus,omitempty"`
 	Recurso     string          `json:"recurso,omitempty"`
+	MenuPadreId *uint           `json:"-"`
 }
