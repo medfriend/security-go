@@ -15,3 +15,7 @@ func NewUserRolRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.POST("/asignar", UserRolController.CreateUserRol)
 	routerGroup.DELETE("/desasignar/:id", UserRolController.DeleteUserRol)
 }
+
+func init() {
+	RegisterRouter(NewUserRolRouter)
+}

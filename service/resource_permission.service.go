@@ -9,6 +9,7 @@ type ResourcePermissionService interface {
 	CreateResourcePermission(resourcePermission *entity.ResourcePermission) error
 	FindById(id uint) (*entity.ResourcePermission, error)
 	UpdateResourcePermission(resourcePermission *entity.ResourcePermission) error
+	FindPermissionByResourceAndRole(resourceIds []uint, roleIds []uint) (map[uint][]string, error)
 	DeleteResourcePermission(id uint) error
 }
 
@@ -28,6 +29,10 @@ func (r ResourcePermissionServiceImpl) CreateResourcePermission(resourcePermissi
 
 func (r ResourcePermissionServiceImpl) FindById(id uint) (*entity.ResourcePermission, error) {
 	return r.resourcePermissionRepository.FindById(id)
+}
+
+func (r ResourcePermissionServiceImpl) FindPermissionByResourceAndRole(resourceIds []uint, roleIds []uint) (map[uint][]string, error) {
+	return r.resourcePermissionRepository.FindPermissionByResourceAndRole(resourceIds, roleIds)
 }
 
 func (r ResourcePermissionServiceImpl) UpdateResourcePermission(resourcePermission *entity.ResourcePermission) error {

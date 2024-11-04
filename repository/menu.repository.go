@@ -9,6 +9,7 @@ import (
 type MenuRepository interface {
 	Save(Menu *entity.Menu) error
 	FindById(id uint) (*entity.Menu, error)
+	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]entity.Menu, error)
 	Update(user *entity.Menu) error
 	Delete(id uint) error
 }
@@ -29,6 +30,22 @@ func (u *MenuRepositoryImpl) Save(user *entity.Menu) error {
 
 func (u *MenuRepositoryImpl) FindById(id uint) (*entity.Menu, error) {
 	return u.Base.FindByIdWithRelations(id, "MenuPadre", "Recurso", "Entidad")
+}
+
+func (u *MenuRepositoryImpl) FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]entity.Menu, error) {
+	var menus []entity.Menu
+
+	err := u.Base.DB.Model(&entity.Menu{}).
+		Preload("MenuPadre").
+		Preload("Recurso").
+		Where("recurso_id IN (?) AND entidad_id  = ?", resourceIds, entityId).
+		Find(&menus).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &menus, nil
 }
 
 func (u *MenuRepositoryImpl) Update(menu *entity.Menu) error {

@@ -9,6 +9,7 @@ type UserRolService interface {
 	CreateUserRol(userRol *entity.UserRol) error
 	DeleteUserRol(id uint) error
 	FindRolesByUserID(userId uint) ([]uint, error)
+	CheckUserRole(userId uint) (int64, error)
 }
 
 type UserRolServiceImpl struct {
@@ -19,6 +20,10 @@ func NewUserRolService(UserRolRepo repository.UserRolRepository) UserRolService 
 	return &UserRolServiceImpl{
 		UserRolRepo: UserRolRepo,
 	}
+}
+
+func (s *UserRolServiceImpl) CheckUserRole(userId uint) (int64, error) {
+	return s.UserRolRepo.CheckUserRole(userId)
 }
 
 func (s *UserRolServiceImpl) FindRolesByUserID(userId uint) ([]uint, error) {

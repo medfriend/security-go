@@ -17,3 +17,7 @@ func NewUserRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.PUT("/:id", userController.UpdateUser)
 	routerGroup.DELETE("/:id", userController.DeleteUser)
 }
+
+func init() {
+	RegisterRouter(NewUserRouter)
+}

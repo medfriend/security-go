@@ -13,6 +13,7 @@ import (
 	"os"
 	"runtime"
 	"security-go/httpServer"
+	"security-go/util"
 )
 
 var db *gorm.DB
@@ -20,8 +21,13 @@ var db *gorm.DB
 func handlerServiceInfo(consulClient *api.Client) map[string]string {
 
 	serviceInfo, _ := consul.GetKeyValue(consulClient, os.Getenv("SERVICE_NAME"))
+	jwt, _ := consul.GetKeyValue(consulClient, "JWT")
+
 	var result map[string]string
 	json.Unmarshal([]byte(serviceInfo), &result)
+
+	util.SetJWT(jwt)
+	util.SetServiceName(result["SERVICE_NAME"])
 
 	return result
 }

@@ -19,3 +19,7 @@ func NewRoleResourceRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.DELETE("/desasignar/:id", RoleResourceController.DeleteRoleResource)
 
 }
+
+func init() {
+	RegisterRouter(NewRoleResourceRouter)
+}

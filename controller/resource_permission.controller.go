@@ -29,20 +29,14 @@ func NewResourcePermissionController(resourcePermissionService service.ResourceP
 // @Success 201 {object} entity.ResourcePermission "Resource permission created successfully"
 // @Failure 400 {object} map[string]string "Error in the request body"
 // @Failure 500 {object} map[string]string "Internal server error"
-// @Router /resource-permission [post]
+// @Router /medfri-security/resource_permission [post]
 func (ctrl *ResourcePermissionController) CreateResourcePermission(c *gin.Context) {
 	var resourcePermission entity.ResourcePermission
-	if err := c.ShouldBindJSON(&resourcePermission); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	if err := ctrl.ResourcePermissionService.CreateResourcePermission(&resourcePermission); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandlerBindJson(c, &resourcePermission)
+	util.HandlerInternalError(c, ctrl.ResourcePermissionService.CreateResourcePermission(&resourcePermission))
 
-	c.JSON(http.StatusCreated, resourcePermission)
+	util.HandlerCreatedSuccess(c, resourcePermission)
 }
 
 // GetResourcePermissionById Get a resource permission by its ID
@@ -53,6 +47,7 @@ func (ctrl *ResourcePermissionController) CreateResourcePermission(c *gin.Contex
 // @Produce json
 // @Param id path uint true "Resource permission ID"
 // @Success 200 {object} entity.ResourcePermission "Resource permission found"
+// @Router /medfri-security/resource_permission/{id} [get]
 func (ctrl *ResourcePermissionController) GetResourcePermissionById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -75,7 +70,7 @@ func (ctrl *ResourcePermissionController) GetResourcePermissionById(c *gin.Conte
 // @Success 200 {object} entity.ResourcePermission "Resource permission updated successfully"
 // @Failure 400 {object} map[string]string "Error in the request body"
 // @Failure 500 {object} map[string]string "Internal server error"
-// @Router /resource-permission [put]
+// @Router /medfri-security/resource_permission [put]
 func (ctrl *ResourcePermissionController) UpdateResourcePermission(c *gin.Context) {
 	var resourcePermission entity.ResourcePermission
 	if err := c.ShouldBindJSON(&resourcePermission); err != nil {
@@ -100,7 +95,7 @@ func (ctrl *ResourcePermissionController) UpdateResourcePermission(c *gin.Contex
 // @Param id path uint true "Resource permission ID"
 // @Success 204 "Resource permission deleted successfully"
 // @Failure 500 {object} map[string]string "Internal server error"
-// @Router /resource-permission/{id} [delete]
+// @Router /medfri-security/resource_permission/{id} [delete]
 func (ctrl *ResourcePermissionController) DeleteResourcePermission(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	if err != nil {

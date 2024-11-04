@@ -42,6 +42,15 @@ definitions:
       recurso_id:
         type: integer
     type: object
+  entity.Permiso:
+    properties:
+      accion:
+        type: string
+      nombre:
+        type: string
+      permiso_id:
+        type: integer
+    type: object
   entity.Resource:
     properties:
       acceso:
@@ -52,6 +61,21 @@ definitions:
         type: integer
     type: object
   entity.ResourcePermission:
+    properties:
+      permiso:
+        $ref: '#/definitions/entity.Permiso'
+      permiso_id:
+        type: integer
+      recurso:
+        $ref: '#/definitions/entity.Resource'
+      recurso_id:
+        type: integer
+      recursoPermisoID:
+        type: integer
+      rol:
+        $ref: '#/definitions/entity.Rol'
+      rol_id:
+        type: integer
     type: object
   entity.Rol:
     properties:
@@ -415,6 +439,243 @@ paths:
       summary: Obtener un menu por ID
       tags:
       - menus
+  /medfri-security/permission:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo permiso.
+      parameters:
+      - description: Información de la permisos
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Permiso'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: permiso creada con éxito
+          schema:
+            $ref: '#/definitions/entity.Permiso'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un permiso
+      tags:
+      - permisos
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de una permiso
+        existente.
+      parameters:
+      - description: Información de la permisos actualizada
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Permiso'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: permiso actualizada con éxito
+          schema:
+            $ref: '#/definitions/entity.Permiso'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Actualizar un permiso
+      tags:
+      - permisos
+  /medfri-security/permission/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un permiso específica usando su
+        ID.
+      parameters:
+      - description: ID de la permisos
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Permisos eliminada con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Eliminar un permiso
+      tags:
+      - permisos
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint permite obtener la información de una permiso específica
+        usando su ID.
+      parameters:
+      - description: ID de la permiso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Permiso encontrada
+          schema:
+            $ref: '#/definitions/entity.Permiso'
+        "404":
+          description: Permiso no encontrada
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Obtener una permiso por ID
+      tags:
+      - permisos
+  /medfri-security/resource_permission:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows you to create a new resource permission in
+        the system.
+      parameters:
+      - description: Resource permission information
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ResourcePermission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Resource permission created successfully
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+        "400":
+          description: Error in the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new resource permission
+      tags:
+      - recursos-permisos
+    put:
+      consumes:
+      - application/json
+      description: This endpoint allows you to update a resource permission in the
+        system.
+      parameters:
+      - description: Updated resource permission information
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ResourcePermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resource permission updated successfully
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+        "400":
+          description: Error in the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update a resource permission
+      tags:
+      - recursos-permisos
+  /medfri-security/resource_permission/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint allows you to delete an existing resource permission
+        in the system.
+      parameters:
+      - description: Resource permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Resource permission deleted successfully
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete a resource permission
+      tags:
+      - recursos-permisos
+    get:
+      consumes:
+      - application/json
+      description: This endpoint returns the information of a specific resource permission
+        given its ID.
+      parameters:
+      - description: Resource permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resource permission found
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+      summary: Get a resource permission by ID
+      tags:
+      - recursos-permisos
   /medfri-security/resources:
     post:
       consumes:
@@ -891,99 +1152,4 @@ paths:
       summary: Obtener un usuario por ID
       tags:
       - usuarios
-  /resource-permission:
-    post:
-      consumes:
-      - application/json
-      description: This endpoint allows you to create a new resource permission in
-        the system.
-      parameters:
-      - description: Resource permission information
-        in: body
-        name: resource
-        required: true
-        schema:
-          $ref: '#/definitions/entity.ResourcePermission'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Resource permission created successfully
-          schema:
-            $ref: '#/definitions/entity.ResourcePermission'
-        "400":
-          description: Error in the request body
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Create a new resource permission
-      tags:
-      - recursos-permisos
-    put:
-      consumes:
-      - application/json
-      description: This endpoint allows you to update a resource permission in the
-        system.
-      parameters:
-      - description: Updated resource permission information
-        in: body
-        name: resource
-        required: true
-        schema:
-          $ref: '#/definitions/entity.ResourcePermission'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Resource permission updated successfully
-          schema:
-            $ref: '#/definitions/entity.ResourcePermission'
-        "400":
-          description: Error in the request body
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Update a resource permission
-      tags:
-      - recursos-permisos
-  /resource-permission/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: This endpoint allows you to delete an existing resource permission
-        in the system.
-      parameters:
-      - description: Resource permission ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: Resource permission deleted successfully
-        "500":
-          description: Internal server error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Delete a resource permission
-      tags:
-      - recursos-permisos
 swagger: "2.0"

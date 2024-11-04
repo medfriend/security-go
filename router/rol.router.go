@@ -18,3 +18,7 @@ func NewRolRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.DELETE("/:id", RolController.DeleteRol)
 
 }
+
+func init() {
+	RegisterRouter(NewRolRouter)
+}

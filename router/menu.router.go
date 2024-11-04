@@ -18,3 +18,7 @@ func NewMenuRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.DELETE("/:id", MenuController.DeleteMenu)
 
 }
+
+func init() {
+	RegisterRouter(NewMenuRouter)
+}

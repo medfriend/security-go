@@ -10,6 +10,7 @@ import (
 type RoleResourceRepository interface {
 	Save(RoleResource *entity.RoleResource) error
 	FindById(id uint) (*entity.RoleResource, error)
+	FindResourceByRoleIds(roleIds []uint) ([]uint, error)
 	Update(user *entity.RoleResource) error
 	Delete(id uint) error
 }
