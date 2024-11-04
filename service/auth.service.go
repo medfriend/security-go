@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"security-go/dto"
 	"security-go/response"
@@ -62,6 +63,14 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 		Menus: *menus,
 		User:  *user,
 	}
+
+	rabbitMQ := util.GetInstance()
+
+	userJson, err := json.Marshal(&user)
+
+	rabbitMQ.SendMessage(
+		"trazabilidad-usuario-login",
+		string(userJson))
 
 	jwt, _ := util.GenerateJWT(authResponse)
 

@@ -20,12 +20,13 @@ func NewUserController(userService service.UserService) *UserController {
 
 // CreateUser @Summary      Crear un nuevo usuario
 // @Description  Este endpoint permite crear un nuevo usuario en el sistema
+// @Security      BearerAuth
 // @Tags         usuarios
 // @Accept       json
 // @Produce      json
 // @Param        user  body      entity.User       true  "Información del usuario"
 // @Success      201   {object}  entity.User
-// @Router       /medfri-security/user [post]
+// @Router       /user [post]
 func (ctrl *UserController) CreateUser(c *gin.Context) {
 	var user entity.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -41,13 +42,14 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 
 // GetUserById obtiene un usuario por su ID
 // @Summary      Obtener un usuario por ID
+// @Security      BearerAuth
 // @Description  Este endpoint devuelve la información de un usuario específico dado su ID.
 // @Tags         usuarios
 // @Accept       json
 // @Produce      json
 // @Param        id  path      uint  true  "ID del usuario"
 // @Success      200 {object}  entity.User   "Usuario encontrado"
-// @Router       /medfri-security/user/{id} [get]
+// @Router       /user/{id} [get]
 func (ctrl *UserController) GetUserById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	user, err := ctrl.userService.GetUserById(id)
@@ -60,13 +62,14 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 
 // UpdateUser    actualiza la información de un usuario existente
 // @Summary      Actualizar un usuario
+// @Security      BearerAuth
 // @Description  Este endpoint permite actualizar la información de un usuario existente.
 // @Tags         usuarios
 // @Accept       json
 // @Produce      json
 // @Param        user  body      entity.User  true  "Información del usuario"
 // @Success      200   {object}  entity.User   "Usuario actualizado"
-// @Router       /medfri-security/user [put]
+// @Router       /user [put]
 func (ctrl *UserController) UpdateUser(c *gin.Context) {
 	var user entity.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -82,11 +85,12 @@ func (ctrl *UserController) UpdateUser(c *gin.Context) {
 
 // DeleteUser elimina un usuario por su ID
 // @Summary      Eliminar un usuario por ID
+// @Security      BearerAuth
 // @Description  Este endpoint permite eliminar un usuario específico dado su ID.
 // @Tags         usuarios
 // @Param        id  path      uint  true  "ID del usuario"
 // @Success      204 "Usuario eliminado con éxito"
-// @Router       /medfri-securiry/user/{id} [delete]
+// @Router       /user/{id} [delete]
 func (ctrl *UserController) DeleteUser(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.userService.DeleteUser(id); err != nil {

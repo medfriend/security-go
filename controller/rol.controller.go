@@ -20,6 +20,7 @@ func NewRolController(RolService service.RolService) *RolController {
 
 // CreateRol crea un nuevo Rol
 // @Summary Crear un Rol
+// @Security      BearerAuth
 // @Description Este endpoint permite crear un nuevo Rol en el sistema.
 // @Tags   rols
 // @Accept json
@@ -28,7 +29,7 @@ func NewRolController(RolService service.RolService) *RolController {
 // @Success 201 {object} entity.Rol "Rol creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol [post]
+// @Router /rol [post]
 func (ctrl *RolController) CreateRol(c *gin.Context) {
 	var Rol entity.Rol
 	if err := c.ShouldBindJSON(&Rol); err != nil {
@@ -46,13 +47,14 @@ func (ctrl *RolController) CreateRol(c *gin.Context) {
 
 // GetRolById   obtiene un Rol por su ID
 // @Summary      Obtener un Rol por ID
+// @Security      BearerAuth
 // @Description  Este endpoint devuelve la información de un Rol específico dado su ID.
 // @Tags         rols
 // @Accept       json
 // @Produce      json
 // @Param        id  path      uint  true  "ID del Rol"
 // @Success      200 {object}  entity.Rol   "Rol encontrado"
-// @Router       /medfri-security/rol/{id} [get]
+// @Router       /rol/{id} [get]
 func (ctrl *RolController) GetRolById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -66,6 +68,7 @@ func (ctrl *RolController) GetRolById(c *gin.Context) {
 
 // UpdateRol actualiza un Rol existente
 // @Summary Actualizar un Rol
+// @Security      BearerAuth
 // @Description Este endpoint permite actualizar la información de un Rol existente.
 // @Tags rols
 // @Accept json
@@ -74,7 +77,7 @@ func (ctrl *RolController) GetRolById(c *gin.Context) {
 // @Success 200 {object} entity.Rol "Rol actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol [put]
+// @Router /rol [put]
 func (ctrl *RolController) UpdateRol(c *gin.Context) {
 	var Rol entity.Rol
 	if err := c.ShouldBindJSON(&Rol); err != nil {
@@ -90,6 +93,7 @@ func (ctrl *RolController) UpdateRol(c *gin.Context) {
 
 // DeleteRol elimina un Rol por su ID
 // @Summary Eliminar un Rol
+// @Security      BearerAuth
 // @Description Este endpoint permite eliminar un Rol específico usando su ID.
 // @Tags rols
 // @Accept json
@@ -97,7 +101,7 @@ func (ctrl *RolController) UpdateRol(c *gin.Context) {
 // @Param id path uint true "ID del Rol"
 // @Success 204 "Rol eliminado con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol/{id} [delete]
+// @Router /rol/{id} [delete]
 func (ctrl *RolController) DeleteRol(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.RolService.DeleteRol(id); err != nil {

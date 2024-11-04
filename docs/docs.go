@@ -9,36 +9,21 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Soporte de API",
+            "url": "http://www.soporte-api.com",
+            "email": "soporte@api.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/medfri-securiry/user/{id}": {
-            "delete": {
-                "description": "Este endpoint permite eliminar un usuario específico dado su ID.",
-                "tags": [
-                    "usuarios"
-                ],
-                "summary": "Eliminar un usuario por ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID del usuario",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Usuario eliminado con éxito"
-                    }
-                }
-            }
-        },
-        "/medfri-security/auth": {
+        "/auth": {
             "post": {
                 "description": "Autenticacion.",
                 "consumes": [
@@ -84,8 +69,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/entity": {
+        "/entity": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de una entidad existente.",
                 "consumes": [
                     "application/json"
@@ -136,6 +126,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear una nueva entidad en el sistema.",
                 "consumes": [
                     "application/json"
@@ -186,8 +181,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/entity/{id}": {
+        "/entity/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite obtener la información de una entidad específica usando su ID.",
                 "consumes": [
                     "application/json"
@@ -227,6 +227,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar una entidad específica usando su ID.",
                 "consumes": [
                     "application/json"
@@ -263,8 +268,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/menu": {
+        "/menu": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de un menu existente.",
                 "consumes": [
                     "application/json"
@@ -315,6 +325,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nuevo menu en el sistema.",
                 "consumes": [
                     "application/json"
@@ -365,8 +380,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/menu/{id}": {
+        "/menu/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint devuelve la información de un menu específico dado su ID.",
                 "consumes": [
                     "application/json"
@@ -397,6 +417,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar un menu específico usando su ID.",
                 "consumes": [
                     "application/json"
@@ -433,8 +458,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/permission": {
+        "/permission": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de una permiso existente.",
                 "consumes": [
                     "application/json"
@@ -485,6 +515,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nuevo permiso.",
                 "consumes": [
                     "application/json"
@@ -535,8 +570,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/permission/{id}": {
+        "/permission/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite obtener la información de una permiso específica usando su ID.",
                 "consumes": [
                     "application/json"
@@ -576,6 +616,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar un permiso específica usando su ID.",
                 "consumes": [
                     "application/json"
@@ -612,8 +657,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/resource_permission": {
+        "/resource_permission": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "This endpoint allows you to update a resource permission in the system.",
                 "consumes": [
                     "application/json"
@@ -664,6 +714,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "This endpoint allows you to create a new resource permission in the system.",
                 "consumes": [
                     "application/json"
@@ -714,8 +769,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/resource_permission/{id}": {
+        "/resource_permission/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "This endpoint returns the information of a specific resource permission given its ID.",
                 "consumes": [
                     "application/json"
@@ -746,6 +806,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "This endpoint allows you to delete an existing resource permission in the system.",
                 "consumes": [
                     "application/json"
@@ -782,8 +847,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/resources": {
+        "/resources": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de un recurso existente.",
                 "consumes": [
                     "application/json"
@@ -834,6 +904,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nuevo recurso en el sistema.",
                 "consumes": [
                     "application/json"
@@ -884,8 +959,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/resources/{id}": {
+        "/resources/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite obtener la información de un recurso específico usando su ID.",
                 "consumes": [
                     "application/json"
@@ -925,6 +1005,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar un recurso específico usando su ID.",
                 "consumes": [
                     "application/json"
@@ -961,8 +1046,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/rol": {
+        "/rol": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de un Rol existente.",
                 "consumes": [
                     "application/json"
@@ -1013,6 +1103,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nuevo Rol en el sistema.",
                 "consumes": [
                     "application/json"
@@ -1063,8 +1158,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/rol-recurso": {
+        "/rol-recurso": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de un rol recurso existente.",
                 "consumes": [
                     "application/json"
@@ -1115,8 +1215,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/rol-recurso/asignar": {
+        "/rol-recurso/asignar": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nuevo rol recurso en el sistema.",
                 "consumes": [
                     "application/json"
@@ -1167,8 +1272,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/rol-recurso/desasignar/{id}": {
+        "/rol-recurso/desasignar/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar un rol recurso existente en el sistema.",
                 "consumes": [
                     "application/json"
@@ -1208,8 +1318,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/rol-recurso/{id}": {
+        "/rol-recurso/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint devuelve la información de un rol recurso específico dado su ID.",
                 "consumes": [
                     "application/json"
@@ -1240,8 +1355,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/rol/{id}": {
+        "/rol/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint devuelve la información de un Rol específico dado su ID.",
                 "consumes": [
                     "application/json"
@@ -1272,6 +1392,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar un Rol específico usando su ID.",
                 "consumes": [
                     "application/json"
@@ -1308,8 +1433,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/user": {
+        "/user": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite actualizar la información de un usuario existente.",
                 "consumes": [
                     "application/json"
@@ -1342,6 +1472,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nuevo usuario en el sistema",
                 "consumes": [
                     "application/json"
@@ -1373,8 +1508,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/user-rol/asignar": {
+        "/user-rol/asignar": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite crear un nueva relacion usuarioRol en el sistema.",
                 "consumes": [
                     "application/json"
@@ -1425,8 +1565,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/user-rol/desasignar/{id}": {
+        "/user-rol/desasignar/{id}": {
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint permite eliminar una relacion usuario rol específico usando su ID.",
                 "consumes": [
                     "application/json"
@@ -1463,8 +1608,13 @@ const docTemplate = `{
                 }
             }
         },
-        "/medfri-security/user/{id}": {
+        "/user/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Este endpoint devuelve la información de un usuario específico dado su ID.",
                 "consumes": [
                     "application/json"
@@ -1491,6 +1641,32 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/entity.User"
                         }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Este endpoint permite eliminar un usuario específico dado su ID.",
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Eliminar un usuario por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del usuario",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuario eliminado con éxito"
                     }
                 }
             }
@@ -1739,17 +1915,25 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Ingresa \"Bearer {token}\" para autenticar.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:9000",
+	BasePath:         "/medfri-security",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "medfri-security",
+	Description:      "micro de seguridad.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

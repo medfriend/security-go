@@ -21,6 +21,7 @@ func NewRoleResourceController(roleResourceService service.RoleResourceService) 
 
 // CreateRoleResource crea un nuevo rol recurso
 // @Summary Crear un rol recurso
+// @Security      BearerAuth
 // @Description Este endpoint permite crear un nuevo rol recurso en el sistema.
 // @Tags roles-recursos
 // @Accept json
@@ -29,7 +30,7 @@ func NewRoleResourceController(roleResourceService service.RoleResourceService) 
 // @Success 201 {object} entity.RoleResource "Rol recurso creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol-recurso/asignar [post]
+// @Router /rol-recurso/asignar [post]
 func (ctrl *RoleResourceController) CreateRoleResource(c *gin.Context) {
 	var roleResource entity.RoleResource
 
@@ -40,13 +41,14 @@ func (ctrl *RoleResourceController) CreateRoleResource(c *gin.Context) {
 
 // GetRoleResourceById   obtiene un rol recurso por su ID
 // @Summary      Obtener un rol recurso por ID
+// @Security      BearerAuth
 // @Description  Este endpoint devuelve la información de un rol recurso específico dado su ID.
 // @Tags         roles-recursos
 // @Accept       json
 // @Produce      json
 // @Param        id  path      uint  true  "ID del rol recurso"
 // @Success      200 {object}  entity.RoleResource   "rol recurso encontrado"
-// @Router       /medfri-security/rol-recurso/{id} [get]
+// @Router       /rol-recurso/{id} [get]
 func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -60,6 +62,7 @@ func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 
 // UpdateRoleResource actualiza un rol recurso
 // @Summary Actualizar un rol recurso
+// @Security      BearerAuth
 // @Description Este endpoint permite actualizar la información de un rol recurso existente.
 // @Tags roles-recursos
 // @Accept json
@@ -68,7 +71,7 @@ func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 // @Success 200 {object} entity.RoleResource "rol recurso actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol-recurso [put]
+// @Router /rol-recurso [put]
 func (ctrl *RoleResourceController) UpdateRoleResource(c *gin.Context) {
 	var roleResource entity.RoleResource
 	if err := c.ShouldBindJSON(&roleResource); err != nil {
@@ -84,6 +87,7 @@ func (ctrl *RoleResourceController) UpdateRoleResource(c *gin.Context) {
 
 // DeleteRoleResource elimina un rol recurso
 // @Summary Eliminar un rol recurso
+// @Security      BearerAuth
 // @Description Este endpoint permite eliminar un rol recurso existente en el sistema.
 // @Tags roles-recursos
 // @Accept json
@@ -91,7 +95,7 @@ func (ctrl *RoleResourceController) UpdateRoleResource(c *gin.Context) {
 // @Param id path uint true "ID del rol recurso"
 // @Success 200 {string} string "Rol recurso eliminado con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/rol-recurso/desasignar/{id} [delete]
+// @Router /rol-recurso/desasignar/{id} [delete]
 func (ctrl *RoleResourceController) DeleteRoleResource(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.RoleResource.DeleteRoleResource(id); err != nil {
