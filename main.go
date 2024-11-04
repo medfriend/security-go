@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/consul/api"
 	"github.com/medfriend/shared-commons-go/util/consul"
 	"github.com/medfriend/shared-commons-go/util/env"
 	gormUtil "github.com/medfriend/shared-commons-go/util/gorm"
@@ -18,26 +16,12 @@ import (
 
 var db *gorm.DB
 
-func handlerServiceInfo(consulClient *api.Client) map[string]string {
-
-	serviceInfo, _ := consul.GetKeyValue(consulClient, os.Getenv("SERVICE_NAME"))
-	jwt, _ := consul.GetKeyValue(consulClient, "JWT")
-
-	var result map[string]string
-	json.Unmarshal([]byte(serviceInfo), &result)
-
-	util.SetJWT(jwt)
-	util.SetServiceName(result["SERVICE_NAME"])
-
-	return result
-}
-
 func main() {
 	env.LoadEnv()
 
 	consulClient := consul.ConnectToConsulKey(os.Getenv("SERVICE_NAME"))
 
-	serviveInfo := handlerServiceInfo(consulClient)
+	serviceInfo := util.HandlerServiceInfo(consulClient)
 
 	numCPUs := runtime.NumCPU()
 
@@ -59,7 +43,7 @@ func main() {
 		return
 	}
 
-	httpServer.InitHttpServer(taskQueue, initDB, serviveInfo)
+	httpServer.InitHttpServer(taskQueue, initDB, serviceInfo)
 
 	worker.HandleShutdown(stop, consulClient)
 }

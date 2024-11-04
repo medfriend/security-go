@@ -5,6 +5,7 @@ import "sync"
 var (
 	jwt         string
 	serviceName string
+	rabbitconn  string
 	mu          sync.Mutex
 )
 
@@ -30,4 +31,16 @@ func GetServiceName() string {
 	mu.Lock()
 	defer mu.Unlock()
 	return serviceName
+}
+
+func SetRabbitConn(value string) {
+	mu.Lock()
+	defer mu.Unlock()
+	rabbitconn = value
+}
+
+func GetRabbitConn() string {
+	mu.Lock()
+	defer mu.Unlock()
+	return rabbitconn
 }

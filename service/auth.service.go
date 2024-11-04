@@ -63,6 +63,10 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 		User:  *user,
 	}
 
+	rabbitMQ := util.GetInstance()
+	defer rabbitMQ.Close()
+
+	rabbitMQ.SendMessage("trazabilidad-usuario-login", "Hola, RabbitMQ desde el Singleton!")
 	jwt, _ := util.GenerateJWT(authResponse)
 
 	return &jwt, nil
