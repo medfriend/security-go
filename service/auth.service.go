@@ -63,7 +63,7 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 		User:  *user,
 	}
 
-	jwt, _ := util.GenerateJWT(authResponse, "mylittlesecret")
+	jwt, _ := util.GenerateJWT(authResponse)
 
 	return &jwt, nil
 }
