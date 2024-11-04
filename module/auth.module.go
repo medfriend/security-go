@@ -14,10 +14,12 @@ import (
 )
 
 var AuthSet = wire.NewSet(
+	repository.NewResourcePermissionRepository,
 	repository.NewUserRepository,
 	repository.NewUserRolRepository,
 	repository.NewRoleResourceRepository,
 	repository.NewMenuRepository,
+	service.NewResourcePermissionService,
 	service.NewUserService,
 	service.NewUserRolService,
 	service.NewRoleResourceService,

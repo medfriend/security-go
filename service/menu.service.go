@@ -11,7 +11,7 @@ type MenuService interface {
 	CreateMenu(menu *entity.Menu) error
 	FindById(id uint) (*entity.Menu, error)
 	UpdateMenu(menu *entity.Menu) error
-	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]response.MenuResponse, error)
+	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint, permissions map[uint][]string) (*[]response.MenuResponse, error)
 	DeleteMenu(id uint) error
 }
 
@@ -41,17 +41,17 @@ func (m MenuServiceImpl) DeleteMenu(id uint) error {
 	return m.menuRepository.Delete(id)
 }
 
-func (m MenuServiceImpl) FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]response.MenuResponse, error) {
+func (m MenuServiceImpl) FindMenuByResourceAndEntity(resourceIds []uint, entityId uint, permissions map[uint][]string) (*[]response.MenuResponse, error) {
 	menus, _ := m.menuRepository.FindMenuByResourceAndEntity(resourceIds, entityId)
 
 	menuMap := make(map[uint]*response.MenuResponse)
 	var rootMenus []*response.MenuResponse
 
 	for _, menu := range *menus {
-		currentMenu := mapper.MenuToMenuResponse(menu, false)
+		currentMenu := mapper.MenuToMenuResponse(menu, false, permissions)
 
 		if menu.MenuPadreID != nil {
-			parent := addParentIfNotExists(menuMap, menu)
+			parent := addParentIfNotExists(menuMap, menu, permissions)
 
 			if parent != nil {
 				parent.Submenus = append(parent.Submenus, currentMenu)
@@ -73,7 +73,7 @@ func (m MenuServiceImpl) FindMenuByResourceAndEntity(resourceIds []uint, entityI
 	return &finalRootMenus, nil
 }
 
-func addParentIfNotExists(menuMap map[uint]*response.MenuResponse, menu entity.Menu) *response.MenuResponse {
+func addParentIfNotExists(menuMap map[uint]*response.MenuResponse, menu entity.Menu, permissions map[uint][]string) *response.MenuResponse {
 	if menu.MenuPadreID == nil {
 		return nil
 	}
@@ -83,11 +83,11 @@ func addParentIfNotExists(menuMap map[uint]*response.MenuResponse, menu entity.M
 		return parent
 	}
 
-	parent = mapper.MenuToMenuResponse(*menu.MenuPadre, true)
+	parent = mapper.MenuToMenuResponse(*menu.MenuPadre, true, permissions)
 	menuMap[*menu.MenuPadreID] = parent
 
 	if menu.MenuPadre.MenuPadreID != nil {
-		grandParent := addParentIfNotExists(menuMap, *menu.MenuPadre)
+		grandParent := addParentIfNotExists(menuMap, *menu.MenuPadre, permissions)
 		if grandParent != nil {
 			grandParent.Submenus = append(grandParent.Submenus, parent)
 		}

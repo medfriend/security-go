@@ -5,7 +5,7 @@ import (
 	"security-go/response"
 )
 
-func MenuToMenuResponse(menu entity.Menu, hasSubmenu bool) *response.MenuResponse {
+func MenuToMenuResponse(menu entity.Menu, hasSubmenu bool, permissions map[uint][]string) *response.MenuResponse {
 	// Crear un `MenuResponse` básico
 	menuResponse := &response.MenuResponse{
 		MenuID:      menu.MenuID,
@@ -18,6 +18,12 @@ func MenuToMenuResponse(menu entity.Menu, hasSubmenu bool) *response.MenuRespons
 	// Solo asignar `Recurso` si está disponible
 	if menu.Recurso != nil {
 		menuResponse.Recurso = menu.Recurso.Acceso
+		menuResponse.RecursoID = menu.Recurso.ResourceID
+
+		if permissions[menu.Recurso.ResourceID] != nil {
+			menuResponse.Permissions = permissions[menu.Recurso.ResourceID]
+		}
+
 	}
 
 	if hasSubmenu && menu.MenuPadre != nil {
