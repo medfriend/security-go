@@ -1,3 +1,4 @@
+basePath: /medfri-security
 definitions:
   dto.AuthDTO:
     properties:
@@ -157,25 +158,20 @@ definitions:
       usuarioRolID:
         type: integer
     type: object
+host: localhost:9000
 info:
-  contact: {}
+  contact:
+    email: soporte@api.com
+    name: Soporte de API
+    url: http://www.soporte-api.com
+  description: micro de seguridad.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: medfri-security
+  version: "1.0"
 paths:
-  /medfri-securiry/user/{id}:
-    delete:
-      description: Este endpoint permite eliminar un usuario específico dado su ID.
-      parameters:
-      - description: ID del usuario
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "204":
-          description: Usuario eliminado con éxito
-      summary: Eliminar un usuario por ID
-      tags:
-      - usuarios
-  /medfri-security/auth:
+  /auth:
     post:
       consumes:
       - application/json
@@ -205,7 +201,7 @@ paths:
       summary: login
       tags:
       - auth
-  /medfri-security/entity:
+  /entity:
     post:
       consumes:
       - application/json
@@ -236,6 +232,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear una entidad
       tags:
       - entidades
@@ -270,10 +268,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Actualizar una entidad
       tags:
       - entidades
-  /medfri-security/entity/{id}:
+  /entity/{id}:
     delete:
       consumes:
       - application/json
@@ -296,6 +296,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar una entidad
       tags:
       - entidades
@@ -323,10 +325,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Obtener una entidad por ID
       tags:
       - entidades
-  /medfri-security/menu:
+  /menu:
     post:
       consumes:
       - application/json
@@ -357,6 +361,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear un menu
       tags:
       - menus
@@ -390,10 +396,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Actualizar un menu
       tags:
       - menus
-  /medfri-security/menu/{id}:
+  /menu/{id}:
     delete:
       consumes:
       - application/json
@@ -415,6 +423,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar un menu
       tags:
       - menus
@@ -436,10 +446,12 @@ paths:
           description: menu encontrado
           schema:
             $ref: '#/definitions/entity.Menu'
+      security:
+      - BearerAuth: []
       summary: Obtener un menu por ID
       tags:
       - menus
-  /medfri-security/permission:
+  /permission:
     post:
       consumes:
       - application/json
@@ -470,6 +482,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear un permiso
       tags:
       - permisos
@@ -504,10 +518,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Actualizar un permiso
       tags:
       - permisos
-  /medfri-security/permission/{id}:
+  /permission/{id}:
     delete:
       consumes:
       - application/json
@@ -530,6 +546,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar un permiso
       tags:
       - permisos
@@ -557,10 +575,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Obtener una permiso por ID
       tags:
       - permisos
-  /medfri-security/resource_permission:
+  /resource_permission:
     post:
       consumes:
       - application/json
@@ -592,6 +612,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Create a new resource permission
       tags:
       - recursos-permisos
@@ -626,10 +648,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Update a resource permission
       tags:
       - recursos-permisos
-  /medfri-security/resource_permission/{id}:
+  /resource_permission/{id}:
     delete:
       consumes:
       - application/json
@@ -652,6 +676,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Delete a resource permission
       tags:
       - recursos-permisos
@@ -673,10 +699,12 @@ paths:
           description: Resource permission found
           schema:
             $ref: '#/definitions/entity.ResourcePermission'
+      security:
+      - BearerAuth: []
       summary: Get a resource permission by ID
       tags:
       - recursos-permisos
-  /medfri-security/resources:
+  /resources:
     post:
       consumes:
       - application/json
@@ -707,6 +735,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear un recurso
       tags:
       - recursos
@@ -740,10 +770,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Actualizar un recurso
       tags:
       - recursos
-  /medfri-security/resources/{id}:
+  /resources/{id}:
     delete:
       consumes:
       - application/json
@@ -766,6 +798,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar un recurso
       tags:
       - recursos
@@ -793,10 +827,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Obtener un recurso por ID
       tags:
       - recursos
-  /medfri-security/rol:
+  /rol:
     post:
       consumes:
       - application/json
@@ -827,6 +863,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear un Rol
       tags:
       - rols
@@ -860,10 +898,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Actualizar un Rol
       tags:
       - rols
-  /medfri-security/rol-recurso:
+  /rol-recurso:
     put:
       consumes:
       - application/json
@@ -895,10 +935,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Actualizar un rol recurso
       tags:
       - roles-recursos
-  /medfri-security/rol-recurso/{id}:
+  /rol-recurso/{id}:
     get:
       consumes:
       - application/json
@@ -917,10 +959,12 @@ paths:
           description: rol recurso encontrado
           schema:
             $ref: '#/definitions/entity.RoleResource'
+      security:
+      - BearerAuth: []
       summary: Obtener un rol recurso por ID
       tags:
       - roles-recursos
-  /medfri-security/rol-recurso/asignar:
+  /rol-recurso/asignar:
     post:
       consumes:
       - application/json
@@ -951,10 +995,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear un rol recurso
       tags:
       - roles-recursos
-  /medfri-security/rol-recurso/desasignar/{id}:
+  /rol-recurso/desasignar/{id}:
     delete:
       consumes:
       - application/json
@@ -978,10 +1024,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar un rol recurso
       tags:
       - roles-recursos
-  /medfri-security/rol/{id}:
+  /rol/{id}:
     delete:
       consumes:
       - application/json
@@ -1003,6 +1051,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar un Rol
       tags:
       - rols
@@ -1024,10 +1074,12 @@ paths:
           description: Rol encontrado
           schema:
             $ref: '#/definitions/entity.Rol'
+      security:
+      - BearerAuth: []
       summary: Obtener un Rol por ID
       tags:
       - rols
-  /medfri-security/user:
+  /user:
     post:
       consumes:
       - application/json
@@ -1046,6 +1098,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/entity.User'
+      security:
+      - BearerAuth: []
       tags:
       - usuarios
     put:
@@ -1066,10 +1120,12 @@ paths:
           description: Usuario actualizado
           schema:
             $ref: '#/definitions/entity.User'
+      security:
+      - BearerAuth: []
       summary: Actualizar un usuario
       tags:
       - usuarios
-  /medfri-security/user-rol/asignar:
+  /user-rol/asignar:
     post:
       consumes:
       - application/json
@@ -1101,10 +1157,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Crear un recurso
       tags:
       - re-usuario-rol
-  /medfri-security/user-rol/desasignar/{id}:
+  /user-rol/desasignar/{id}:
     delete:
       consumes:
       - application/json
@@ -1127,10 +1185,28 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Eliminar una relacion usuario rol
       tags:
       - re-usuario-rol
-  /medfri-security/user/{id}:
+  /user/{id}:
+    delete:
+      description: Este endpoint permite eliminar un usuario específico dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Usuario eliminado con éxito
+      security:
+      - BearerAuth: []
+      summary: Eliminar un usuario por ID
+      tags:
+      - usuarios
     get:
       consumes:
       - application/json
@@ -1149,7 +1225,15 @@ paths:
           description: Usuario encontrado
           schema:
             $ref: '#/definitions/entity.User'
+      security:
+      - BearerAuth: []
       summary: Obtener un usuario por ID
       tags:
       - usuarios
+securityDefinitions:
+  BearerAuth:
+    description: Ingresa "Bearer {token}" para autenticar.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

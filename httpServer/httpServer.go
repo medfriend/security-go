@@ -4,9 +4,9 @@ import (
 	"fmt"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	_ "security-go/docs"
-
 	"net/http"
+	_ "security-go/docs"
+	"security-go/middleware"
 	"security-go/router"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +15,9 @@ import (
 
 func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB, serviceInfo map[string]string) {
 	r := gin.Default()
+
+	r.Use(middleware.PostResponseMiddleware())
+
 	api := r.Group(serviceInfo["SERVICE_NAME"])
 
 	fmt.Println(taskQueue)

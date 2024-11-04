@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"security-go/dto"
 	"security-go/response"
@@ -64,9 +65,13 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 	}
 
 	rabbitMQ := util.GetInstance()
-	defer rabbitMQ.Close()
 
-	rabbitMQ.SendMessage("trazabilidad-usuario-login", "Hola, RabbitMQ desde el Singleton!")
+	userJson, err := json.Marshal(&user)
+
+	rabbitMQ.SendMessage(
+		"trazabilidad-usuario-login",
+		string(userJson))
+
 	jwt, _ := util.GenerateJWT(authResponse)
 
 	return &jwt, nil

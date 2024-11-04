@@ -19,6 +19,7 @@ func NewEntityController(EntityService service.EntityService) *EntityController 
 
 // CreateEntity crea una nueva entidad
 // @Summary Crear una entidad
+// @Security      BearerAuth
 // @Description Este endpoint permite crear una nueva entidad en el sistema.
 // @Tags entidades
 // @Accept json
@@ -27,7 +28,7 @@ func NewEntityController(EntityService service.EntityService) *EntityController 
 // @Success 201 {object} entity.Entity "Entidad creada con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/entity [post]
+// @Router /entity [post]
 func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 	var Entity entity.Entity
 
@@ -38,6 +39,7 @@ func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 
 // GetEntityById obtiene una entidad por su ID
 // @Summary Obtener una entidad por ID
+// @Security      BearerAuth
 // @Description Este endpoint permite obtener la información de una entidad específica usando su ID.
 // @Tags entidades
 // @Accept json
@@ -45,7 +47,7 @@ func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 // @Param id path uint true "ID de la entidad"
 // @Success 200 {object} entity.Entity "Entidad encontrada"
 // @Failure 404 {object} map[string]string "Entidad no encontrada"
-// @Router /medfri-security/entity/{id} [get]
+// @Router /entity/{id} [get]
 func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	Entity, err := ctrl.EntityService.GetEntityById(id)
@@ -55,6 +57,7 @@ func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 
 // UpdateEntity actualiza una entidad existente
 // @Summary Actualizar una entidad
+// @Security      BearerAuth
 // @Description Este endpoint permite actualizar la información de una entidad existente.
 // @Tags entidades
 // @Accept json
@@ -63,7 +66,7 @@ func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 // @Success 200 {object} entity.Entity "Entidad actualizada con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/entity [put]
+// @Router /entity [put]
 func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 	var Entity entity.Entity
 	util.HandlerBindJson(c, &Entity)
@@ -73,6 +76,7 @@ func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 
 // DeleteEntity elimina una entidad por su ID
 // @Summary Eliminar una entidad
+// @Security      BearerAuth
 // @Description Este endpoint permite eliminar una entidad específica usando su ID.
 // @Tags entidades
 // @Accept json
@@ -80,7 +84,7 @@ func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 // @Param id path uint true "ID de la entidad"
 // @Success 204 "Entidad eliminada con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/entity/{id} [delete]
+// @Router /entity/{id} [delete]
 func (ctrl *EntityController) DeleteEntity(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	util.HandlerInternalError(c, ctrl.EntityService.DeleteEntity(id))

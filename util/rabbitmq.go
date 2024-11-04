@@ -6,38 +6,56 @@ import (
 	"sync"
 )
 
-// RabbitMQ es la estructura que representa nuestra conexión y canal
 type RabbitMQ struct {
 	conn *amqp.Connection
 	ch   *amqp.Channel
+	mu   sync.Mutex // Para manejar acceso concurrente
 }
 
-// Instancia es la única instancia de RabbitMQ
 var instancia *RabbitMQ
 var once sync.Once
 
 // GetInstance devuelve la instancia única de RabbitMQ
 func GetInstance() *RabbitMQ {
 	once.Do(func() {
-		var err error
 		instancia = &RabbitMQ{}
-
-		instancia.conn, err = amqp.Dial(GetRabbitConn())
-		if err != nil {
-			log.Fatalf("Error al conectar a RabbitMQ: %s", err)
-		}
-
-		instancia.ch, err = instancia.conn.Channel()
-		if err != nil {
-			log.Fatalf("Error al abrir un canal: %s", err)
-		}
+		instancia.connect() // Establece la conexión inicial
 	})
-
 	return instancia
+}
+
+// connect establece la conexión y el canal a RabbitMQ
+func (r *RabbitMQ) connect() {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	var err error
+	r.conn, err = amqp.Dial(GetRabbitConn())
+	if err != nil {
+		log.Fatalf("Error al conectar a RabbitMQ: %s", err)
+	}
+
+	r.ch, err = r.conn.Channel()
+	if err != nil {
+		log.Fatalf("Error al abrir un canal: %s", err)
+	}
+}
+
+// ensureConnection verifica y restablece la conexión si está cerrada
+func (r *RabbitMQ) ensureConnection() {
+	if r.conn == nil || r.conn.IsClosed() || r.ch == nil {
+		log.Println("Conexión o canal cerrado, reconectando...")
+		r.connect()
+	}
 }
 
 // SendMessage envía un mensaje a la cola especificada
 func (r *RabbitMQ) SendMessage(queueName string, message string) {
+	r.ensureConnection() // Verifica la conexión antes de enviar
+
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
 	// Declarar la cola
 	_, err := r.ch.QueueDeclare(
 		queueName, // Nombre de la cola
@@ -65,11 +83,13 @@ func (r *RabbitMQ) SendMessage(queueName string, message string) {
 		log.Fatalf("Error al enviar el mensaje: %s", err)
 	}
 
-	log.Println("Mensaje enviado:", message)
 }
 
 // Close cierra la conexión y el canal
 func (r *RabbitMQ) Close() {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
 	if r.ch != nil {
 		r.ch.Close()
 	}

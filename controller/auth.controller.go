@@ -26,7 +26,7 @@ func NewAuthController(authService service.AuthService) *AuthController {
 // @Param entity body dto.AuthDTO true "Información de la entidad"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/auth [post]
+// @Router /auth [post]
 func (ctrl *AuthController) Login(c *gin.Context) {
 	var authDTO dto.AuthDTO
 

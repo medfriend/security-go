@@ -20,6 +20,7 @@ func NewMenuController(menuService service.MenuService) *MenuController {
 
 // CreateMenu crea un nuevo menu
 // @Summary Crear un menu
+// @Security      BearerAuth
 // @Description Este endpoint permite crear un nuevo menu en el sistema.
 // @Tags menus
 // @Accept json
@@ -28,7 +29,7 @@ func NewMenuController(menuService service.MenuService) *MenuController {
 // @Success 201 {object} entity.Menu "Menu creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/menu [post]
+// @Router /menu [post]
 func (ctrl *MenuController) CreateMenu(c *gin.Context) {
 	var menu entity.Menu
 	if err := c.ShouldBindJSON(&menu); err != nil {
@@ -46,13 +47,14 @@ func (ctrl *MenuController) CreateMenu(c *gin.Context) {
 
 // GetMenuById   obtiene un menu por su ID
 // @Summary      Obtener un menu por ID
+// @Security      BearerAuth
 // @Description  Este endpoint devuelve la información de un menu específico dado su ID.
 // @Tags         menus
 // @Accept       json
 // @Produce      json
 // @Param        id  path      uint  true  "ID del menu"
 // @Success      200 {object}  entity.Menu   "menu encontrado"
-// @Router       /medfri-security/menu/{id} [get]
+// @Router       /menu/{id} [get]
 func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -66,6 +68,7 @@ func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 
 // UpdateMenu actualiza un menu existente
 // @Summary Actualizar un menu
+// @Security      BearerAuth
 // @Description Este endpoint permite actualizar la información de un menu existente.
 // @Tags menus
 // @Accept json
@@ -74,7 +77,7 @@ func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 // @Success 200 {object} entity.Menu "menu actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/menu [put]
+// @Router /menu [put]
 func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 	var menu entity.Menu
 	if err := c.ShouldBindJSON(&menu); err != nil {
@@ -90,6 +93,7 @@ func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 
 // DeleteMenu elimina un menu por su ID
 // @Summary Eliminar un menu
+// @Security      BearerAuth
 // @Description Este endpoint permite eliminar un menu específico usando su ID.
 // @Tags menus
 // @Accept json
@@ -97,7 +101,7 @@ func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 // @Param id path uint true "ID del menu"
 // @Success 204 "menu eliminado con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /medfri-security/menu/{id} [delete]
+// @Router /menu/{id} [delete]
 func (ctrl *MenuController) DeleteMenu(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.MenuService.DeleteMenu(id); err != nil {
