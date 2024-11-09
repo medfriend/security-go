@@ -11,5 +11,5 @@ type ResourcePermission struct {
 	PermisoID        *uint     `gorm:"column:permiso_id" json:"permiso_id,omitempty"`
 	Recurso          *Resource `gorm:"foreignKey:RecursoID" json:"recurso,omitempty"`
 	Rol              *Rol      `gorm:"foreignKey:RolID" json:"rol,omitempty"`
-	Permiso          *Permiso  `gorm:"foreignKey:PermisoID" json:"permiso,omitempty"`
+	Permiso          *Permiso  `gorm:"foreignKey:PermisoID;references:PermisoID" json:"permiso,omitempty"`
 }

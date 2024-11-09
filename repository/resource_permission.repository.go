@@ -37,7 +37,7 @@ func (u *ResourcePermissionRepositoryImpl) FindPermissionByResourceAndRole(resou
 	var permissions []entity.ResourcePermission
 
 	err := u.Base.DB.
-		Model(entity.ResourcePermission{}).
+		Model(&entity.ResourcePermission{}).
 		Preload("Permiso").
 		Where("recurso_id IN (?) AND rol_id IN (?)", resourceIds, rolesIds).
 		Find(&permissions).Error

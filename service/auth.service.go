@@ -52,13 +52,20 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 
 	entity, _ := s.userRolService.CheckUserRole(user.UsuarioID)
 
+	fmt.Println("entidad", entity)
+
 	roles, _ := s.userRolService.FindRolesByUserID(user.UsuarioID)
+
+	fmt.Println("roles", roles)
 	resource, _ := s.rolResourceService.FindResourceByRoleIds(roles)
 
+	fmt.Println("recursos", resource)
 	permissions, _ := s.resourcePermissionService.FindPermissionByResourceAndRole(resource, roles)
 
+	fmt.Println("permissions", permissions)
 	menus, _ := s.menuService.FindMenuByResourceAndEntity(resource, uint(entity), permissions)
 
+	fmt.Println(menus)
 	authResponse := response.AuthResponse{
 		Menus: *menus,
 		User:  *user,
