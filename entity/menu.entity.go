@@ -11,6 +11,7 @@ type Menu struct {
 	RecursoID   *uint  `gorm:"column:recurso_id" json:"recurso_id,omitempty"`
 	EntidadID   *uint  `gorm:"column:entidad_id" json:"entidad_id,omitempty"`
 	Descripcion string `gorm:"column:descripcion" json:"descripcion"`
+	Icono       string `gorm:"column:icono" json:"icono"`
 
 	MenuPadre *Menu     `gorm:"foreignKey:MenuPadreID;references:MenuID" json:"menu_padre,omitempty"`
 	Recurso   *Resource `gorm:"foreignKey:RecursoID" json:"recurso,omitempty"`

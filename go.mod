@@ -1,13 +1,14 @@
 module security-go
 
-go 1.23.2
+go 1.23.3
 
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/google/wire v0.6.0
 	github.com/hashicorp/consul/api v1.30.0
-	github.com/medfriend/shared-commons-go v0.0.93
+	github.com/medfriend/shared-commons-go v0.1.1
+	github.com/streadway/amqp v1.1.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
 	github.com/swaggo/swag v1.16.4
@@ -61,7 +62,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.3 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
-	github.com/streadway/amqp v1.1.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	golang.org/x/arch v0.11.0 // indirect
