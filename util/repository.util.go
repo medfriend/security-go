@@ -24,6 +24,15 @@ func (r *BaseRepository[T]) FindById(id uint) (*T, error) {
 	return &entity, nil
 }
 
+func (r *BaseRepository[T]) Find() ([]T, error) {
+	var entities []T
+	result := r.DB.Find(&entities)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return entities, nil
+}
+
 func (r *BaseRepository[T]) FindByIdWithRelations(id uint, relations ...string) (*T, error) {
 	var entity T
 

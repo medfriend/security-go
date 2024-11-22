@@ -9,6 +9,7 @@ import (
 type EntityRepository interface {
 	Save(Entity *entity.Entity) error
 	FindById(id uint) (*entity.Entity, error)
+	Find() ([]entity.Entity, error)
 	Update(Entity *entity.Entity) error
 	Delete(id uint) error
 }
@@ -29,6 +30,10 @@ func (u *EntityRepositoryImpl) Save(Entity *entity.Entity) error {
 
 func (u *EntityRepositoryImpl) FindById(id uint) (*entity.Entity, error) {
 	return u.Base.FindById(id)
+}
+
+func (u *EntityRepositoryImpl) Find() ([]entity.Entity, error) {
+	return u.Base.Find()
 }
 
 func (u *EntityRepositoryImpl) Update(Entity *entity.Entity) error {
