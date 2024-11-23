@@ -60,6 +60,24 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+// GetUsers obtiene todos los usuarios
+// @Summary      Obtener todos los usuarios
+// @Security      BearerAuth
+// @Description  Este endpoint devuelve todos los usuarios del sistema.
+// @Tags         usuarios
+// @Produce      json
+// @Success      200 {array}  entity.User   "Lista de usuarios"
+// @Router       /user [get]
+
+func (ctrl *UserController) GetUsers(c *gin.Context) {
+	users, err := ctrl.userService.GetUsers()
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Users not found"})
+		return
+	}
+	c.JSON(http.StatusOK, users)
+}
+
 // UpdateUser    actualiza la información de un usuario existente
 // @Summary      Actualizar un usuario
 // @Security      BearerAuth

@@ -9,6 +9,7 @@ import (
 type UserService interface {
 	CreateUser(user *entity.User) error
 	GetUserById(id uint) (*entity.User, error)
+	GetUsers() ([]entity.User, error)
 	UpdateUser(user *entity.User) error
 	DeleteUser(id uint) error
 	FindByUsuario(usuario uint) (*entity.User, error)
@@ -38,6 +39,10 @@ func (s *userServiceImpl) CreateUser(user *entity.User) error {
 
 func (s *userServiceImpl) GetUserById(id uint) (*entity.User, error) {
 	return s.userRepo.FindById(id)
+}
+
+func (s *userServiceImpl) GetUsers() ([]entity.User, error) {
+	return s.userRepo.Find()
 }
 
 func (s *userServiceImpl) UpdateUser(user *entity.User) error {
