@@ -68,7 +68,6 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 // @Produce      json
 // @Success      200 {array}  entity.User   "Lista de usuarios"
 // @Router       /user [get]
-
 func (ctrl *UserController) GetUsers(c *gin.Context) {
 	users, err := ctrl.userService.GetUsers()
 	if err != nil {

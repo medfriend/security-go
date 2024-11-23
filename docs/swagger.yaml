@@ -30,6 +30,8 @@ definitions:
         $ref: '#/definitions/entity.Entity'
       entidad_id:
         type: integer
+      icono:
+        type: string
       menu_padre:
         $ref: '#/definitions/entity.Menu'
       menu_padre_id:
@@ -1080,6 +1082,22 @@ paths:
       tags:
       - rols
   /user:
+    get:
+      description: Este endpoint devuelve todos los usuarios del sistema.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de usuarios
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los usuarios
+      tags:
+      - usuarios
     post:
       consumes:
       - application/json

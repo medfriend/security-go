@@ -1434,6 +1434,32 @@ const docTemplate = `{
             }
         },
         "/user": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Este endpoint devuelve todos los usuarios del sistema.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usuarios"
+                ],
+                "summary": "Obtener todos los usuarios",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.User"
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "security": [
                     {
@@ -1718,6 +1744,9 @@ const docTemplate = `{
                 },
                 "entidad_id": {
                     "type": "integer"
+                },
+                "icono": {
+                    "type": "string"
                 },
                 "menuID": {
                     "type": "integer"
