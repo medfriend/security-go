@@ -13,6 +13,7 @@ type User struct {
 	Usuario            uint       `gorm:"column:usuario" json:"usuario"`
 	Nombre1            string     `gorm:"size:100;column:nombre_1" json:"nombre_1"`
 	Nombre2            string     `gorm:"size:100;column:nombre_2" json:"nombre_2"`
+	Edad               uint       `gorm:"column:edad" json:"edad"`
 	ApellidoPaterno    string     `gorm:"size:100;column:apellido_paterno" json:"apellido_paterno"`
 	ApellidoMaterno    string     `gorm:"size:100;column:apellido_materno" json:"apellido_materno"`
 	Clave              string     `gorm:"not null;column:clave" json:"clave"`
