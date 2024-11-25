@@ -49,15 +49,12 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 // @Produce      json
 // @Param        id  path      uint  true  "ID del usuario"
 // @Success      200 {object}  entity.User   "Usuario encontrado"
-// @Router       /user/{id} [get]
+// @Router       /user/byId/{id} [get]
 func (ctrl *UserController) GetUserById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	user, err := ctrl.userService.GetUserById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-		return
-	}
-	c.JSON(http.StatusOK, user)
+	util.HandlerFoundSuccess(c, err, "usuario")
+	util.HandlerCreatedSuccess(c, user)
 }
 
 // GetUsers obtiene todos los usuarios
@@ -67,14 +64,11 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 // @Tags         usuarios
 // @Produce      json
 // @Success      200 {array}  entity.User   "Lista de usuarios"
-// @Router       /user [get]
+// @Router       /user/all [get]
 func (ctrl *UserController) GetUsers(c *gin.Context) {
 	users, err := ctrl.userService.GetUsers()
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Users not found"})
-		return
-	}
-	c.JSON(http.StatusOK, users)
+	util.HandlerFoundSuccess(c, err, "usuarios")
+	util.HandlerCreatedSuccess(c, users)
 }
 
 // UpdateUser    actualiza la información de un usuario existente

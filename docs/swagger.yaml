@@ -1082,22 +1082,6 @@ paths:
       tags:
       - rols
   /user:
-    get:
-      description: Este endpoint devuelve todos los usuarios del sistema.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Lista de usuarios
-          schema:
-            items:
-              $ref: '#/definitions/entity.User'
-            type: array
-      security:
-      - BearerAuth: []
-      summary: Obtener todos los usuarios
-      tags:
-      - usuarios
     post:
       consumes:
       - application/json
@@ -1225,6 +1209,24 @@ paths:
       summary: Eliminar un usuario por ID
       tags:
       - usuarios
+  /user/all:
+    get:
+      description: Este endpoint devuelve todos los usuarios del sistema.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de usuarios
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los usuarios
+      tags:
+      - usuarios
+  /user/byId/{id}:
     get:
       consumes:
       - application/json
