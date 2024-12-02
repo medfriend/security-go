@@ -124,6 +124,8 @@ definitions:
         type: boolean
       clave:
         type: string
+      edad:
+        type: integer
       email:
         type: string
       fecha_cambio_clave:
@@ -1079,6 +1081,23 @@ paths:
       security:
       - BearerAuth: []
       summary: Obtener un Rol por ID
+      tags:
+      - rols
+  /rol/all:
+    get:
+      description: Este endpoint devuelve todos los roles del sistema.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de roles
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los roles
       tags:
       - rols
   /user:

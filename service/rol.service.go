@@ -9,6 +9,7 @@ import (
 type RolService interface {
 	CreateRol(Rol *entity.Rol) error
 	FindById(id uint) (*entity.Rol, error)
+	Find() ([]entity.Rol, error)
 	UpdateRol(Rol *entity.Rol) error
 	DeleteRol(id uint) error
 }
@@ -27,6 +28,8 @@ func (m RolServiceImpl) CreateRol(Rol *entity.Rol) error {
 	fmt.Println(Rol)
 	return m.RolRepository.Save(Rol)
 }
+
+func (m RolServiceImpl) Find() ([]entity.Rol, error) { return m.RolRepository.Find() }
 
 func (m RolServiceImpl) FindById(id uint) (*entity.Rol, error) {
 	return m.RolRepository.FindById(id)

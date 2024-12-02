@@ -9,7 +9,8 @@ import (
 type RolRepository interface {
 	Save(Rol *entity.Rol) error
 	FindById(id uint) (*entity.Rol, error)
-	Update(user *entity.Rol) error
+	Find() ([]entity.Rol, error)
+	Update(rol *entity.Rol) error
 	Delete(id uint) error
 }
 
@@ -26,6 +27,8 @@ func NewRolRepository(db *gorm.DB) RolRepository {
 func (u *RolRepositoryImpl) Save(user *entity.Rol) error {
 	return u.Base.Save(user)
 }
+
+func (u *RolRepositoryImpl) Find() (roles []entity.Rol, err error) { return u.Base.Find() }
 
 func (u *RolRepositoryImpl) FindById(id uint) (*entity.Rol, error) {
 	return u.Base.FindById(id)

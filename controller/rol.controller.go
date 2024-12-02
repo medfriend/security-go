@@ -66,6 +66,20 @@ func (ctrl *RolController) GetRolById(c *gin.Context) {
 	c.JSON(http.StatusOK, Rol)
 }
 
+// GetRoles obtiene todos los roles
+// @Summary      Obtener todos los roles
+// @Security      BearerAuth
+// @Description  Este endpoint devuelve todos los roles del sistema.
+// @Tags         rols
+// @Produce      json
+// @Success      200 {array}  entity.User   "Lista de roles"
+// @Router       /rol/all [get]
+func (ctrl *RolController) GetRoles(c *gin.Context) {
+	roles, err := ctrl.RolService.Find()
+	util.HandlerFoundSuccess(c, err, "roles")
+	util.HandlerCreatedSuccess(c, roles)
+}
+
 // UpdateRol actualiza un Rol existente
 // @Summary Actualizar un Rol
 // @Security      BearerAuth

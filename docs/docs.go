@@ -1355,6 +1355,34 @@ const docTemplate = `{
                 }
             }
         },
+        "/rol/all": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Este endpoint devuelve todos los roles del sistema.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rols"
+                ],
+                "summary": "Obtener todos los roles",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/rol/{id}": {
             "get": {
                 "security": [
@@ -1892,6 +1920,9 @@ const docTemplate = `{
                 },
                 "clave": {
                     "type": "string"
+                },
+                "edad": {
+                    "type": "integer"
                 },
                 "email": {
                     "type": "string"

@@ -16,6 +16,7 @@ func NewRolRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.GET("/:id", RolController.GetRolById)
 	routerGroup.PUT("/:id", RolController.UpdateRol)
 	routerGroup.DELETE("/:id", RolController.DeleteRol)
+	routerGroup.GET("/all", RolController.GetRoles)
 
 }
 
