@@ -23,5 +23,5 @@ type User struct {
 	FechaCreacion      time.Time  `gorm:"autoCreateTime;column:fecha_creacion" json:"fecha_creacion"`
 	FechaRetiro        *time.Time `gorm:"column:fecha_retiro" json:"fecha_retiro"`
 	Activo             bool       `gorm:"default:true;column:activo" json:"activo"`
-	TiempoValidezToken string     `gorm:"column:tiempo_valides_token" json:"tiempo_valides_token"`
+	TiempoValidezToken string     `gorm:"default:8H;column:tiempo_valides_token" json:"tiempo_valides_token"`
 }

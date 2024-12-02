@@ -3,7 +3,9 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"security-go/dto"
 	"security-go/entity"
+	"security-go/mapper"
 	"security-go/service"
 	"security-go/util"
 )
@@ -28,16 +30,13 @@ func NewUserController(userService service.UserService) *UserController {
 // @Success      201   {object}  entity.User
 // @Router       /user [post]
 func (ctrl *UserController) CreateUser(c *gin.Context) {
-	var user entity.User
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.userService.CreateUser(&user); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusCreated, user)
+	var userDTO dto.UserDTO
+
+	util.HandlerBindJson(c, &userDTO)
+	user, _ := mapper.UserDTOToUser(userDTO)
+
+	util.HandlerInternalError(c, ctrl.userService.CreateUser(user))
+	util.HandlerCreatedSuccess(c, user)
 }
 
 // GetUserById obtiene un usuario por su ID
