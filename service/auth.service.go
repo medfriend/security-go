@@ -61,8 +61,9 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 	menus, _ := s.menuService.FindMenuByResourceAndEntity(resource, uint(entity), permissions)
 
 	authResponse := response.AuthResponse{
-		Menus: *menus,
-		User:  *user,
+		Menus:     *menus,
+		User:      *user,
+		EntidadId: uint(entity),
 	}
 
 	rabbitMQ := util.GetInstance()
