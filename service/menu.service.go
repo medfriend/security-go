@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"security-go/entity"
 	"security-go/mapper"
 	"security-go/repository"
@@ -12,6 +13,7 @@ type MenuService interface {
 	FindById(id uint) (*entity.Menu, error)
 	UpdateMenu(menu *entity.Menu) error
 	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint, permissions map[uint][]string) (*[]response.MenuResponse, error)
+	GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	DeleteMenu(id uint) error
 }
 
@@ -23,6 +25,20 @@ func NewMenuService(menuRepository repository.MenuRepository) MenuService {
 	return &MenuServiceImpl{
 		menuRepository: menuRepository,
 	}
+}
+
+func (m MenuServiceImpl) GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error) {
+	if entityId == 0 {
+		return nil, errors.New("entidad nula")
+	}
+
+	menus, err := m.menuRepository.GetParentsMenuByEntity(entityId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return menus, nil
 }
 
 func (m MenuServiceImpl) CreateMenu(menu *entity.Menu) error {

@@ -91,6 +91,25 @@ func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 	c.JSON(http.StatusOK, menu)
 }
 
+// GetParentsMenuByEntity obtener los menus padres de una entidad
+// @Summary menus padres
+// @Security      BearerAuth
+// @Description obtener los menus padres de una entidad
+// @Param entidadId path uint true "ID del menu"
+// @Tags menus
+// @Accept json
+// @Produce json
+// @Success 200 {object} []entity.Menu "listado de menus padres"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /menu/parents/{entidadId} [get]
+func (ctrl *MenuController) GetParentsMenuByEntity(c *gin.Context) {
+	entidadId, _ := util.StringToUint(c.Param("entidadId"))
+	menus, err := ctrl.MenuService.GetParentsMenuByEntity(entidadId)
+	//fmt.Println(menus, err)
+	util.HandlerFoundSuccess(c, err, "menus padres")
+	util.HandlerCreatedSuccess(c, menus)
+}
+
 // DeleteMenu elimina un menu por su ID
 // @Summary Eliminar un menu
 // @Security      BearerAuth
