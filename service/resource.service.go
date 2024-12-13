@@ -8,6 +8,7 @@ import (
 type ResourceService interface {
 	CreateResource(resource *entity.Resource) error
 	GetResourceById(id uint) (*entity.Resource, error)
+	GetAllResources() ([]entity.Resource, error)
 	UpdateResource(resource *entity.Resource) error
 	DeleteResource(id uint) error
 }
@@ -20,6 +21,10 @@ func NewResourceService(resourceRepo repository.ResourceRepository) ResourceServ
 	return &resourceServiceImpl{
 		resourceRepo: resourceRepo,
 	}
+}
+
+func (s *resourceServiceImpl) GetAllResources() ([]entity.Resource, error) {
+	return s.resourceRepo.GetAllResources()
 }
 
 func (s *resourceServiceImpl) CreateResource(resource *entity.Resource) error {

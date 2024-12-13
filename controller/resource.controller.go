@@ -90,6 +90,23 @@ func (ctrl *ResourceController) UpdateResource(c *gin.Context) {
 	c.JSON(http.StatusOK, resource)
 }
 
+// GetAllResources obtener todos los recursos registradod dentro de la plataforma
+// @Summary Obtener todos los datos
+// @Security      BearerAuth
+// @Description Obtener todos los recursos que se hayan creado.
+// @Tags recursos
+// @Accept json
+// @Produce json
+// @Success 200 {object} entity.Resource[] "Todos lo recursos disponibles"
+// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /resources/all [get]
+func (ctrl *ResourceController) GetAllResources(c *gin.Context) {
+	resourses, err := ctrl.resourceService.GetAllResources()
+	util.HandlerFoundSuccess(c, err, "recursos")
+	util.HandlerCreatedSuccess(c, resourses)
+}
+
 // DeleteResource elimina un recurso por su ID
 // @Summary Eliminar un recurso
 // @Security      BearerAuth

@@ -10,6 +10,7 @@ import (
 type ResourceRepository interface {
 	Save(resource *entity.Resource) error
 	FindById(id uint) (*entity.Resource, error)
+	GetAllResources() ([]entity.Resource, error)
 	Update(user *entity.Resource) error
 	Delete(id uint) error
 }
@@ -23,6 +24,8 @@ func NewResourceRepository(db *gorm.DB) ResourceRepository {
 		Base: util.BaseRepository[entity.Resource]{DB: db},
 	}
 }
+
+func (u *ResourceRepositoryImpl) GetAllResources() ([]entity.Resource, error) { return u.Base.Find() }
 
 func (u *ResourceRepositoryImpl) Save(user *entity.Resource) error {
 	return u.Base.Save(user)

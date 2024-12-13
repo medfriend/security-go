@@ -867,6 +867,35 @@ paths:
       summary: Obtener un recurso por ID
       tags:
       - recursos
+  /resources/all:
+    get:
+      consumes:
+      - application/json
+      description: Obtener todos los recursos que se hayan creado.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todos lo recursos disponibles
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los datos
+      tags:
+      - recursos
   /rol:
     post:
       consumes:

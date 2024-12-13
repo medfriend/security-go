@@ -17,6 +17,7 @@ func NewResourceRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.GET("/:id", resourceController.GetResourceById)
 	routerGroup.PUT("/:id", resourceController.UpdateResource)
 	routerGroup.DELETE("/:id", resourceController.DeleteResource)
+	routerGroup.GET("/all", resourceController.GetAllResources)
 }
 
 func init() {
