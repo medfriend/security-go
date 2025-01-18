@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"security-go/entity"
@@ -124,13 +123,9 @@ func (ctrl *MenuController) GetParentsMenuByEntity(c *gin.Context) {
 func (ctrl *MenuController) GetChildsMenuByEntity(c *gin.Context) {
 	entidadId, _ := util.StringToUint(c.Param("entidadId"))
 
-	fmt.Println(entidadId)
-
-	menus, _ := ctrl.MenuService.GetChildsMenuByEntity(entidadId)
-
-	fmt.Println(entidadId, menus)
-	//util.HandlerFoundSuccess(c, err, "menus hijos")
-	//util.HandlerCreatedSuccess(c, menus)
+	menus, err := ctrl.MenuService.GetChildsMenuByEntity(entidadId)
+	util.HandlerFoundSuccess(c, err, "menus hijos")
+	util.HandlerCreatedSuccess(c, menus)
 }
 
 // DeleteMenu elimina un menu por su ID

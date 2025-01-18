@@ -33,7 +33,7 @@ go install github.com/google/wire/cmd/wire@latest
 ## recompilar el wire dentro de module
 
 ```
-wire
+cd module && wire && cd ..
 ```
 
 

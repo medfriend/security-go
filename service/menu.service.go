@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 	"security-go/entity"
 	"security-go/mapper"
 	"security-go/repository"
@@ -44,9 +43,16 @@ func (m MenuServiceImpl) GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, 
 }
 
 func (m MenuServiceImpl) GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error) {
-	fmt.Println("ok ok")
+	if entityId == 0 {
+		return nil, errors.New("entidad nula")
+	}
 
-	return nil, nil
+	menus, err := m.menuRepository.GetChildsMenuByEntity(entityId)
+	if err != nil {
+		return nil, err
+	}
+
+	return menus, nil
 }
 
 func (m MenuServiceImpl) CreateMenu(menu *entity.Menu) error {
