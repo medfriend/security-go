@@ -11,6 +11,7 @@ type MenuRepository interface {
 	FindById(id uint) (*entity.Menu, error)
 	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]entity.Menu, error)
 	GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error)
+	GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	Update(user *entity.Menu) error
 	Delete(id uint) error
 }
@@ -30,6 +31,20 @@ func (u *MenuRepositoryImpl) GetParentsMenuByEntity(entityId uint) (*[]entity.Me
 
 	err := u.Base.DB.Model(&entity.Menu{}).
 		Where("entidad_id = ? AND menu_padre_id IS NULL", entityId).
+		Find(&menus).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &menus, nil
+}
+
+func (u *MenuRepositoryImpl) GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error) {
+	var menus []entity.Menu
+
+	err := u.Base.DB.Model(&entity.Menu{}).
+		Where("entidad_id = ? AND menu_padre_id IS NOT NULL", entityId).
 		Find(&menus).Error
 
 	if err != nil {

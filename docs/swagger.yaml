@@ -455,6 +455,37 @@ paths:
       summary: Obtener un menu por ID
       tags:
       - menus
+  /menu/childs/{entidadId}:
+    get:
+      consumes:
+      - application/json
+      description: obtener los menus con padres por en la entidad
+      parameters:
+      - description: ID del menu
+        in: path
+        name: entidadId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: listado de menus con padres
+          schema:
+            items:
+              $ref: '#/definitions/entity.Menu'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: menus con padres
+      tags:
+      - menus
   /menu/parents/{entidadId}:
     get:
       consumes:

@@ -17,7 +17,7 @@ go build security-go
 
 ## prerequisitos
 ```
-activar consul y postgress a nivel o en docker
+activar consul, rabbitmq y postgress a nivel o en docker
 ```
 
 ## instalar el swagger, se escribe el comando en consola

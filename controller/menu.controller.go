@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"security-go/entity"
@@ -105,9 +106,31 @@ func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 func (ctrl *MenuController) GetParentsMenuByEntity(c *gin.Context) {
 	entidadId, _ := util.StringToUint(c.Param("entidadId"))
 	menus, err := ctrl.MenuService.GetParentsMenuByEntity(entidadId)
-	//fmt.Println(menus, err)
 	util.HandlerFoundSuccess(c, err, "menus padres")
 	util.HandlerCreatedSuccess(c, menus)
+}
+
+// GetChildsMenuByEntity
+// @Summary menus con padres
+// @Security      BearerAuth
+// @Description obtener los menus con padres por en la entidad
+// @Param entidadId path uint true "ID del menu"
+// @Tags menus
+// @Accept json
+// @Produce json
+// @Success 200 {object} []entity.Menu "listado de menus con padres"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /menu/childs/{entidadId} [get]
+func (ctrl *MenuController) GetChildsMenuByEntity(c *gin.Context) {
+	entidadId, _ := util.StringToUint(c.Param("entidadId"))
+
+	fmt.Println(entidadId)
+
+	menus, _ := ctrl.MenuService.GetChildsMenuByEntity(entidadId)
+
+	fmt.Println(entidadId, menus)
+	//util.HandlerFoundSuccess(c, err, "menus hijos")
+	//util.HandlerCreatedSuccess(c, menus)
 }
 
 // DeleteMenu elimina un menu por su ID

@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"security-go/entity"
 	"security-go/mapper"
 	"security-go/repository"
@@ -14,6 +15,7 @@ type MenuService interface {
 	UpdateMenu(menu *entity.Menu) error
 	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint, permissions map[uint][]string) (*[]response.MenuResponse, error)
 	GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error)
+	GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	DeleteMenu(id uint) error
 }
 
@@ -39,6 +41,12 @@ func (m MenuServiceImpl) GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, 
 	}
 
 	return menus, nil
+}
+
+func (m MenuServiceImpl) GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error) {
+	fmt.Println("ok ok")
+
+	return nil, nil
 }
 
 func (m MenuServiceImpl) CreateMenu(menu *entity.Menu) error {

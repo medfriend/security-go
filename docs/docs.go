@@ -380,6 +380,55 @@ const docTemplate = `{
                 }
             }
         },
+        "/menu/childs/{entidadId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "obtener los menus con padres por en la entidad",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "menus con padres",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del menu",
+                        "name": "entidadId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "listado de menus con padres",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Menu"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/menu/parents/{entidadId}": {
             "get": {
                 "security": [

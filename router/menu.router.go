@@ -17,6 +17,7 @@ func NewMenuRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.PUT("/:id", MenuController.UpdateMenu)
 	routerGroup.DELETE("/:id", MenuController.DeleteMenu)
 	routerGroup.GET("/parents/:entidadId", MenuController.GetParentsMenuByEntity)
+	routerGroup.GET("/childs/:entidadId", MenuController.GetChildsMenuByEntity)
 
 }
 
