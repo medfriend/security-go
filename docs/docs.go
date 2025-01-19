@@ -181,6 +181,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/entity/all": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Este endpoint obtener todas las entidades",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "entidades"
+                ],
+                "summary": "Obtener todas las entidades",
+                "responses": {
+                    "200": {
+                        "description": "Entidades encontrada",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Entity"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Entidades no encontrada",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/entity/{id}": {
             "get": {
                 "security": [

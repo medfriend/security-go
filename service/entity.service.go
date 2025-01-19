@@ -8,6 +8,7 @@ import (
 type EntityService interface {
 	CreateEntity(Entity *entity.Entity) error
 	GetEntityById(id uint) (*entity.Entity, error)
+	GetAllEntities() ([]entity.Entity, error)
 	UpdateEntity(Entity *entity.Entity) error
 	DeleteEntity(id uint) error
 }
@@ -37,3 +38,5 @@ func (s *EntityServiceImpl) UpdateEntity(Entity *entity.Entity) error {
 func (s *EntityServiceImpl) DeleteEntity(id uint) error {
 	return s.EntityRepo.Delete(id)
 }
+
+func (s *EntityServiceImpl) GetAllEntities() ([]entity.Entity, error) { return s.EntityRepo.Find() }

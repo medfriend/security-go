@@ -55,6 +55,22 @@ func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 	util.HandlerCreatedSuccess(c, Entity)
 }
 
+// GetAllEntities obtiene todas las entidades registradas
+// @Summary Obtener todas las entidades
+// @Security      BearerAuth
+// @Description Este endpoint obtener todas las entidades
+// @Tags entidades
+// @Accept json
+// @Produce json
+// @Success 200 {array} entity.Entity "Entidades encontrada"
+// @Failure 404 {object} map[string]string "Entidades no encontrada"
+// @Router /entity/all [get]
+func (ctrl *EntityController) GetAllEntities(c *gin.Context) {
+	Entity, err := ctrl.EntityService.GetAllEntities()
+	util.HandlerFoundSuccess(c, err, "entidad")
+	util.HandlerCreatedSuccess(c, Entity)
+}
+
 // UpdateEntity actualiza una entidad existente
 // @Summary Actualizar una entidad
 // @Security      BearerAuth

@@ -334,6 +334,31 @@ paths:
       summary: Obtener una entidad por ID
       tags:
       - entidades
+  /entity/all:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint obtener todas las entidades
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Entidades encontrada
+          schema:
+            items:
+              $ref: '#/definitions/entity.Entity'
+            type: array
+        "404":
+          description: Entidades no encontrada
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener todas las entidades
+      tags:
+      - entidades
   /menu:
     post:
       consumes:
