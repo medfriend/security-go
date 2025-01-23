@@ -45,3 +45,14 @@ swag init
 ```
 go run main.go
 ```
+## Air
+## Le reconozca los cambios del proyecto
+```
+go install github.com/cosmtrek/air@v1.40.4
+air -v
+```
+## ejecutar air
+```
+air
+```
+
