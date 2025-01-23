@@ -414,6 +414,43 @@
                 }
             }
         },
+        "/menu/childs-parent/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "obtiene los hijos del menu padre por medio del id del padre",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menus"
+                ],
+                "summary": "Obtener menus hijos desde el padre",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID del menu",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "menu encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Menu"
+                        }
+                    }
+                }
+            }
+        },
         "/menu/childs/{entidadId}": {
             "get": {
                 "security": [

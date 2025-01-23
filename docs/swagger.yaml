@@ -480,6 +480,29 @@ paths:
       summary: Obtener un menu por ID
       tags:
       - menus
+  /menu/childs-parent/{id}:
+    get:
+      consumes:
+      - application/json
+      description: obtiene los hijos del menu padre por medio del id del padre
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu encontrado
+          schema:
+            $ref: '#/definitions/entity.Menu'
+      security:
+      - BearerAuth: []
+      summary: Obtener menus hijos desde el padre
+      tags:
+      - menus
   /menu/childs/{entidadId}:
     get:
       consumes:

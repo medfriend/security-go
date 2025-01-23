@@ -45,6 +45,24 @@ func (ctrl *MenuController) CreateMenu(c *gin.Context) {
 	c.JSON(http.StatusCreated, menu)
 }
 
+// GetChildByParentId
+// @Summary      Obtener menus hijos desde el padre
+// @Security      BearerAuth
+// @Description  obtiene los hijos del menu padre por medio del id del padre
+// @Tags         menus
+// @Accept       json
+// @Produce      json
+// @Param        id  path      uint  true  "ID del menu"
+// @Success      200 {object}  entity.Menu   "menu encontrado"
+// @Router       /menu/childs-parent/{id} [get]
+func (ctrl *MenuController) GetChildByParentId(c *gin.Context) {
+	id, err := util.StringToUint(c.Param("id"))
+
+	menus, err := ctrl.MenuService.GetChildFromParentId(id)
+	util.HandlerFoundSuccess(c, err, "menus hijos")
+	util.HandlerCreatedSuccess(c, menus)
+}
+
 // GetMenuById   obtiene un menu por su ID
 // @Summary      Obtener un menu por ID
 // @Security      BearerAuth

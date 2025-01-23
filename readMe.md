@@ -36,7 +36,6 @@ go install github.com/google/wire/cmd/wire@latest
 cd module && wire && cd ..
 ```
 
-
 ## recompilar el swagger cuando se hace cambios en los controladores
 ```
 swag init

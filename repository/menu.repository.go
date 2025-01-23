@@ -12,6 +12,7 @@ type MenuRepository interface {
 	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint) (*[]entity.Menu, error)
 	GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error)
+	GetChidsFromParentId(parentId uint) (*[]entity.Menu, error)
 	Update(user *entity.Menu) error
 	Delete(id uint) error
 }
@@ -24,6 +25,18 @@ func NewMenuRepository(db *gorm.DB) MenuRepository {
 	return &MenuRepositoryImpl{
 		Base: util.BaseRepository[entity.Menu]{DB: db},
 	}
+}
+
+func (u *MenuRepositoryImpl) GetChidsFromParentId(parentId uint) (*[]entity.Menu, error) {
+	var menus []entity.Menu
+
+	err := u.Base.DB.Where("menu_padre_id = ?", parentId).Find(&menus).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &menus, nil
 }
 
 func (u *MenuRepositoryImpl) GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error) {
