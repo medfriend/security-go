@@ -9,6 +9,8 @@ import (
 type UserRepository interface {
 	Save(user *entity.User) error
 	FindById(id uint) (*entity.User, error)
+	Find() ([]entity.User, error)
+	FindByUsuario(usuario uint) (*entity.User, error)
 	Update(user *entity.User) error
 	Delete(id uint) error
 }
@@ -29,6 +31,22 @@ func (u *UserRepositoryImpl) Save(user *entity.User) error {
 
 func (u *UserRepositoryImpl) FindById(id uint) (*entity.User, error) {
 	return u.Base.FindById(id)
+}
+
+func (u *UserRepositoryImpl) Find() ([]entity.User, error) {
+	return u.Base.Find()
+}
+
+func (u *UserRepositoryImpl) FindByUsuario(usuario uint) (*entity.User, error) {
+	var usuarioE entity.User
+
+	result := u.Base.DB.Where("usuario = ?", usuario).First(&usuarioE)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &usuarioE, nil
 }
 
 func (u *UserRepositoryImpl) Update(user *entity.User) error {

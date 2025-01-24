@@ -13,6 +13,7 @@ type User struct {
 	Usuario            uint       `gorm:"column:usuario" json:"usuario"`
 	Nombre1            string     `gorm:"size:100;column:nombre_1" json:"nombre_1"`
 	Nombre2            string     `gorm:"size:100;column:nombre_2" json:"nombre_2"`
+	Edad               uint       `gorm:"column:edad" json:"edad"`
 	ApellidoPaterno    string     `gorm:"size:100;column:apellido_paterno" json:"apellido_paterno"`
 	ApellidoMaterno    string     `gorm:"size:100;column:apellido_materno" json:"apellido_materno"`
 	Clave              string     `gorm:"not null;column:clave" json:"clave"`
@@ -22,5 +23,5 @@ type User struct {
 	FechaCreacion      time.Time  `gorm:"autoCreateTime;column:fecha_creacion" json:"fecha_creacion"`
 	FechaRetiro        *time.Time `gorm:"column:fecha_retiro" json:"fecha_retiro"`
 	Activo             bool       `gorm:"default:true;column:activo" json:"activo"`
-	TiempoValidezToken string     `gorm:"column:tiempo_valides_token" json:"tiempo_valides_token"`
+	TiempoValidezToken string     `gorm:"default:8H;column:tiempo_valides_token" json:"tiempo_valides_token"`
 }

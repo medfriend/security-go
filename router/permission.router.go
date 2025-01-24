@@ -17,3 +17,7 @@ func NewPermisoRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup.PUT("/:id", permisoController.UpdatePermiso)
 	routerGroup.DELETE("/:id", permisoController.DeletePermiso)
 }
+
+func init() {
+	RegisterRouter(NewPermisoRouter)
+}

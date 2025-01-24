@@ -19,6 +19,18 @@ func NewResourceController(resourceService service.ResourceService) *ResourceCon
 	}
 }
 
+// CreateResource crea un nuevo recurso
+// @Summary Crear un recurso
+// @Security      BearerAuth
+// @Description Este endpoint permite crear un nuevo recurso en el sistema.
+// @Tags recursos
+// @Accept json
+// @Produce json
+// @Param resource body entity.Resource true "Información del recurso"
+// @Success 201 {object} entity.Resource "Recurso creado con éxito"
+// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /resources [post]
 func (ctrl *ResourceController) CreateResource(c *gin.Context) {
 	var resource entity.Resource
 	if err := c.ShouldBindJSON(&resource); err != nil {
@@ -32,6 +44,17 @@ func (ctrl *ResourceController) CreateResource(c *gin.Context) {
 	c.JSON(http.StatusCreated, resource)
 }
 
+// GetResourceById obtiene un recurso por su ID
+// @Summary Obtener un recurso por ID
+// @Security      BearerAuth
+// @Description Este endpoint permite obtener la información de un recurso específico usando su ID.
+// @Tags recursos
+// @Accept json
+// @Produce json
+// @Param id path uint true "ID del recurso"
+// @Success 200 {object} entity.Resource "Recurso encontrado"
+// @Failure 404 {object} map[string]string "Recurso no encontrado"
+// @Router /resources/{id} [get]
 func (ctrl *ResourceController) GetResourceById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	resource, err := ctrl.resourceService.GetResourceById(id)
@@ -42,6 +65,18 @@ func (ctrl *ResourceController) GetResourceById(c *gin.Context) {
 	c.JSON(http.StatusOK, resource)
 }
 
+// UpdateResource actualiza un recurso existente
+// @Summary Actualizar un recurso
+// @Security      BearerAuth
+// @Description Este endpoint permite actualizar la información de un recurso existente.
+// @Tags recursos
+// @Accept json
+// @Produce json
+// @Param resource body entity.Resource true "Información del recurso actualizada"
+// @Success 200 {object} entity.Resource "Recurso actualizado con éxito"
+// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /resources [put]
 func (ctrl *ResourceController) UpdateResource(c *gin.Context) {
 	var resource entity.Resource
 	if err := c.ShouldBindJSON(&resource); err != nil {
@@ -55,6 +90,34 @@ func (ctrl *ResourceController) UpdateResource(c *gin.Context) {
 	c.JSON(http.StatusOK, resource)
 }
 
+// GetAllResources obtener todos los recursos registradod dentro de la plataforma
+// @Summary Obtener todos los datos
+// @Security      BearerAuth
+// @Description Obtener todos los recursos que se hayan creado.
+// @Tags recursos
+// @Accept json
+// @Produce json
+// @Success 200 {object} entity.Resource[] "Todos lo recursos disponibles"
+// @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /resources/all [get]
+func (ctrl *ResourceController) GetAllResources(c *gin.Context) {
+	resourses, err := ctrl.resourceService.GetAllResources()
+	util.HandlerFoundSuccess(c, err, "recursos")
+	util.HandlerCreatedSuccess(c, resourses)
+}
+
+// DeleteResource elimina un recurso por su ID
+// @Summary Eliminar un recurso
+// @Security      BearerAuth
+// @Description Este endpoint permite eliminar un recurso específico usando su ID.
+// @Tags recursos
+// @Accept json
+// @Produce json
+// @Param id path uint true "ID del recurso"
+// @Success 204 "Recurso eliminado con éxito"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /resources/{id} [delete]
 func (ctrl *ResourceController) DeleteResource(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.resourceService.DeleteResource(id); err != nil {

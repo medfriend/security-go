@@ -1,0 +1,1417 @@
+basePath: /medfri-security
+definitions:
+  dto.AuthDTO:
+    properties:
+      contraseña:
+        type: string
+      usuario:
+        type: integer
+    type: object
+  entity.Entity:
+    properties:
+      activo:
+        type: boolean
+      email:
+        type: string
+      entidad_id:
+        type: integer
+      nit:
+        type: integer
+      nit_alterno:
+        type: string
+      razon_social:
+        type: string
+    type: object
+  entity.Menu:
+    properties:
+      descripcion:
+        type: string
+      entidad:
+        $ref: '#/definitions/entity.Entity'
+      entidad_id:
+        type: integer
+      icono:
+        type: string
+      menu_padre:
+        $ref: '#/definitions/entity.Menu'
+      menu_padre_id:
+        type: integer
+      menuID:
+        type: integer
+      nombre:
+        type: string
+      recurso:
+        $ref: '#/definitions/entity.Resource'
+      recurso_id:
+        type: integer
+    type: object
+  entity.Permiso:
+    properties:
+      accion:
+        type: string
+      nombre:
+        type: string
+      permiso_id:
+        type: integer
+    type: object
+  entity.Resource:
+    properties:
+      acceso:
+        type: string
+      descripcion:
+        type: string
+      recurso_id:
+        type: integer
+    type: object
+  entity.ResourcePermission:
+    properties:
+      permiso:
+        $ref: '#/definitions/entity.Permiso'
+      permiso_id:
+        type: integer
+      recurso:
+        $ref: '#/definitions/entity.Resource'
+      recurso_id:
+        type: integer
+      recursoPermisoID:
+        type: integer
+      rol:
+        $ref: '#/definitions/entity.Rol'
+      rol_id:
+        type: integer
+    type: object
+  entity.Rol:
+    properties:
+      activo:
+        type: boolean
+      descripcion:
+        type: string
+      entidad_id:
+        type: integer
+      nombre:
+        type: string
+      rolID:
+        type: integer
+    type: object
+  entity.RoleResource:
+    properties:
+      acceso:
+        type: string
+      entidad:
+        $ref: '#/definitions/entity.Entity'
+      entidad_id:
+        type: integer
+      recurso:
+        $ref: '#/definitions/entity.Resource'
+      recurso_id:
+        type: integer
+      rol:
+        $ref: '#/definitions/entity.Rol'
+      rol_id:
+        type: integer
+      rolRecursoID:
+        type: integer
+    type: object
+  entity.User:
+    properties:
+      activo:
+        type: boolean
+      apellido_materno:
+        type: string
+      apellido_paterno:
+        type: string
+      cambiar_clave:
+        type: boolean
+      clave:
+        type: string
+      edad:
+        type: integer
+      email:
+        type: string
+      fecha_cambio_clave:
+        type: string
+      fecha_creacion:
+        type: string
+      fecha_retiro:
+        type: string
+      nombre_1:
+        type: string
+      nombre_2:
+        type: string
+      tiempo_valides_token:
+        type: string
+      usuario:
+        type: integer
+      usuario_id:
+        type: integer
+    type: object
+  entity.UserRol:
+    properties:
+      entidad_id:
+        type: integer
+      fecha_fin:
+        type: string
+      fecha_inicio:
+        type: string
+      indefinido:
+        type: boolean
+      rol_id:
+        type: integer
+      usuario_id:
+        type: integer
+      usuarioRolID:
+        type: integer
+    type: object
+host: localhost:9000
+info:
+  contact:
+    email: soporte@api.com
+    name: Soporte de API
+    url: http://www.soporte-api.com
+  description: micro de seguridad.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: medfri-security
+  version: "1.0"
+paths:
+  /auth:
+    post:
+      consumes:
+      - application/json
+      description: Autenticacion.
+      parameters:
+      - description: Información de la entidad
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AuthDTO'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: login
+      tags:
+      - auth
+  /entity:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear una nueva entidad en el sistema.
+      parameters:
+      - description: Información de la entidad
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Entity'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Entidad creada con éxito
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear una entidad
+      tags:
+      - entidades
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de una entidad
+        existente.
+      parameters:
+      - description: Información de la entidad actualizada
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Entity'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Entidad actualizada con éxito
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Actualizar una entidad
+      tags:
+      - entidades
+  /entity/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar una entidad específica usando su
+        ID.
+      parameters:
+      - description: ID de la entidad
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Entidad eliminada con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar una entidad
+      tags:
+      - entidades
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint permite obtener la información de una entidad específica
+        usando su ID.
+      parameters:
+      - description: ID de la entidad
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Entidad encontrada
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "404":
+          description: Entidad no encontrada
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener una entidad por ID
+      tags:
+      - entidades
+  /entity/all:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint obtener todas las entidades
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Entidades encontrada
+          schema:
+            items:
+              $ref: '#/definitions/entity.Entity'
+            type: array
+        "404":
+          description: Entidades no encontrada
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener todas las entidades
+      tags:
+      - entidades
+  /menu:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo menu en el sistema.
+      parameters:
+      - description: Información del menu
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Menu creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Menu'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear un menu
+      tags:
+      - menus
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un menu existente.
+      parameters:
+      - description: Información del menu actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Menu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.Menu'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Actualizar un menu
+      tags:
+      - menus
+  /menu/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un menu específico usando su ID.
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: menu eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar un menu
+      tags:
+      - menus
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un menu específico dado
+        su ID.
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu encontrado
+          schema:
+            $ref: '#/definitions/entity.Menu'
+      security:
+      - BearerAuth: []
+      summary: Obtener un menu por ID
+      tags:
+      - menus
+  /menu/childs-parent/{id}:
+    get:
+      consumes:
+      - application/json
+      description: obtiene los hijos del menu padre por medio del id del padre
+      parameters:
+      - description: ID del menu
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: menu encontrado
+          schema:
+            $ref: '#/definitions/entity.Menu'
+      security:
+      - BearerAuth: []
+      summary: Obtener menus hijos desde el padre
+      tags:
+      - menus
+  /menu/childs/{entidadId}:
+    get:
+      consumes:
+      - application/json
+      description: obtener los menus con padres por en la entidad
+      parameters:
+      - description: ID del menu
+        in: path
+        name: entidadId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: listado de menus con padres
+          schema:
+            items:
+              $ref: '#/definitions/entity.Menu'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: menus con padres
+      tags:
+      - menus
+  /menu/parents/{entidadId}:
+    get:
+      consumes:
+      - application/json
+      description: obtener los menus padres de una entidad
+      parameters:
+      - description: ID del menu
+        in: path
+        name: entidadId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: listado de menus padres
+          schema:
+            items:
+              $ref: '#/definitions/entity.Menu'
+            type: array
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: menus padres
+      tags:
+      - menus
+  /permission:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo permiso.
+      parameters:
+      - description: Información de la permisos
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Permiso'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: permiso creada con éxito
+          schema:
+            $ref: '#/definitions/entity.Permiso'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear un permiso
+      tags:
+      - permisos
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de una permiso
+        existente.
+      parameters:
+      - description: Información de la permisos actualizada
+        in: body
+        name: entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Permiso'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: permiso actualizada con éxito
+          schema:
+            $ref: '#/definitions/entity.Permiso'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Actualizar un permiso
+      tags:
+      - permisos
+  /permission/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un permiso específica usando su
+        ID.
+      parameters:
+      - description: ID de la permisos
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Permisos eliminada con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar un permiso
+      tags:
+      - permisos
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint permite obtener la información de una permiso específica
+        usando su ID.
+      parameters:
+      - description: ID de la permiso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Permiso encontrada
+          schema:
+            $ref: '#/definitions/entity.Permiso'
+        "404":
+          description: Permiso no encontrada
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener una permiso por ID
+      tags:
+      - permisos
+  /resource_permission:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint allows you to create a new resource permission in
+        the system.
+      parameters:
+      - description: Resource permission information
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ResourcePermission'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Resource permission created successfully
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+        "400":
+          description: Error in the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a new resource permission
+      tags:
+      - recursos-permisos
+    put:
+      consumes:
+      - application/json
+      description: This endpoint allows you to update a resource permission in the
+        system.
+      parameters:
+      - description: Updated resource permission information
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ResourcePermission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resource permission updated successfully
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+        "400":
+          description: Error in the request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Update a resource permission
+      tags:
+      - recursos-permisos
+  /resource_permission/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This endpoint allows you to delete an existing resource permission
+        in the system.
+      parameters:
+      - description: Resource permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Resource permission deleted successfully
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Delete a resource permission
+      tags:
+      - recursos-permisos
+    get:
+      consumes:
+      - application/json
+      description: This endpoint returns the information of a specific resource permission
+        given its ID.
+      parameters:
+      - description: Resource permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Resource permission found
+          schema:
+            $ref: '#/definitions/entity.ResourcePermission'
+      security:
+      - BearerAuth: []
+      summary: Get a resource permission by ID
+      tags:
+      - recursos-permisos
+  /resources:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo recurso en el sistema.
+      parameters:
+      - description: Información del recurso
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Resource'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Recurso creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear un recurso
+      tags:
+      - recursos
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un recurso existente.
+      parameters:
+      - description: Información del recurso actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Resource'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recurso actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Actualizar un recurso
+      tags:
+      - recursos
+  /resources/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un recurso específico usando su
+        ID.
+      parameters:
+      - description: ID del recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Recurso eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar un recurso
+      tags:
+      - recursos
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint permite obtener la información de un recurso específico
+        usando su ID.
+      parameters:
+      - description: ID del recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Recurso encontrado
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "404":
+          description: Recurso no encontrado
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener un recurso por ID
+      tags:
+      - recursos
+  /resources/all:
+    get:
+      consumes:
+      - application/json
+      description: Obtener todos los recursos que se hayan creado.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todos lo recursos disponibles
+          schema:
+            $ref: '#/definitions/entity.Resource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los datos
+      tags:
+      - recursos
+  /rol:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo Rol en el sistema.
+      parameters:
+      - description: Información del Rol
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Rol'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Rol creado con éxito
+          schema:
+            $ref: '#/definitions/entity.Rol'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear un Rol
+      tags:
+      - rols
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un Rol existente.
+      parameters:
+      - description: Información del Rol actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Rol'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rol actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.Rol'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Actualizar un Rol
+      tags:
+      - rols
+  /rol-recurso:
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un rol recurso
+        existente.
+      parameters:
+      - description: Información del rol recurso actualizada
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.RoleResource'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: rol recurso actualizado con éxito
+          schema:
+            $ref: '#/definitions/entity.RoleResource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Actualizar un rol recurso
+      tags:
+      - roles-recursos
+  /rol-recurso/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un rol recurso específico
+        dado su ID.
+      parameters:
+      - description: ID del rol recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: rol recurso encontrado
+          schema:
+            $ref: '#/definitions/entity.RoleResource'
+      security:
+      - BearerAuth: []
+      summary: Obtener un rol recurso por ID
+      tags:
+      - roles-recursos
+  /rol-recurso/asignar:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo rol recurso en el sistema.
+      parameters:
+      - description: Información del rol recurso
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/entity.RoleResource'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Rol recurso creado con éxito
+          schema:
+            $ref: '#/definitions/entity.RoleResource'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear un rol recurso
+      tags:
+      - roles-recursos
+  /rol-recurso/desasignar/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un rol recurso existente en el sistema.
+      parameters:
+      - description: ID del rol recurso
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rol recurso eliminado con éxito
+          schema:
+            type: string
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar un rol recurso
+      tags:
+      - roles-recursos
+  /rol/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar un Rol específico usando su ID.
+      parameters:
+      - description: ID del Rol
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Rol eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar un Rol
+      tags:
+      - rols
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un Rol específico dado
+        su ID.
+      parameters:
+      - description: ID del Rol
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Rol encontrado
+          schema:
+            $ref: '#/definitions/entity.Rol'
+      security:
+      - BearerAuth: []
+      summary: Obtener un Rol por ID
+      tags:
+      - rols
+  /rol/all:
+    get:
+      description: Este endpoint devuelve todos los roles del sistema.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de roles
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los roles
+      tags:
+      - rols
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nuevo usuario en el sistema
+      parameters:
+      - description: Información del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.User'
+      security:
+      - BearerAuth: []
+      tags:
+      - usuarios
+    put:
+      consumes:
+      - application/json
+      description: Este endpoint permite actualizar la información de un usuario existente.
+      parameters:
+      - description: Información del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario actualizado
+          schema:
+            $ref: '#/definitions/entity.User'
+      security:
+      - BearerAuth: []
+      summary: Actualizar un usuario
+      tags:
+      - usuarios
+  /user-rol/asignar:
+    post:
+      consumes:
+      - application/json
+      description: Este endpoint permite crear un nueva relacion usuarioRol en el
+        sistema.
+      parameters:
+      - description: Información del recurso
+        in: body
+        name: UserRol
+        required: true
+        schema:
+          $ref: '#/definitions/entity.UserRol'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Recurso creado con éxito
+          schema:
+            $ref: '#/definitions/entity.UserRol'
+        "400":
+          description: Error en el cuerpo de la solicitud
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Crear un recurso
+      tags:
+      - re-usuario-rol
+  /user-rol/desasignar/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Este endpoint permite eliminar una relacion usuario rol específico
+        usando su ID.
+      parameters:
+      - description: ID del usuario rol
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: usuario rol eliminado con éxito
+        "500":
+          description: Error interno del servidor
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Eliminar una relacion usuario rol
+      tags:
+      - re-usuario-rol
+  /user/{id}:
+    delete:
+      description: Este endpoint permite eliminar un usuario específico dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: Usuario eliminado con éxito
+      security:
+      - BearerAuth: []
+      summary: Eliminar un usuario por ID
+      tags:
+      - usuarios
+  /user/all:
+    get:
+      description: Este endpoint devuelve todos los usuarios del sistema.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de usuarios
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      security:
+      - BearerAuth: []
+      summary: Obtener todos los usuarios
+      tags:
+      - usuarios
+  /user/byId/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Este endpoint devuelve la información de un usuario específico
+        dado su ID.
+      parameters:
+      - description: ID del usuario
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Usuario encontrado
+          schema:
+            $ref: '#/definitions/entity.User'
+      security:
+      - BearerAuth: []
+      summary: Obtener un usuario por ID
+      tags:
+      - usuarios
+securityDefinitions:
+  BearerAuth:
+    description: Ingresa "Bearer {token}" para autenticar.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
