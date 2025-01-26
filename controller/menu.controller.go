@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"security-go/entity"
@@ -124,6 +125,25 @@ func (ctrl *MenuController) GetParentsMenuByEntity(c *gin.Context) {
 	entidadId, _ := util.StringToUint(c.Param("entidadId"))
 	menus, err := ctrl.MenuService.GetParentsMenuByEntity(entidadId)
 	util.HandlerFoundSuccess(c, err, "menus padres")
+	util.HandlerCreatedSuccess(c, menus)
+}
+
+// FilterMenu obtener los menus por medio de la query
+// @Summary filtro de menu
+// @Security      BearerAuth
+// @Description obtener menus por medio de la query
+// @Param query path string true "campo de concidencia"
+// @Tags menus
+// @Accept json
+// @Produce json
+// @Success 200 {object} []entity.Menu "listado de menus"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /menu/filter/{query} [get]
+func (ctrl *MenuController) FilterMenu(c *gin.Context) {
+	query := c.Param("query")
+	fmt.Println(query)
+	menus, err := ctrl.MenuService.FilterMenu(query)
+	util.HandlerFoundSuccess(c, err, "menus concidentes")
 	util.HandlerCreatedSuccess(c, menus)
 }
 

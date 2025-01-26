@@ -15,6 +15,7 @@ type MenuService interface {
 	FindMenuByResourceAndEntity(resourceIds []uint, entityId uint, permissions map[uint][]string) (*[]response.MenuResponse, error)
 	GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error)
+	FilterMenu(query string) (*[]entity.Menu, error)
 	GetChildFromParentId(parentId uint) (*[]entity.Menu, error)
 	DeleteMenu(id uint) error
 }
@@ -27,6 +28,10 @@ func NewMenuService(menuRepository repository.MenuRepository) MenuService {
 	return &MenuServiceImpl{
 		menuRepository: menuRepository,
 	}
+}
+
+func (m MenuServiceImpl) FilterMenu(query string) (*[]entity.Menu, error) {
+	return m.menuRepository.FilterMenu(query)
 }
 
 func (m MenuServiceImpl) GetChildFromParentId(parentId uint) (*[]entity.Menu, error) {

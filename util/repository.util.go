@@ -50,6 +50,32 @@ func (r *BaseRepository[T]) FindByIdWithRelations(id uint, relations ...string) 
 	return &entity, nil
 }
 
+func (r *BaseRepository[T]) FindAnyField(fields []string, query string) (*[]T, error) {
+	var results []T
+
+	if len(fields) == 0 {
+		return nil, fmt.Errorf("no fields provided to search")
+	}
+
+	dbQuery := r.DB
+	for i, field := range fields {
+		// Usamos `OR` para buscar en múltiples campos
+		if i == 0 {
+			fmt.Println()
+			dbQuery = dbQuery.Where(fmt.Sprintf("%s ILIKE ?", field), "%"+query+"%")
+		} else {
+			dbQuery = dbQuery.Or(fmt.Sprintf("%s ILIKE ?", field), "%"+query+"%")
+		}
+		fmt.Println(dbQuery)
+	}
+
+	if err := dbQuery.Find(&results).Error; err != nil {
+		return nil, err
+	}
+
+	return &results, nil
+}
+
 // La función ahora acepta un mapa `relationFieldMap` como parámetro
 func (r *BaseRepository[T]) FindByIdWithRelationsAsync(id uint, relations map[string]string) (*T, error) {
 	var entity T

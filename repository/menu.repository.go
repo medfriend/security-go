@@ -13,6 +13,7 @@ type MenuRepository interface {
 	GetParentsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	GetChildsMenuByEntity(entityId uint) (*[]entity.Menu, error)
 	GetChidsFromParentId(parentId uint) (*[]entity.Menu, error)
+	FilterMenu(query string) (*[]entity.Menu, error)
 	Update(user *entity.Menu) error
 	Delete(id uint) error
 }
@@ -25,6 +26,12 @@ func NewMenuRepository(db *gorm.DB) MenuRepository {
 	return &MenuRepositoryImpl{
 		Base: util.BaseRepository[entity.Menu]{DB: db},
 	}
+}
+
+func (u *MenuRepositoryImpl) FilterMenu(query string) (*[]entity.Menu, error) {
+	return u.Base.FindAnyField(
+		[]string{"nombre", "descripcion"},
+		query)
 }
 
 func (u *MenuRepositoryImpl) GetChidsFromParentId(parentId uint) (*[]entity.Menu, error) {
