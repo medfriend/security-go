@@ -55,7 +55,8 @@ func main() {
 	initDB, err := gormUtil.InitDB(
 		db,
 		consulClient,
-		os.Getenv("SERVICE_STATUS"),
+		"LOCAL",
+		"SECURITY",
 	)
 
 	if err != nil {

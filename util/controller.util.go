@@ -40,6 +40,10 @@ func HandlerCreatedSuccess(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusCreated, gin.H{"data": data})
 }
 
+func HandlerFound(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, gin.H{"data": data})
+}
+
 func HandlerFoundSuccess(c *gin.Context, err error, name string) bool {
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("%s not found", name)})
