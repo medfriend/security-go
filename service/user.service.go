@@ -1,6 +1,7 @@
 package service
 
 import (
+	"security-go/dto"
 	"security-go/entity"
 	"security-go/repository"
 	"security-go/util"
@@ -10,7 +11,7 @@ type UserService interface {
 	CreateUser(user *entity.User) error
 	GetUserById(id uint) (*entity.User, error)
 	GetUsers() ([]entity.User, error)
-	UpdateUser(user *entity.User) error
+	UpdateUser(user *dto.UpdateUserDTO) error
 	DeleteUser(id uint) error
 	FindByUsuario(usuario uint) (*entity.User, error)
 }
@@ -45,7 +46,7 @@ func (s *userServiceImpl) GetUsers() ([]entity.User, error) {
 	return s.userRepo.Find()
 }
 
-func (s *userServiceImpl) UpdateUser(user *entity.User) error {
+func (s *userServiceImpl) UpdateUser(user *dto.UpdateUserDTO) error {
 	return s.userRepo.Update(user)
 }
 

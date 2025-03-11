@@ -2,9 +2,9 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/medfriend/shared-commons-go/util/controller"
 	"net/http"
 	"security-go/dto"
-	"security-go/entity"
 	"security-go/mapper"
 	"security-go/service"
 	"security-go/util"
@@ -79,18 +79,13 @@ func (ctrl *UserController) GetUsers(c *gin.Context) {
 // @Produce      json
 // @Param        user  body      entity.User  true  "Información del usuario"
 // @Success      200   {object}  entity.User   "Usuario actualizado"
-// @Router       /user [put]
+// @Router       /user/update [put]
 func (ctrl *UserController) UpdateUser(c *gin.Context) {
-	var user entity.User
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.userService.UpdateUser(&user); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, user)
+
+	var userDTO dto.UpdateUserDTO
+	controller.HandlerBindJson(c, &userDTO)
+	controller.HandlerInternalError(c, ctrl.userService.UpdateUser(&userDTO))
+	controller.HandlerCreatedSuccess(c, userDTO)
 }
 
 // DeleteUser elimina un usuario por su ID

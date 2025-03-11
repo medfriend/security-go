@@ -1,7 +1,7 @@
 package dto
 
 type UserDTO struct {
-	Usuario         string `json:"usuario"`
+	Usuario         uint   `json:"usuario"`
 	Nombre1         string `json:"nombre_1"`
 	Nombre2         string `json:"nombre_2"`
 	ApellidoPaterno string `json:"apellido_paterno"`
@@ -10,4 +10,16 @@ type UserDTO struct {
 	Email           string `json:"email"`
 	Edad            string `json:"edad"`
 	Estado          bool   `json:"estado"`
+	Usuario_id      int    `json:"usuario_id"`
+}
+
+type UpdateUserDTO struct {
+	Usuario         uint   `json:"usuario"`
+	Nombre1         string `json:"nombre_1"`
+	Nombre2         string `json:"nombre_2"`
+	ApellidoPaterno string `json:"apellido_paterno"`
+	ApellidoMaterno string `json:"apellido_materno"`
+	Email           string `json:"email"`
+	Edad            string `json:"edad"`
+	Usuario_id      int    `json:"usuario_id"`
 }

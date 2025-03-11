@@ -2,6 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
+	"security-go/dto"
 	"security-go/entity"
 	"security-go/util"
 )
@@ -11,7 +12,7 @@ type UserRepository interface {
 	FindById(id uint) (*entity.User, error)
 	Find() ([]entity.User, error)
 	FindByUsuario(usuario uint) (*entity.User, error)
-	Update(user *entity.User) error
+	Update(user *dto.UpdateUserDTO) error
 	Delete(id uint) error
 }
 
@@ -49,8 +50,21 @@ func (u *UserRepositoryImpl) FindByUsuario(usuario uint) (*entity.User, error) {
 	return &usuarioE, nil
 }
 
-func (u *UserRepositoryImpl) Update(user *entity.User) error {
-	return u.Base.Update(user)
+func (u *UserRepositoryImpl) Update(dto *dto.UpdateUserDTO) error {
+
+	updates := map[string]interface{}{
+		"usuario":          dto.Usuario,
+		"nombre_1":         dto.Nombre1,
+		"nombre_2":         dto.Nombre2,
+		"apellido_paterno": dto.ApellidoPaterno,
+		"apellido_materno": dto.ApellidoMaterno,
+		"email":            dto.Email,
+		"edad":             dto.Edad,
+	}
+
+	result := u.Base.DB.Model(&entity.User{}).Where("usuario_id = ?", dto.Usuario_id).Updates(updates)
+
+	return result.Error
 }
 
 func (u *UserRepositoryImpl) Delete(id uint) error {

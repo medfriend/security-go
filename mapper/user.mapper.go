@@ -8,7 +8,6 @@ import (
 )
 
 func UserDTOToUser(userDTO dto.UserDTO) (*entity.User, error) {
-	usuarioID, err := strconv.ParseUint(userDTO.Usuario, 10, 32)
 	edad, err := strconv.ParseUint(userDTO.Edad, 10, 32)
 
 	if err != nil {
@@ -16,7 +15,7 @@ func UserDTOToUser(userDTO dto.UserDTO) (*entity.User, error) {
 	}
 
 	return &entity.User{
-		Usuario:         uint(usuarioID),
+		Usuario:         userDTO.Usuario,
 		Nombre1:         userDTO.Nombre1,
 		Nombre2:         userDTO.Nombre2,
 		ApellidoPaterno: userDTO.ApellidoPaterno,
