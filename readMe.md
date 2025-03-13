@@ -41,6 +41,21 @@ cd module && wire && cd ..
 swag init
 ```
 
+una vez compilado por primera vez importar el docs dentro de httpserver
+
+_ moduleName/docs donde moduleName es el nombre del modulo de go que esta monejando los paquetes
+
+si sale el error de leftDelim ejecutar
+
+```
+go get -u github.com/swaggo/swag
+```
+
+
+la url donde se encuentra el swager es la
+```
+http://localhost:port/swagger/index.html
+```
 ## compilar el proyecto
 ```
 go run main.go

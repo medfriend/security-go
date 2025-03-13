@@ -37,7 +37,7 @@ var db *gorm.DB
 func main() {
 	env.LoadEnv()
 
-	consulClient := consul.ConnectToConsulKey("", "SECURITY")
+	consulClient := consul.ConnectToConsulKey("172.17.0.1:8500", "SECURITY")
 
 	serviceInfo := util.HandlerServiceInfo(consulClient)
 
