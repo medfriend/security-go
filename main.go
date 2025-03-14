@@ -62,7 +62,9 @@ func main() {
 		return
 	}
 
-	httpServer.InitHttpServer(taskQueue, initDB, serviceInfo)
+	go httpServer.InitHttpServer(taskQueue, initDB, serviceInfo)
 
-	worker.HandleShutdown(stop, consulClient)
+	go worker.HandleShutdown(stop, consulClient)
+
+	select {}
 }
