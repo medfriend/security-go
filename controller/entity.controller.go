@@ -34,7 +34,7 @@ func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 
 	util.HandlerBindJson(c, &Entity)
 	util.HandlerInternalError(c, ctrl.EntityService.CreateEntity(&Entity))
-	util.HandlerCreatedSuccess(c, Entity)
+	util.HandlerCreatedSuccess(c, Entity, Entity.EntityID)
 }
 
 // GetEntityById obtiene una entidad por su ID
@@ -52,7 +52,7 @@ func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	Entity, err := ctrl.EntityService.GetEntityById(id)
 	util.HandlerFoundSuccess(c, err, "entidad")
-	util.HandlerCreatedSuccess(c, Entity)
+	util.HandlerCreatedSuccess(c, Entity, Entity.EntityID)
 }
 
 // GetAllEntities obtiene todas las entidades registradas
@@ -68,7 +68,7 @@ func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 func (ctrl *EntityController) GetAllEntities(c *gin.Context) {
 	Entity, err := ctrl.EntityService.GetAllEntities()
 	util.HandlerFoundSuccess(c, err, "entidad")
-	util.HandlerCreatedSuccess(c, Entity)
+	util.HandlerCreatedSuccess(c, Entity, 0)
 }
 
 // UpdateEntity actualiza una entidad existente
@@ -87,7 +87,7 @@ func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 	var Entity entity.Entity
 	util.HandlerBindJson(c, &Entity)
 	util.HandlerInternalError(c, ctrl.EntityService.UpdateEntity(&Entity))
-	util.HandlerCreatedSuccess(c, Entity)
+	util.HandlerCreatedSuccess(c, Entity, Entity.EntityID)
 }
 
 // DeleteEntity elimina una entidad por su ID

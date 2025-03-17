@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"security-go/entity"
 	"security-go/service"
 	"security-go/util"
@@ -34,7 +33,7 @@ func (ctrl *PermisoController) CreatePermiso(c *gin.Context) {
 	var permiso entity.Permiso
 	util.HandlerBindJson(c, &permiso)
 	util.HandlerInternalError(c, ctrl.permisoService.CreatePermiso(&permiso))
-	util.HandlerCreatedSuccess(c, permiso)
+	util.HandlerCreatedSuccess(c, permiso, permiso.PermisoID)
 }
 
 // GetPermisoById obtiene un permiso por su ID
@@ -51,11 +50,8 @@ func (ctrl *PermisoController) CreatePermiso(c *gin.Context) {
 func (ctrl *PermisoController) GetPermisoById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	permiso, err := ctrl.permisoService.GetPermisoById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Permiso not found"})
-		return
-	}
-	c.JSON(http.StatusOK, permiso)
+	util.HandlerFoundSuccess(c, err, "permiso")
+	util.HandlerCreatedSuccess(c, permiso, permiso.PermisoID)
 }
 
 // UpdatePermiso actualiza un permiso existente
@@ -72,15 +68,9 @@ func (ctrl *PermisoController) GetPermisoById(c *gin.Context) {
 // @Router /permission/UpdatePermiso [put]
 func (ctrl *PermisoController) UpdatePermiso(c *gin.Context) {
 	var permiso entity.Permiso
-	if err := c.ShouldBindJSON(&permiso); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.permisoService.UpdatePermiso(&permiso); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, permiso)
+	util.HandlerBindJson(c, &permiso)
+	util.HandlerInternalError(c, ctrl.permisoService.UpdatePermiso(&permiso))
+	util.HandlerCreatedSuccess(c, permiso, permiso.PermisoID)
 }
 
 // DeletePermiso elimina un permiso por su ID
@@ -96,9 +86,6 @@ func (ctrl *PermisoController) UpdatePermiso(c *gin.Context) {
 // @Router /permission/deletePermiso/{id} [delete]
 func (ctrl *PermisoController) DeletePermiso(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
-	if err := ctrl.permisoService.DeletePermiso(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusNoContent, nil)
+	util.HandlerInternalError(c, ctrl.permisoService.DeletePermiso(id))
+	util.HandlerNotContent(c, nil)
 }

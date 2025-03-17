@@ -37,7 +37,7 @@ func (ctrl *ResourcePermissionController) CreateResourcePermission(c *gin.Contex
 	util.HandlerBindJson(c, &resourcePermission)
 	util.HandlerInternalError(c, ctrl.ResourcePermissionService.CreateResourcePermission(&resourcePermission))
 
-	util.HandlerCreatedSuccess(c, resourcePermission)
+	util.HandlerCreatedSuccess(c, resourcePermission, resourcePermission.RecursoPermisoID)
 }
 
 // GetResourcePermissionById Get a resource permission by its ID
@@ -54,12 +54,8 @@ func (ctrl *ResourcePermissionController) GetResourcePermissionById(c *gin.Conte
 	id, err := util.StringToUint(c.Param("id"))
 
 	resourcePermission, err := ctrl.ResourcePermissionService.FindById(id)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, resourcePermission)
+	util.HandlerFoundSuccess(c, err, "resourcePermission")
+	util.HandlerCreatedSuccess(c, resourcePermission, resourcePermission.RecursoPermisoID)
 }
 
 // UpdateResourcePermission Update a resource permission

@@ -33,15 +33,10 @@ func NewResourceController(resourceService service.ResourceService) *ResourceCon
 // @Router /resources/createResource [post]
 func (ctrl *ResourceController) CreateResource(c *gin.Context) {
 	var resource entity.Resource
-	if err := c.ShouldBindJSON(&resource); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.resourceService.CreateResource(&resource); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusCreated, resource)
+
+	util.HandlerBindJson(c, &resource)
+	util.HandlerInternalError(c, ctrl.resourceService.CreateResource(&resource))
+	util.HandlerCreatedSuccess(c, resource, resource.ResourceID)
 }
 
 // GetResourceById obtiene un recurso por su ID
@@ -58,11 +53,8 @@ func (ctrl *ResourceController) CreateResource(c *gin.Context) {
 func (ctrl *ResourceController) GetResourceById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	resource, err := ctrl.resourceService.GetResourceById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Resource not found"})
-		return
-	}
-	c.JSON(http.StatusOK, resource)
+	util.HandlerFoundSuccess(c, err, "resource")
+	util.HandlerCreatedSuccess(c, resource, resource.ResourceID)
 }
 
 // UpdateResource actualiza un recurso existente
@@ -88,6 +80,9 @@ func (ctrl *ResourceController) UpdateResource(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, resource)
+	util.HandlerBindJson(c, &resource)
+	util.HandlerInternalError(c, ctrl.resourceService.UpdateResource(&resource))
+	util.HandlerCreatedSuccess(c, resource, resource.ResourceID)
 }
 
 // GetAllResources obtener todos los recursos registradod dentro de la plataforma
@@ -104,7 +99,7 @@ func (ctrl *ResourceController) UpdateResource(c *gin.Context) {
 func (ctrl *ResourceController) GetAllResources(c *gin.Context) {
 	resourses, err := ctrl.resourceService.GetAllResources()
 	util.HandlerFoundSuccess(c, err, "recursos")
-	util.HandlerCreatedSuccess(c, resourses)
+	util.HandlerCreatedSuccess(c, resourses, 0)
 }
 
 // DeleteResource elimina un recurso por su ID

@@ -36,7 +36,7 @@ func (ctrl *RoleResourceController) CreateRoleResource(c *gin.Context) {
 
 	util.HandlerBindJson(c, &roleResource)
 	util.HandlerInternalError(c, ctrl.RoleResource.CreateRoleResource(&roleResource))
-	c.JSON(http.StatusCreated, roleResource)
+	util.HandlerCreatedSuccess(c, roleResource, roleResource.RolRecursoID)
 }
 
 // GetRoleResourceById   obtiene un rol recurso por su ID
@@ -53,11 +53,8 @@ func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
 	roleResource, err := ctrl.RoleResource.FindById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "RoleResource not found"})
-		return
-	}
-	c.JSON(http.StatusOK, roleResource)
+	util.HandlerFoundSuccess(c, err, "roleResource")
+	util.HandlerCreatedSuccess(c, roleResource, roleResource.RolRecursoID)
 }
 
 // UpdateRoleResource actualiza un rol recurso
@@ -74,15 +71,9 @@ func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 // @Router /rol-recurso/updateRoleResource [put]
 func (ctrl *RoleResourceController) UpdateRoleResource(c *gin.Context) {
 	var roleResource entity.RoleResource
-	if err := c.ShouldBindJSON(&roleResource); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.RoleResource.UpdateRoleResource(&roleResource); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, roleResource)
+	util.HandlerBindJson(c, &roleResource)
+	util.HandlerInternalError(c, ctrl.RoleResource.UpdateRoleResource(&roleResource))
+	util.HandlerCreatedSuccess(c, roleResource, roleResource.RolRecursoID)
 }
 
 // DeleteRoleResource elimina un rol recurso

@@ -36,7 +36,7 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 	user, _ := mapper.UserDTOToUser(userDTO)
 
 	util.HandlerInternalError(c, ctrl.userService.CreateUser(user))
-	util.HandlerCreatedSuccess(c, user)
+	util.HandlerCreatedSuccess(c, user, user.UsuarioID)
 }
 
 // GetUserById obtiene un usuario por su ID
@@ -53,7 +53,7 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	user, err := ctrl.userService.GetUserById(id)
 	util.HandlerFoundSuccess(c, err, "usuario")
-	util.HandlerCreatedSuccess(c, user)
+	util.HandlerCreatedSuccess(c, user, user.UsuarioID)
 }
 
 // GetUsers obtiene todos los usuarios
@@ -67,7 +67,7 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 func (ctrl *UserController) GetUsers(c *gin.Context) {
 	users, err := ctrl.userService.GetUsers()
 	util.HandlerFoundSuccess(c, err, "usuarios")
-	util.HandlerCreatedSuccess(c, users)
+	util.HandlerCreatedSuccess(c, users, 0)
 }
 
 // UpdateUser    actualiza la información de un usuario existente
@@ -85,7 +85,7 @@ func (ctrl *UserController) UpdateUser(c *gin.Context) {
 	var userDTO dto.UpdateUserDTO
 	controller.HandlerBindJson(c, &userDTO)
 	controller.HandlerInternalError(c, ctrl.userService.UpdateUser(&userDTO))
-	controller.HandlerCreatedSuccess(c, userDTO)
+	util.HandlerCreatedSuccess(c, userDTO, uint(userDTO.Usuario_id))
 }
 
 // DeleteUser elimina un usuario por su ID

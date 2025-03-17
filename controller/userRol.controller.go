@@ -35,8 +35,7 @@ func (ctrl *UserRolController) CreateUserRol(c *gin.Context) {
 
 	util.HandlerBindJson(c, &userRol)
 	util.HandlerInternalError(c, ctrl.UserRolService.CreateUserRol(&userRol))
-
-	c.JSON(http.StatusCreated, userRol)
+	util.HandlerCreatedSuccess(c, userRol, uint(userRol.UsuarioRolID))
 }
 
 // DeleteUserRol elimina una relacion usuarioRol por su ID

@@ -1,7 +1,6 @@
 package service
 
 import (
-	"encoding/json"
 	"fmt"
 	"security-go/dto"
 	"security-go/response"
@@ -9,7 +8,7 @@ import (
 )
 
 type AuthService interface {
-	Auth(auth *dto.AuthDTO) (token *string, err error)
+	Auth(auth *dto.AuthDTO) (token *string, userId uint, err error)
 }
 
 type AuthServiceImpl struct {
@@ -36,18 +35,18 @@ func NewAuthService(
 	}
 }
 
-func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
+func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, userId uint, err error) {
 
 	user, _ := s.userService.FindByUsuario(auth.Usuario)
 
 	if user == nil {
-		return nil, fmt.Errorf("usuario no encontrado")
+		return nil, 0, fmt.Errorf("usuario no encontrado")
 	}
 
 	passwordCheck := util.CheckPassword(user.Clave, auth.Password)
 
 	if !passwordCheck {
-		return nil, fmt.Errorf("contraseña invalida")
+		return nil, 0, fmt.Errorf("contraseña invalida")
 	}
 
 	entity, _ := s.userRolService.CheckUserRole(user.UsuarioID)
@@ -66,15 +65,15 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, err error) {
 		EntidadId: uint(entity),
 	}
 
-	rabbitMQ := util.GetInstance()
+	/*rabbitMQ := util.GetInstance()
 
 	userJson, err := json.Marshal(&user)
 
 	rabbitMQ.SendMessage(
 		"trazabilidad-usuario-login",
-		string(userJson))
+		string(userJson))*/
 
 	jwt, _ := util.GenerateJWT(authResponse)
 
-	return &jwt, nil
+	return &jwt, user.UsuarioID, nil
 }

@@ -34,12 +34,12 @@ func (ctrl *AuthController) Login(c *gin.Context) {
 		return
 	}
 
-	auth, err := ctrl.AuthService.Auth(&authDTO)
+	auth, userId, err := ctrl.AuthService.Auth(&authDTO)
 
 	if util.HandlerFoundSuccess(c, err, "auth") {
 		return
 	}
 
-	util.HandlerCreatedSuccess(c, auth)
+	util.HandlerCreatedSuccess(c, auth, userId)
 
 }

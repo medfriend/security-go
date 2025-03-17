@@ -32,17 +32,9 @@ func NewRolController(RolService service.RolService) *RolController {
 // @Router /rol/createRol [post]
 func (ctrl *RolController) CreateRol(c *gin.Context) {
 	var Rol entity.Rol
-	if err := c.ShouldBindJSON(&Rol); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	if err := ctrl.RolService.CreateRol(&Rol); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, Rol)
+	util.HandlerBindJson(c, &Rol)
+	util.HandlerInternalError(c, ctrl.RolService.CreateRol(&Rol))
+	util.HandlerCreatedSuccess(c, Rol, Rol.RolID)
 }
 
 // GetRolById   obtiene un Rol por su ID
@@ -59,11 +51,8 @@ func (ctrl *RolController) GetRolById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
 	Rol, err := ctrl.RolService.FindById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Rol not found"})
-		return
-	}
-	c.JSON(http.StatusOK, Rol)
+	util.HandlerFoundSuccess(c, err, "rol")
+	util.HandlerCreatedSuccess(c, Rol, Rol.RolID)
 }
 
 // GetRoles obtiene todos los roles
@@ -77,7 +66,7 @@ func (ctrl *RolController) GetRolById(c *gin.Context) {
 func (ctrl *RolController) GetRoles(c *gin.Context) {
 	roles, err := ctrl.RolService.Find()
 	util.HandlerFoundSuccess(c, err, "roles")
-	util.HandlerCreatedSuccess(c, roles)
+	util.HandlerCreatedSuccess(c, roles, 0)
 }
 
 // UpdateRol actualiza un Rol existente

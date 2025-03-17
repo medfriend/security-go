@@ -3,7 +3,6 @@ package controller
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"security-go/entity"
 	"security-go/service"
 	"security-go/util"
@@ -33,17 +32,10 @@ func NewMenuController(menuService service.MenuService) *MenuController {
 // @Router /menu/createMenu [post]
 func (ctrl *MenuController) CreateMenu(c *gin.Context) {
 	var menu entity.Menu
-	if err := c.ShouldBindJSON(&menu); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
-	if err := ctrl.MenuService.CreateMenu(&menu); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, menu)
+	util.HandlerBindJson(c, &menu)
+	util.HandlerInternalError(c, ctrl.MenuService.CreateMenu(&menu))
+	util.HandlerCreatedSuccess(c, menu, menu.MenuID)
 }
 
 // GetChildByParentId
@@ -61,7 +53,7 @@ func (ctrl *MenuController) GetChildByParentId(c *gin.Context) {
 
 	menus, err := ctrl.MenuService.GetChildFromParentId(id)
 	util.HandlerFoundSuccess(c, err, "menus hijos")
-	util.HandlerCreatedSuccess(c, menus)
+	util.HandlerCreatedSuccess(c, menus, 0)
 }
 
 // GetMenuById   obtiene un menu por su ID
@@ -78,11 +70,9 @@ func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
 	menu, err := ctrl.MenuService.FindById(id)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Menu not found"})
-		return
-	}
-	c.JSON(http.StatusOK, menu)
+
+	util.HandlerFoundSuccess(c, err, "menu")
+	util.HandlerCreatedSuccess(c, menu, menu.MenuID)
 }
 
 // UpdateMenu actualiza un menu existente
@@ -99,15 +89,9 @@ func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 // @Router /menu/updateMenu [put]
 func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 	var menu entity.Menu
-	if err := c.ShouldBindJSON(&menu); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.MenuService.UpdateMenu(&menu); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, menu)
+	util.HandlerBindJson(c, &menu)
+	util.HandlerInternalError(c, ctrl.MenuService.UpdateMenu(&menu))
+	util.HandlerCreatedSuccess(c, menu, menu.MenuID)
 }
 
 // GetParentsMenuByEntity obtener los menus padres de una entidad
@@ -125,7 +109,7 @@ func (ctrl *MenuController) GetParentsMenuByEntity(c *gin.Context) {
 	entidadId, _ := util.StringToUint(c.Param("entidadId"))
 	menus, err := ctrl.MenuService.GetParentsMenuByEntity(entidadId)
 	util.HandlerFoundSuccess(c, err, "menus padres")
-	util.HandlerCreatedSuccess(c, menus)
+	util.HandlerCreatedSuccess(c, menus, 0)
 }
 
 // FilterMenu obtener los menus por medio de la query
@@ -144,7 +128,7 @@ func (ctrl *MenuController) FilterMenu(c *gin.Context) {
 	fmt.Println(query)
 	menus, err := ctrl.MenuService.FilterMenu(query)
 	util.HandlerFoundSuccess(c, err, "menus concidentes")
-	util.HandlerCreatedSuccess(c, menus)
+	util.HandlerCreatedSuccess(c, menus, 0)
 }
 
 // GetChildsMenuByEntity
@@ -163,7 +147,7 @@ func (ctrl *MenuController) GetChildsMenuByEntity(c *gin.Context) {
 
 	menus, err := ctrl.MenuService.GetChildsMenuByEntity(entidadId)
 	util.HandlerFoundSuccess(c, err, "menus hijos")
-	util.HandlerCreatedSuccess(c, menus)
+	util.HandlerCreatedSuccess(c, menus, 0)
 }
 
 // DeleteMenu elimina un menu por su ID
@@ -179,9 +163,6 @@ func (ctrl *MenuController) GetChildsMenuByEntity(c *gin.Context) {
 // @Router /menu/deleteMenu/{id} [delete]
 func (ctrl *MenuController) DeleteMenu(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
-	if err := ctrl.MenuService.DeleteMenu(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusNoContent, nil)
+	util.HandlerInternalError(c, ctrl.MenuService.DeleteMenu(id))
+	util.HandlerNotContent(c, nil)
 }
