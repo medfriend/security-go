@@ -13,10 +13,10 @@ func NewResourceRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("resources")
 
-	routerGroup.POST("/", resourceController.CreateResource)
-	routerGroup.GET("/:id", resourceController.GetResourceById)
-	routerGroup.PUT("/:id", resourceController.UpdateResource)
-	routerGroup.DELETE("/:id", resourceController.DeleteResource)
+	routerGroup.POST("/createResource", resourceController.CreateResource)
+	routerGroup.GET("/getResourceById/:id", resourceController.GetResourceById)
+	routerGroup.PUT("/updateResource/:id", resourceController.UpdateResource)
+	routerGroup.DELETE("/deleteResource/:id", resourceController.DeleteResource)
 	routerGroup.GET("/all", resourceController.GetAllResources)
 }
 

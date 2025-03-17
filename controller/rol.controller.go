@@ -29,7 +29,7 @@ func NewRolController(RolService service.RolService) *RolController {
 // @Success 201 {object} entity.Rol "Rol creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /rol [post]
+// @Router /rol/createRol [post]
 func (ctrl *RolController) CreateRol(c *gin.Context) {
 	var Rol entity.Rol
 	if err := c.ShouldBindJSON(&Rol); err != nil {
@@ -54,7 +54,7 @@ func (ctrl *RolController) CreateRol(c *gin.Context) {
 // @Produce      json
 // @Param        id  path      uint  true  "ID del Rol"
 // @Success      200 {object}  entity.Rol   "Rol encontrado"
-// @Router       /rol/{id} [get]
+// @Router       /rol/getRolById/{id} [get]
 func (ctrl *RolController) GetRolById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -91,7 +91,7 @@ func (ctrl *RolController) GetRoles(c *gin.Context) {
 // @Success 200 {object} entity.Rol "Rol actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /rol [put]
+// @Router /rol/updateRol [put]
 func (ctrl *RolController) UpdateRol(c *gin.Context) {
 	var Rol entity.Rol
 	if err := c.ShouldBindJSON(&Rol); err != nil {
@@ -115,7 +115,7 @@ func (ctrl *RolController) UpdateRol(c *gin.Context) {
 // @Param id path uint true "ID del Rol"
 // @Success 204 "Rol eliminado con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /rol/{id} [delete]
+// @Router /rol/deleteId/{id} [delete]
 func (ctrl *RolController) DeleteRol(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.RolService.DeleteRol(id); err != nil {

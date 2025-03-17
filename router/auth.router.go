@@ -11,7 +11,7 @@ func NewAuthRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("auth")
 
-	routerGroup.POST("/", AuthController.Login)
+	routerGroup.POST("/login", AuthController.Login)
 }
 
 func init() {

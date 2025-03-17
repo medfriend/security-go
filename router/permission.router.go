@@ -12,10 +12,10 @@ func NewPermisoRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("permission")
 
-	routerGroup.POST("/", permisoController.CreatePermiso)
-	routerGroup.GET("/:id", permisoController.GetPermisoById)
-	routerGroup.PUT("/:id", permisoController.UpdatePermiso)
-	routerGroup.DELETE("/:id", permisoController.DeletePermiso)
+	routerGroup.POST("/createPermiso", permisoController.CreatePermiso)
+	routerGroup.GET("/getPermisoById/:id", permisoController.GetPermisoById)
+	routerGroup.PUT("/updatePermiso/:id", permisoController.UpdatePermiso)
+	routerGroup.DELETE("/deletePermiso/:id", permisoController.DeletePermiso)
 }
 
 func init() {

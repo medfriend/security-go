@@ -29,7 +29,7 @@ func NewPermisoController(permisoService service.PermisoService) *PermisoControl
 // @Success 201 {object} entity.Permiso "permiso creada con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /permission [post]
+// @Router /permission/createPermiso [post]
 func (ctrl *PermisoController) CreatePermiso(c *gin.Context) {
 	var permiso entity.Permiso
 	util.HandlerBindJson(c, &permiso)
@@ -47,7 +47,7 @@ func (ctrl *PermisoController) CreatePermiso(c *gin.Context) {
 // @Param id path uint true "ID de la permiso"
 // @Success 200 {object} entity.Permiso "Permiso encontrada"
 // @Failure 404 {object} map[string]string "Permiso no encontrada"
-// @Router /permission/{id} [get]
+// @Router /permission/getPermisoById/{id} [get]
 func (ctrl *PermisoController) GetPermisoById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	permiso, err := ctrl.permisoService.GetPermisoById(id)
@@ -69,7 +69,7 @@ func (ctrl *PermisoController) GetPermisoById(c *gin.Context) {
 // @Success 200 {object} entity.Permiso "permiso actualizada con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /permission [put]
+// @Router /permission/UpdatePermiso [put]
 func (ctrl *PermisoController) UpdatePermiso(c *gin.Context) {
 	var permiso entity.Permiso
 	if err := c.ShouldBindJSON(&permiso); err != nil {
@@ -93,7 +93,7 @@ func (ctrl *PermisoController) UpdatePermiso(c *gin.Context) {
 // @Param id path uint true "ID de la permisos"
 // @Success 204 "Permisos eliminada con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /permission/{id} [delete]
+// @Router /permission/deletePermiso/{id} [delete]
 func (ctrl *PermisoController) DeletePermiso(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.permisoService.DeletePermiso(id); err != nil {

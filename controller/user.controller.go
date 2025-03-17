@@ -28,7 +28,7 @@ func NewUserController(userService service.UserService) *UserController {
 // @Produce      json
 // @Param        user  body      entity.User       true  "Información del usuario"
 // @Success      201   {object}  entity.User
-// @Router       /user [post]
+// @Router       /user/createuser [post]
 func (ctrl *UserController) CreateUser(c *gin.Context) {
 	var userDTO dto.UserDTO
 
@@ -95,7 +95,7 @@ func (ctrl *UserController) UpdateUser(c *gin.Context) {
 // @Tags         usuarios
 // @Param        id  path      uint  true  "ID del usuario"
 // @Success      204 "Usuario eliminado con éxito"
-// @Router       /user/{id} [delete]
+// @Router       /user/deleteuser/{id} [delete]
 func (ctrl *UserController) DeleteUser(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.userService.DeleteUser(id); err != nil {

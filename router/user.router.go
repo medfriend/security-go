@@ -12,11 +12,11 @@ func NewUserRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("user")
 
-	routerGroup.POST("/", userController.CreateUser)
+	routerGroup.POST("/createuser", userController.CreateUser)
 	routerGroup.GET("/byId/:id/", userController.GetUserById)
 	routerGroup.GET("/all", userController.GetUsers)
 	routerGroup.PUT("/update", userController.UpdateUser)
-	routerGroup.DELETE("/:id", userController.DeleteUser)
+	routerGroup.DELETE("/deleteuser/:id", userController.DeleteUser)
 }
 
 func init() {

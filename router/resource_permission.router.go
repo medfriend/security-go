@@ -12,10 +12,10 @@ func NewResourcePermissionRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("resource_permission")
 
-	routerGroup.POST("/", ResourcePermissionController.CreateResourcePermission)
-	routerGroup.GET("/:id", ResourcePermissionController.GetResourcePermissionById)
-	routerGroup.PUT("/:id", ResourcePermissionController.UpdateResourcePermission)
-	routerGroup.DELETE("/:id", ResourcePermissionController.DeleteResourcePermission)
+	routerGroup.POST("/createResourcePermission", ResourcePermissionController.CreateResourcePermission)
+	routerGroup.GET("/getResourcePermissionById/:id", ResourcePermissionController.GetResourcePermissionById)
+	routerGroup.PUT("/updateResourcePermission/:id", ResourcePermissionController.UpdateResourcePermission)
+	routerGroup.DELETE("/deleteResourcePermission/:id", ResourcePermissionController.DeleteResourcePermission)
 }
 
 func init() {

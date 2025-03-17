@@ -48,7 +48,7 @@ func (ctrl *RoleResourceController) CreateRoleResource(c *gin.Context) {
 // @Produce      json
 // @Param        id  path      uint  true  "ID del rol recurso"
 // @Success      200 {object}  entity.RoleResource   "rol recurso encontrado"
-// @Router       /rol-recurso/{id} [get]
+// @Router       /rol-recurso/getRoleResourceById/{id} [get]
 func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -71,7 +71,7 @@ func (ctrl *RoleResourceController) GetRoleResourceById(c *gin.Context) {
 // @Success 200 {object} entity.RoleResource "rol recurso actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /rol-recurso [put]
+// @Router /rol-recurso/updateRoleResource [put]
 func (ctrl *RoleResourceController) UpdateRoleResource(c *gin.Context) {
 	var roleResource entity.RoleResource
 	if err := c.ShouldBindJSON(&roleResource); err != nil {

@@ -12,10 +12,10 @@ func NewMenuRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("menu")
 
-	routerGroup.POST("/", MenuController.CreateMenu)
-	routerGroup.GET("/:id", MenuController.GetMenuById)
-	routerGroup.PUT("/:id", MenuController.UpdateMenu)
-	routerGroup.DELETE("/:id", MenuController.DeleteMenu)
+	routerGroup.POST("/createMenu", MenuController.CreateMenu)
+	routerGroup.GET("/getMenuById/:id", MenuController.GetMenuById)
+	routerGroup.PUT("/updateMenu/:id", MenuController.UpdateMenu)
+	routerGroup.DELETE("/DeleteMenu/:id", MenuController.DeleteMenu)
 	routerGroup.GET("/parents/:entidadId", MenuController.GetParentsMenuByEntity)
 	routerGroup.GET("/childs-parent/:id", MenuController.GetChildByParentId)
 	routerGroup.GET("/childs/:entidadId", MenuController.GetChildsMenuByEntity)

@@ -30,7 +30,7 @@ func NewMenuController(menuService service.MenuService) *MenuController {
 // @Success 201 {object} entity.Menu "Menu creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /menu [post]
+// @Router /menu/createMenu [post]
 func (ctrl *MenuController) CreateMenu(c *gin.Context) {
 	var menu entity.Menu
 	if err := c.ShouldBindJSON(&menu); err != nil {
@@ -73,7 +73,7 @@ func (ctrl *MenuController) GetChildByParentId(c *gin.Context) {
 // @Produce      json
 // @Param        id  path      uint  true  "ID del menu"
 // @Success      200 {object}  entity.Menu   "menu encontrado"
-// @Router       /menu/{id} [get]
+// @Router       /menu/getMenuById/{id} [get]
 func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 
@@ -96,7 +96,7 @@ func (ctrl *MenuController) GetMenuById(c *gin.Context) {
 // @Success 200 {object} entity.Menu "menu actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /menu [put]
+// @Router /menu/updateMenu [put]
 func (ctrl *MenuController) UpdateMenu(c *gin.Context) {
 	var menu entity.Menu
 	if err := c.ShouldBindJSON(&menu); err != nil {
@@ -176,7 +176,7 @@ func (ctrl *MenuController) GetChildsMenuByEntity(c *gin.Context) {
 // @Param id path uint true "ID del menu"
 // @Success 204 "menu eliminado con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /menu/{id} [delete]
+// @Router /menu/deleteMenu/{id} [delete]
 func (ctrl *MenuController) DeleteMenu(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	if err := ctrl.MenuService.DeleteMenu(id); err != nil {

@@ -28,7 +28,7 @@ func NewEntityController(EntityService service.EntityService) *EntityController 
 // @Success 201 {object} entity.Entity "Entidad creada con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /entity [post]
+// @Router /entity/CreateEntity [post]
 func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 	var Entity entity.Entity
 
@@ -47,7 +47,7 @@ func (ctrl *EntityController) CreateEntity(c *gin.Context) {
 // @Param id path uint true "ID de la entidad"
 // @Success 200 {object} entity.Entity "Entidad encontrada"
 // @Failure 404 {object} map[string]string "Entidad no encontrada"
-// @Router /entity/{id} [get]
+// @Router /entity/getEntityById/{id} [get]
 func (ctrl *EntityController) GetEntityById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	Entity, err := ctrl.EntityService.GetEntityById(id)
@@ -82,7 +82,7 @@ func (ctrl *EntityController) GetAllEntities(c *gin.Context) {
 // @Success 200 {object} entity.Entity "Entidad actualizada con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /entity [put]
+// @Router /entity/updateEntity [put]
 func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 	var Entity entity.Entity
 	util.HandlerBindJson(c, &Entity)
@@ -100,7 +100,7 @@ func (ctrl *EntityController) UpdateEntity(c *gin.Context) {
 // @Param id path uint true "ID de la entidad"
 // @Success 204 "Entidad eliminada con éxito"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /entity/{id} [delete]
+// @Router /entity/DeleteEntity/{id} [delete]
 func (ctrl *EntityController) DeleteEntity(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
 	util.HandlerInternalError(c, ctrl.EntityService.DeleteEntity(id))

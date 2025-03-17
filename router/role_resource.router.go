@@ -14,8 +14,8 @@ func NewRoleResourceRouter(router *gin.RouterGroup, db *gorm.DB) {
 	routerGroup := router.Group("rol-recurso")
 
 	routerGroup.POST("/asignar", RoleResourceController.CreateRoleResource)
-	routerGroup.GET("/:id", RoleResourceController.GetRoleResourceById)
-	routerGroup.PUT("/:id", RoleResourceController.UpdateRoleResource)
+	routerGroup.GET("/getRoleResourceById/:id", RoleResourceController.GetRoleResourceById)
+	routerGroup.PUT("/updateRoleResource/:id", RoleResourceController.UpdateRoleResource)
 	routerGroup.DELETE("/desasignar/:id", RoleResourceController.DeleteRoleResource)
 
 }

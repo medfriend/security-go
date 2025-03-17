@@ -12,10 +12,10 @@ func NewRolRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("rol")
 
-	routerGroup.POST("/", RolController.CreateRol)
-	routerGroup.GET("/:id", RolController.GetRolById)
-	routerGroup.PUT("/:id", RolController.UpdateRol)
-	routerGroup.DELETE("/:id", RolController.DeleteRol)
+	routerGroup.POST("/createRol", RolController.CreateRol)
+	routerGroup.GET("/getRolById/:id", RolController.GetRolById)
+	routerGroup.PUT("/updateRol/:id", RolController.UpdateRol)
+	routerGroup.DELETE("/DeleteRol/:id", RolController.DeleteRol)
 	routerGroup.GET("/all", RolController.GetRoles)
 
 }

@@ -30,7 +30,7 @@ func NewResourceController(resourceService service.ResourceService) *ResourceCon
 // @Success 201 {object} entity.Resource "Recurso creado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /resources [post]
+// @Router /resources/createResource [post]
 func (ctrl *ResourceController) CreateResource(c *gin.Context) {
 	var resource entity.Resource
 	if err := c.ShouldBindJSON(&resource); err != nil {
@@ -54,7 +54,7 @@ func (ctrl *ResourceController) CreateResource(c *gin.Context) {
 // @Param id path uint true "ID del recurso"
 // @Success 200 {object} entity.Resource "Recurso encontrado"
 // @Failure 404 {object} map[string]string "Recurso no encontrado"
-// @Router /resources/{id} [get]
+// @Router /resources/getResourceById/{id} [get]
 func (ctrl *ResourceController) GetResourceById(c *gin.Context) {
 	id, err := util.StringToUint(c.Param("id"))
 	resource, err := ctrl.resourceService.GetResourceById(id)
@@ -76,7 +76,7 @@ func (ctrl *ResourceController) GetResourceById(c *gin.Context) {
 // @Success 200 {object} entity.Resource "Recurso actualizado con éxito"
 // @Failure 400 {object} map[string]string "Error en el cuerpo de la solicitud"
 // @Failure 500 {object} map[string]string "Error interno del servidor"
-// @Router /resources [put]
+// @Router /resources/updateResource [put]
 func (ctrl *ResourceController) UpdateResource(c *gin.Context) {
 	var resource entity.Resource
 	if err := c.ShouldBindJSON(&resource); err != nil {

@@ -12,10 +12,10 @@ func NewEntityRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup := router.Group("entity")
 
-	routerGroup.POST("/", EntityController.CreateEntity)
-	routerGroup.GET("/:id", EntityController.GetEntityById)
-	routerGroup.PUT("/:id", EntityController.UpdateEntity)
-	routerGroup.DELETE("/:id", EntityController.DeleteEntity)
+	routerGroup.POST("/createEntity", EntityController.CreateEntity)
+	routerGroup.GET("/getEntityById/:id", EntityController.GetEntityById)
+	routerGroup.PUT("/updateEntity/:id", EntityController.UpdateEntity)
+	routerGroup.DELETE("/deleteEntity/:id", EntityController.DeleteEntity)
 	routerGroup.GET("/all", EntityController.GetAllEntities)
 }
 
