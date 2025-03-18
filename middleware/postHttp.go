@@ -1,10 +1,8 @@
 package middleware
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
-	"security-go/util"
 )
 
 // PostResponseMiddleware enviar la informacion a la traza de acciones
@@ -20,10 +18,10 @@ func PostResponseMiddleware() gin.HandlerFunc {
 
 			if authorizationHeader != "" {
 
-				rabbitMQ := util.GetInstance()
-				mensaje := fmt.Sprintf(`{"Authorization": "%s"}`, authorizationHeader)
+				//rabbitMQ := util.GetInstance()
+				//mensaje := fmt.Sprintf(`{"Authorization": "%s"}`, authorizationHeader)
 
-				rabbitMQ.SendMessage("trazabilidad-usuario-accion", mensaje)
+				//rabbitMQ.SendMessage("trazabilidad-usuario-accion", mensaje)
 			} else {
 				log.Println("No se encontró el header Authorization en la solicitud.")
 			}
