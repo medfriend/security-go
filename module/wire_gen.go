@@ -95,6 +95,15 @@ func InitializeRoleResourceModule(db *gorm.DB) *controller.RoleResourceControlle
 	return roleResourceController
 }
 
+// Injectors from trazabilidad_usuario_accion.module.go:
+
+func InitializeTrazabilidadUsuarioAccionModule(db *gorm.DB) *controller.TrazabilidadUsuarioAccionController {
+	trazabilidadUsuarioAccionRepository := repository.NewTrazabilidadUsuarioAccionRepository(db)
+	trazabilidadUsuarioAccionService := service.NewTrazabilidadUsuarioAccionService(trazabilidadUsuarioAccionRepository)
+	trazabilidadUsuarioAccionController := controller.NewTrazabilidadUsuarioAccionController(trazabilidadUsuarioAccionService)
+	return trazabilidadUsuarioAccionController
+}
+
 // Injectors from user.module.go:
 
 func InitializeUserModule(db *gorm.DB) *controller.UserController {
@@ -144,6 +153,10 @@ var RolSet = wire.NewSet(repository.NewRolRepository, service.NewRolService, con
 // role_resource.module.go:
 
 var RoleResourceSet = wire.NewSet(repository.NewRoleResourceRepository, service.NewRoleResourceService, controller.NewRoleResourceController)
+
+// trazabilidad_usuario_accion.module.go:
+
+var trazaSet = wire.NewSet(repository.NewTrazabilidadUsuarioAccionRepository, service.NewTrazabilidadUsuarioAccionService, controller.NewTrazabilidadUsuarioAccionController)
 
 // user.module.go:
 
