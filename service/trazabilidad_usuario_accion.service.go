@@ -1,20 +1,22 @@
 package service
 
 import (
-	"security-go/entity"
+	"security-go/dto"
+	"security-go/mapper"
 	"security-go/repository"
 )
 
 type TrazabilidadUsuarioAccionService interface {
-	Find(usuarioId uint) ([]entity.TrazabilidadUsuarioAccion, error)
+	Find(usuarioId uint) ([]dto.TrazaDTO, error)
 }
 
 type TrazabilidadUsuarioAccionServiceImpl struct {
 	trazaRepo repository.TrazabilidadUsuarioAccionRepository
 }
 
-func (t TrazabilidadUsuarioAccionServiceImpl) Find(usuarioId uint) ([]entity.TrazabilidadUsuarioAccion, error) {
-	return t.trazaRepo.Find(usuarioId)
+func (t TrazabilidadUsuarioAccionServiceImpl) Find(usuarioId uint) ([]dto.TrazaDTO, error) {
+	trazas, err := t.trazaRepo.Find(usuarioId)
+	return mapper.MapTrazabilidadToTrazaDTOArray(trazas), err
 }
 
 func NewTrazabilidadUsuarioAccionService(trazaRepo repository.TrazabilidadUsuarioAccionRepository) TrazabilidadUsuarioAccionService {
