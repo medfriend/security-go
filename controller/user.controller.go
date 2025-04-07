@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/medfriend/shared-commons-go/util/controller"
 	"net/http"
@@ -34,6 +35,9 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 
 	util.HandlerBindJson(c, &userDTO)
 	user, _ := mapper.UserDTOToUser(userDTO)
+
+	fmt.Println(user.Usuario)
+	fmt.Println(userDTO.Usuario)
 
 	util.HandlerInternalError(c, ctrl.userService.CreateUser(user))
 	util.HandlerCreatedSuccess(c, user, user.UsuarioID)

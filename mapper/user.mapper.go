@@ -9,13 +9,14 @@ import (
 
 func UserDTOToUser(userDTO dto.UserDTO) (*entity.User, error) {
 	edad, err := strconv.ParseUint(userDTO.Edad, 10, 32)
+	usuario, err := strconv.ParseUint(userDTO.Usuario, 10, 32)
 
 	if err != nil {
 		return nil, err
 	}
 
 	return &entity.User{
-		Usuario:         userDTO.Usuario,
+		Usuario:         uint(usuario),
 		Nombre1:         userDTO.Nombre1,
 		Nombre2:         userDTO.Nombre2,
 		ApellidoPaterno: userDTO.ApellidoPaterno,
