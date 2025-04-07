@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"security-go/entity"
 	"security-go/service"
@@ -125,7 +124,6 @@ func (ctrl *MenuController) GetParentsMenuByEntity(c *gin.Context) {
 // @Router /menu/filter/{query} [get]
 func (ctrl *MenuController) FilterMenu(c *gin.Context) {
 	query := c.Param("query")
-	fmt.Println(query)
 	menus, err := ctrl.MenuService.FilterMenu(query)
 	util.HandlerFoundSuccess(c, err, "menus concidentes")
 	util.HandlerCreatedSuccess(c, menus, 0)
