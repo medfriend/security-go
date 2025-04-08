@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"security-go/dto"
 	"security-go/entity"
 	"security-go/repository"
@@ -36,9 +35,7 @@ func (s *userServiceImpl) CreateUser(user *entity.User) error {
 
 	user.Clave = hashedPassword
 
-	fmt.Println(user)
-
-	return nil
+	return s.userRepo.Save(user)
 }
 
 func (s *userServiceImpl) GetUserById(id uint) (*entity.User, error) {

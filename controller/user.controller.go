@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/medfriend/shared-commons-go/util/controller"
-	"net/http"
 	"security-go/dto"
 	"security-go/mapper"
 	"security-go/service"
@@ -102,9 +101,7 @@ func (ctrl *UserController) UpdateUser(c *gin.Context) {
 // @Router       /user/deleteuser/{id} [delete]
 func (ctrl *UserController) DeleteUser(c *gin.Context) {
 	id, _ := util.StringToUint(c.Param("id"))
-	if err := ctrl.userService.DeleteUser(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusNoContent, nil)
+	user, _ := ctrl.userService.GetUserById(id)
+	controller.HandlerInternalError(c, ctrl.userService.DeleteUser(id))
+	controller.HandlerDeleteSuccess(c, user, id)
 }
