@@ -14,6 +14,7 @@ type UserService interface {
 	UpdateUser(user *dto.UpdateUserDTO) error
 	DeleteUser(id uint) error
 	FindByUsuario(usuario uint) (*entity.User, error)
+	Query(query string) (*[]entity.User, error)
 }
 
 type userServiceImpl struct {
@@ -24,6 +25,10 @@ func NewUserService(userRepo repository.UserRepository) UserService {
 	return &userServiceImpl{
 		userRepo: userRepo,
 	}
+}
+
+func (s *userServiceImpl) Query(query string) (*[]entity.User, error) {
+	return s.userRepo.Query(query)
 }
 
 func (s *userServiceImpl) CreateUser(user *entity.User) error {

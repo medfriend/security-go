@@ -22,4 +22,5 @@ type UpdateUserDTO struct {
 	Email           string `json:"email"`
 	Edad            string `json:"edad"`
 	Usuario_id      int    `json:"usuario_id"`
+	Estado          bool   `json:"activo"`
 }

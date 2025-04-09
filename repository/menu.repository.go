@@ -31,7 +31,8 @@ func NewMenuRepository(db *gorm.DB) MenuRepository {
 func (u *MenuRepositoryImpl) FilterMenu(query string) (*[]entity.Menu, error) {
 	return u.Base.FindAnyField(
 		[]string{"nombre", "descripcion"},
-		query)
+		query,
+		map[string]bool{})
 }
 
 func (u *MenuRepositoryImpl) GetChidsFromParentId(parentId uint) (*[]entity.Menu, error) {

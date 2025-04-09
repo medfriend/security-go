@@ -11,6 +11,7 @@ type UserRepository interface {
 	Save(user *entity.User) error
 	FindById(id uint) (*entity.User, error)
 	Find() ([]entity.User, error)
+	Query(query string) (*[]entity.User, error)
 	FindByUsuario(usuario uint) (*entity.User, error)
 	Update(user *dto.UpdateUserDTO) error
 	Delete(id uint) error
@@ -24,6 +25,19 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	return &UserRepositoryImpl{
 		Base: util.BaseRepository[entity.User]{DB: db},
 	}
+}
+
+func (u *UserRepositoryImpl) Query(query string) (*[]entity.User, error) {
+	return u.Base.FindAnyField(
+		[]string{
+			"usuario", "nombre_1", "nombre_2",
+			"apellido_paterno", "apellido_materno",
+			"email",
+		},
+		query,
+		map[string]bool{
+			"usuario": true, // se castea porque es bigint
+		})
 }
 
 func (u *UserRepositoryImpl) Save(user *entity.User) error {
@@ -60,6 +74,7 @@ func (u *UserRepositoryImpl) Update(dto *dto.UpdateUserDTO) error {
 		"apellido_materno": dto.ApellidoMaterno,
 		"email":            dto.Email,
 		"edad":             dto.Edad,
+		"activo":           dto.Estado,
 	}
 
 	result := u.Base.DB.Model(&entity.User{}).Where("usuario_id = ?", dto.Usuario_id).Updates(updates)

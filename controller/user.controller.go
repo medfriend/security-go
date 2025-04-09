@@ -20,6 +20,24 @@ func NewUserController(userService service.UserService) *UserController {
 	}
 }
 
+// FilterUser obtener los usuarios por medio de la query
+// @Summary filtro de user
+// @Security      BearerAuth
+// @Description obtener menus por medio de la query
+// @Param query path string true "campo de concidencia"
+// @Tags menus
+// @Accept json
+// @Produce json
+// @Success 200 {object} []entity.User "listado de usuarios"
+// @Failure 500 {object} map[string]string "Error interno del servidor"
+// @Router /menu/filterUser/{query} [get]
+func (ctrl *UserController) FilterUser(c *gin.Context) {
+	query := c.Param("query")
+	usuarios, err := ctrl.userService.Query(query)
+	util.HandlerFoundSuccess(c, err, "usuarios concidentes")
+	util.HandlerCreatedSuccess(c, usuarios, 0)
+}
+
 // CreateUser @Summary      Crear un nuevo usuario
 // @Description  Este endpoint permite crear un nuevo usuario en el sistema
 // @Security      BearerAuth
