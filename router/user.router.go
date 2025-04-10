@@ -14,7 +14,7 @@ func NewUserRouter(router *gin.RouterGroup, db *gorm.DB) {
 
 	routerGroup.POST("/createuser", userController.CreateUser)
 	routerGroup.GET("/byId/:id/", userController.GetUserById)
-	routerGroup.GET("/all", userController.GetUsers)
+	routerGroup.POST("/all", userController.GetUsers)
 	routerGroup.PUT("/update", userController.UpdateUser)
 	routerGroup.DELETE("/deleteuser/:id", userController.DeleteUser)
 	routerGroup.GET("filterUser/:query", userController.FilterUser)

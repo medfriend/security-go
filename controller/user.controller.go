@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/medfriend/shared-commons-go/util/controller"
 	"security-go/dto"
@@ -53,9 +52,6 @@ func (ctrl *UserController) CreateUser(c *gin.Context) {
 	util.HandlerBindJson(c, &userDTO)
 	user, _ := mapper.UserDTOToUser(userDTO)
 
-	fmt.Println(user.Usuario)
-	fmt.Println(userDTO.Usuario)
-
 	util.HandlerInternalError(c, ctrl.userService.CreateUser(user))
 	util.HandlerCreatedSuccess(c, user, user.UsuarioID)
 }
@@ -84,9 +80,12 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 // @Tags         usuarios
 // @Produce      json
 // @Success      200 {array}  entity.User   "Lista de usuarios"
-// @Router       /user/all [get]
+// @Router       /user/all [post]
 func (ctrl *UserController) GetUsers(c *gin.Context) {
-	users, err := ctrl.userService.GetUsers()
+	var paginacion dto.PaginationDTO
+	controller.HandlerBindJson(c, &paginacion)
+
+	users, err := ctrl.userService.GetUsers(paginacion)
 	util.HandlerFoundSuccess(c, err, "usuarios")
 	util.HandlerCreatedSuccess(c, users, 0)
 }
