@@ -2,7 +2,6 @@ package repository
 
 import (
 	"gorm.io/gorm"
-	"math"
 	"security-go/dto"
 	"security-go/entity"
 	"security-go/util"
@@ -51,23 +50,7 @@ func (u *UserRepositoryImpl) FindById(id uint) (*entity.User, error) {
 
 func (u *UserRepositoryImpl) Find(paginacion dto.PaginationDTO) (dto.PaginatedResponse, error) {
 
-	var users []entity.User
-	var totalRows int64
-
-	u.Base.DB.Model(&entity.User{}).Count(&totalRows)
-	offset := (paginacion.Pagina - 1) * paginacion.Filas
-
-	err := u.Base.DB.Limit(int(paginacion.Filas)).Offset(int(offset)).Find(&users).Error
-
-	totalPages := int(math.Ceil(float64(totalRows) / float64(paginacion.Filas)))
-
-	userPaginacion := dto.PaginatedResponse{
-		Data:       users,
-		Total:      totalRows,
-		Page:       int(paginacion.Pagina),
-		PageSize:   int(paginacion.Filas),
-		TotalPages: totalPages,
-	}
+	userPaginacion, err := u.Base.Pagination(paginacion)
 
 	return userPaginacion, err
 }
