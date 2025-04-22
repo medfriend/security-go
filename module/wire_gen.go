@@ -50,6 +50,15 @@ func InitializeMenuModule(db *gorm.DB) *controller.MenuController {
 	return menuController
 }
 
+// Injectors from parameter.module.go:
+
+func InitializeParameterModule(db *gorm.DB) *controller.ParameterController {
+	parameterRepository := repository.NewParameterRepository(db)
+	parameterService := service.NewParameterService(parameterRepository)
+	parameterController := controller.NewParameterController(parameterService)
+	return parameterController
+}
+
 // Injectors from permission.module.go:
 
 func InitializePermisoModule(db *gorm.DB) *controller.PermisoController {
@@ -133,6 +142,10 @@ var EntitySet = wire.NewSet(repository.NewEntityRepository, service.NewEntitySer
 // menu.module.go:
 
 var MenuSet = wire.NewSet(repository.NewMenuRepository, service.NewMenuService, controller.NewMenuController)
+
+// parameter.module.go:
+
+var parameterSet = wire.NewSet(repository.NewParameterRepository, service.NewParameterService, controller.NewParameterController)
 
 // permission.module.go:
 
