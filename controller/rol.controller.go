@@ -2,7 +2,9 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/medfriend/shared-commons-go/util/controller"
 	"net/http"
+	"security-go/dto"
 	"security-go/entity"
 	"security-go/service"
 	"security-go/util"
@@ -62,9 +64,12 @@ func (ctrl *RolController) GetRolById(c *gin.Context) {
 // @Tags         rols
 // @Produce      json
 // @Success      200 {array}  entity.User   "Lista de roles"
-// @Router       /rol/all [get]
+// @Router       /rol/all [post]
 func (ctrl *RolController) GetRoles(c *gin.Context) {
-	roles, err := ctrl.RolService.Find()
+	var paginacion dto.PaginationDTO
+	controller.HandlerBindJson(c, &paginacion)
+
+	roles, err := ctrl.RolService.Find(paginacion)
 	util.HandlerFoundSuccess(c, err, "roles")
 	util.HandlerCreatedSuccess(c, roles, 0)
 }

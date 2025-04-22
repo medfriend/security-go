@@ -2,6 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
+	"security-go/dto"
 	"security-go/entity"
 	"security-go/util"
 )
@@ -9,13 +10,17 @@ import (
 type RolRepository interface {
 	Save(Rol *entity.Rol) error
 	FindById(id uint) (*entity.Rol, error)
-	Find() ([]entity.Rol, error)
+	Find(paginacion dto.PaginationDTO) (dto.PaginatedResponse, error)
 	Update(rol *entity.Rol) error
 	Delete(id uint) error
 }
 
 type RolRepositoryImpl struct {
 	Base util.BaseRepository[entity.Rol]
+}
+
+func (u *RolRepositoryImpl) Find(paginacion dto.PaginationDTO) (dto.PaginatedResponse, error) {
+	return u.Base.Pagination(paginacion)
 }
 
 func NewRolRepository(db *gorm.DB) RolRepository {
@@ -27,8 +32,6 @@ func NewRolRepository(db *gorm.DB) RolRepository {
 func (u *RolRepositoryImpl) Save(user *entity.Rol) error {
 	return u.Base.Save(user)
 }
-
-func (u *RolRepositoryImpl) Find() (roles []entity.Rol, err error) { return u.Base.Find() }
 
 func (u *RolRepositoryImpl) FindById(id uint) (*entity.Rol, error) {
 	return u.Base.FindById(id)
