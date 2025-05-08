@@ -27,6 +27,7 @@ import (
 	"github.com/medfriend/shared-commons-go/util/worker"
 	"gorm.io/gorm"
 	"net/http"
+	"os"
 	"runtime"
 	"security-go/httpServer"
 	"security-go/util"
@@ -37,7 +38,10 @@ var db *gorm.DB
 func main() {
 	env.LoadEnv()
 
-	consulClient := consul.ConnectToConsulKey("172.17.0.1:8500", "SECURITY")
+	consulIp := os.Getenv("CONSUL_IP")
+	consulConn := fmt.Sprint(consulIp, ":8500")
+
+	consulClient := consul.ConnectToConsulKey(consulConn, "SECURITY")
 
 	serviceInfo := util.HandlerServiceInfo(consulClient)
 

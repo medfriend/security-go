@@ -7,8 +7,9 @@ import (
 
 func MapTrazabilidadToTrazaDTO(traza *entity.TrazabilidadUsuarioAccion) *dto.TrazaDTO {
 	return &dto.TrazaDTO{
-		Estado:    uint(traza.Estado), // Asegurate de que la conversión es adecuada y segura.
-		Coleccion: traza.Coleccion,
+		Estado:       uint(traza.Estado), // Asegurate de que la conversión es adecuada y segura.
+		Coleccion:    traza.Coleccion,
+		Microservice: traza.Microservicio,
 	}
 }
 
