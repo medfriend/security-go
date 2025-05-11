@@ -24,6 +24,7 @@ import (
 	"github.com/medfriend/shared-commons-go/util/consul"
 	"github.com/medfriend/shared-commons-go/util/env"
 	gormUtil "github.com/medfriend/shared-commons-go/util/gorm"
+	"github.com/medfriend/shared-commons-go/util/migrations"
 	"github.com/medfriend/shared-commons-go/util/worker"
 	"gorm.io/gorm"
 	"net/http"
@@ -61,6 +62,8 @@ func main() {
 		"LOCAL",
 		"SECURITY",
 	)
+
+	migrations.ReadMigration(initDB)
 
 	if err != nil {
 		return

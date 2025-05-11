@@ -10,11 +10,11 @@ COPY go.mod go.sum ./
 # Download all dependencies
 RUN go mod download
 
-# Copy the source code into the container, incluyendo el .env
+# Copy the source code into the container
 COPY . .
 
-# ✅ Copiar el archivo .env a la misma ubicación donde está main.go
-COPY .env /app/.env
+# ✅ Asegurar que los archivos de migración se copian
+# (Esto ya debería estar cubierto por el COPY . .)
 
 # Build the Go app
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o myapp
@@ -28,13 +28,16 @@ WORKDIR /root/
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/myapp .
 
-# ✅ Copiar el .env en la misma ubicación donde se ejecutará `myapp`
+# ✅ Copiar el .env
 COPY --from=builder /app/.env .
+
+# ✅ Copiar el directorio de migraciones
+COPY --from=builder /app/migrations ./migrations
 
 # ✅ Definir variable de entorno para que la aplicación sepa dónde encontrarlo
 ENV ENV_PATH=/root/.env
 
-# Expose port 8070 to the outside world
+# Expose port
 EXPOSE 9040
 
 # Command to run the executable
