@@ -27,11 +27,14 @@ import (
 	"github.com/medfriend/shared-commons-go/util/migrations"
 	"github.com/medfriend/shared-commons-go/util/worker"
 	"gorm.io/gorm"
+	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"runtime"
 	"security-go/httpServer"
 	"security-go/util"
+	"syscall"
 )
 
 var db *gorm.DB
@@ -46,16 +49,21 @@ func main() {
 
 	serviceInfo := util.HandlerServiceInfo(consulClient)
 
+	// Configuración del pool de workers usando la biblioteca compartida
 	numCPUs := runtime.NumCPU()
+	log.Printf("Detectados %d CPUs, creando un pool de workers con %d workers", numCPUs, numCPUs)
 
-	fmt.Printf("Detected %d CPUs, creating %d workers\n", numCPUs, numCPUs)
+	// Crear un pool con capacidad para 100 solicitudes en cola
+	workerPool := worker.NewWorkerPool(numCPUs, 100)
 
-	taskQueue := make(chan *http.Request, 100)
+	// Configurar el worker pool como global para middleware
+	worker.SetGlobalWorkerPool(workerPool)
 
-	stop := make(chan struct{})
+	// Canal para señales de cierre
+	stopChan := make(chan os.Signal, 1)
+	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
 
-	worker.CreateWorkers(numCPUs, stop, taskQueue)
-
+	// Inicialización de la base de datos
 	initDB, err := gormUtil.InitDB(
 		db,
 		consulClient,
@@ -63,15 +71,41 @@ func main() {
 		"SECURITY",
 	)
 
-	migrations.ReadMigration(initDB)
-
 	if err != nil {
-		return
+		log.Fatalf("Error inicializando la base de datos: %v", err)
 	}
 
-	go httpServer.InitHttpServer(taskQueue, initDB, serviceInfo)
+	// Aplicar migraciones
+	err = migrations.ReadMigration(initDB)
+	if err != nil {
+		log.Fatalf("Error aplicando migraciones: %v", err)
+	}
 
-	go worker.HandleShutdown(stop, consulClient)
+	// Para mantener compatibilidad con el código existente
+	legacyTaskQueue := make(chan *http.Request, 100)
+	legacyStopChan := make(chan struct{})
 
-	select {}
+	worker.CreateWorkers(numCPUs, legacyStopChan, legacyTaskQueue)
+	go worker.HandleShutdown(legacyStopChan, consulClient)
+
+	// Iniciar el servidor HTTP con nuestro nuevo workerPool
+	serverChan := make(chan error, 1)
+
+	go func() {
+		if err := httpServer.InitHttpServerWithWorkerPool(workerPool, initDB, serviceInfo); err != nil {
+			serverChan <- err
+		}
+	}()
+
+	// Manejar señales de cierre
+	select {
+	case <-stopChan:
+		log.Println("Señal de cierre recibida, apagando servicios...")
+		// Cerrar el pool de workers
+		workerPool.Shutdown()
+		// Cerrar el canal legacy
+		close(legacyStopChan)
+	case err := <-serverChan:
+		log.Printf("Error en el servidor HTTP: %v", err)
+	}
 }

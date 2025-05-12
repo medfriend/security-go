@@ -14,15 +14,33 @@ type BaseRepository[T any] struct {
 }
 
 func (r *BaseRepository[T]) Pagination(paginacion dto.PaginationDTO) (dto.PaginatedResponse, error) {
+	return r.PaginationWithQuery(paginacion, nil)
+}
 
+// PaginationWithQuery permite aplicar una consulta personalizada además de la paginación
+// El parámetro queryFunc recibe un *gorm.DB y debe retornar un *gorm.DB modificado con las condiciones deseadas
+func (r *BaseRepository[T]) PaginationWithQuery(paginacion dto.PaginationDTO, queryFunc func(*gorm.DB) *gorm.DB) (dto.PaginatedResponse, error) {
 	var entities []T
 	var totalRows int64
 
-	r.DB.Model(new(T)).Count(&totalRows)
+	// Query base
+	query := r.DB.Model(new(T))
+
+	// Aplicar la función de consulta si fue proporcionada
+	if queryFunc != nil {
+		query = queryFunc(query)
+	}
+
+	// Contar registros totales aplicando los filtros
+	query.Count(&totalRows)
+
+	// Calcular offset para paginación
 	offset := (paginacion.Pagina - 1) * paginacion.Filas
 
-	err := r.DB.Limit(int(paginacion.Filas)).Offset(int(offset)).Find(&entities).Error
+	// Aplicar paginación y ejecutar consulta final
+	err := query.Limit(int(paginacion.Filas)).Offset(int(offset)).Find(&entities).Error
 
+	// Calcular páginas totales
 	totalPages := int(math.Ceil(float64(totalRows) / float64(paginacion.Filas)))
 
 	paginacionResponse := dto.PaginatedResponse{

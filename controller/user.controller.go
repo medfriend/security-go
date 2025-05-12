@@ -1,8 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/medfriend/shared-commons-go/util/controller"
+	"log"
 	"security-go/dto"
 	"security-go/mapper"
 	"security-go/service"
@@ -84,6 +86,10 @@ func (ctrl *UserController) GetUserById(c *gin.Context) {
 func (ctrl *UserController) GetUsers(c *gin.Context) {
 	var paginacion dto.PaginationDTO
 	controller.HandlerBindJson(c, &paginacion)
+
+	authHeader := c.GetHeader("Authorization")
+	log.Println("log de prueba")
+	fmt.Println(authHeader)
 
 	users, err := ctrl.userService.GetUsers(paginacion)
 	util.HandlerFoundSuccess(c, err, "usuarios")
