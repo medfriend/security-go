@@ -1,0 +1,1 @@
+INSERT INTO "public".rol ( nombre, descripcion, entidad_id, activo ) VALUES ( 'usuario', 'usuario por defecto sin ningun recurso asignado', 1, true );

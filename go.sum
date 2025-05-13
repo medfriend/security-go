@@ -31,6 +31,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1VwoXQT9A3Wy9MM3WgvqSxFWenqJduM=
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL+zU=
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
@@ -191,6 +193,10 @@ github.com/medfriend/shared-commons-go v0.2.1 h1:BuOLmC393ZKViGsG7BOa96XxEyb3avs
 github.com/medfriend/shared-commons-go v0.2.1/go.mod h1:6lMliHcW6wvCTMPUy7j3EXi8Cf80as3+4ePuYKDnHz8=
 github.com/medfriend/shared-commons-go v0.2.2 h1:cJoosQ7vxEK4ww0cH2D/+uHovpoy2PWChIUqbagghDg=
 github.com/medfriend/shared-commons-go v0.2.2/go.mod h1:6lMliHcW6wvCTMPUy7j3EXi8Cf80as3+4ePuYKDnHz8=
+github.com/medfriend/shared-commons-go v0.2.3 h1:eBgSISW+y1YJDqQq6N4CBMKUl7HJ84ymiBebR7UkBR0=
+github.com/medfriend/shared-commons-go v0.2.3/go.mod h1:9t1qQ9o8SjmkIB9pZnzU+XTuQDTFYGEIeNYrLLb4gg0=
+github.com/medfriend/shared-commons-go v0.2.4 h1:FcSwOgG6FrATIwAh8MMq/enhNhj7VGz74Au++1N8rys=
+github.com/medfriend/shared-commons-go v0.2.4/go.mod h1:9t1qQ9o8SjmkIB9pZnzU+XTuQDTFYGEIeNYrLLb4gg0=
 github.com/miekg/dns v1.1.26/go.mod h1:bPDLeHnStXmXAq1m/Ch/hvfNHr14JKNPMBo3VZKjuso=
 github.com/miekg/dns v1.1.41 h1:WMszZWJG0XmzbK9FEmzH2TVcqYzFesusSIB41b8KHxY=
 github.com/miekg/dns v1.1.41/go.mod h1:p6aan82bvRIyn+zDIv9xYNUpwa73JcSh9BKwknJysuI=

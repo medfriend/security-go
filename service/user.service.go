@@ -10,7 +10,7 @@ import (
 type UserService interface {
 	CreateUser(user *entity.User) error
 	GetUserById(id uint) (*entity.User, error)
-	GetUsers(paginacion dto.PaginationDTO) (dto.PaginatedResponse, error)
+	GetUsers(paginacion dto.PaginationDTO, entidad int) (dto.PaginatedResponse, error)
 	UpdateUser(user *dto.UpdateUserDTO) error
 	DeleteUser(id uint) error
 	FindByUsuario(usuario uint) (*entity.User, error)
@@ -47,8 +47,8 @@ func (s *userServiceImpl) GetUserById(id uint) (*entity.User, error) {
 	return s.userRepo.FindById(id)
 }
 
-func (s *userServiceImpl) GetUsers(paginacion dto.PaginationDTO) (dto.PaginatedResponse, error) {
-	return s.userRepo.Find(paginacion)
+func (s *userServiceImpl) GetUsers(paginacion dto.PaginationDTO, entidad int) (dto.PaginatedResponse, error) {
+	return s.userRepo.Find(paginacion, entidad)
 }
 
 func (s *userServiceImpl) UpdateUser(user *dto.UpdateUserDTO) error {
