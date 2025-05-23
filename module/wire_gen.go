@@ -16,6 +16,7 @@ import (
 
 // Injectors from auth.module.go:
 
+// InitializeAuthModule solo para el controlador este funcionalida es exclusiva de httpServer
 func InitializeAuthModule(db *gorm.DB) *controller.AuthController {
 	userRolRepository := repository.NewUserRolRepository(db)
 	userRolService := service.NewUserRolService(userRolRepository)
@@ -32,6 +33,24 @@ func InitializeAuthModule(db *gorm.DB) *controller.AuthController {
 	authService := service.NewAuthService(userRolService, userService, roleResourceService, menuService, resourcePermissionService, entityService)
 	authController := controller.NewAuthController(authService)
 	return authController
+}
+
+// InitilizeAuthService devuelve el servicio para la funcionalidad de scheduler
+func InitilizeAuthService(db *gorm.DB) service.AuthService {
+	userRolRepository := repository.NewUserRolRepository(db)
+	userRolService := service.NewUserRolService(userRolRepository)
+	userRepository := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepository)
+	roleResourceRepository := repository.NewRoleResourceRepository(db)
+	roleResourceService := service.NewRoleResourceService(roleResourceRepository)
+	menuRepository := repository.NewMenuRepository(db)
+	menuService := service.NewMenuService(menuRepository)
+	resourcePermissionRepository := repository.NewResourcePermissionRepository(db)
+	resourcePermissionService := service.NewResourcePermissionService(resourcePermissionRepository)
+	entityRepository := repository.NewEntityRepository(db)
+	entityService := service.NewEntityService(entityRepository)
+	authService := service.NewAuthService(userRolService, userService, roleResourceService, menuService, resourcePermissionService, entityService)
+	return authService
 }
 
 // Injectors from entity.module.go:

@@ -23,3 +23,8 @@ func InitializeResourceModule(db *gorm.DB) *controller.ResourceController {
 	wire.Build(ResourceSet)
 	return nil
 }
+
+func InitializeResourceService(db *gorm.DB) service.ResourceService {
+	wire.Build(ResourceSet)
+	return nil
+}

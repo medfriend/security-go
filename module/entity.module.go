@@ -23,3 +23,8 @@ func InitializeEntityModule(db *gorm.DB) *controller.EntityController {
 	wire.Build(EntitySet)
 	return nil
 }
+
+func InitializeEntityService(db *gorm.DB) service.EntityService {
+	wire.Build(EntitySet)
+	return nil
+}

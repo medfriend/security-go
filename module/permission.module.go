@@ -23,3 +23,8 @@ func InitializePermisoModule(db *gorm.DB) *controller.PermisoController {
 	wire.Build(PermisoSet)
 	return nil
 }
+
+func InitializePermisoService(db *gorm.DB) service.PermisoService {
+	wire.Build(PermisoSet)
+	return nil
+}

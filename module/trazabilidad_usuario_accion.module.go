@@ -23,3 +23,8 @@ func InitializeTrazabilidadUsuarioAccionModule(db *gorm.DB) *controller.Trazabil
 	wire.Build(trazaSet)
 	return nil
 }
+
+func InitializeTrazabilidadUsuarioAccionService(db *gorm.DB) service.TrazabilidadUsuarioAccionService {
+	wire.Build(trazaSet)
+	return nil
+}

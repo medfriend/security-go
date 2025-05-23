@@ -33,7 +33,6 @@ import (
 	"os/signal"
 	"runtime"
 	"security-go/httpServer"
-	"security-go/scheduler"
 	"security-go/util"
 	"syscall"
 )
@@ -83,7 +82,7 @@ func main() {
 	}
 
 	// Iniciar los scheduler programados
-	scheduler.CreateSchedule(initDB)
+	// scheduler.CreateSchedule(initDB)
 
 	// Para mantener compatibilidad con el código existente
 	legacyTaskQueue := make(chan *http.Request, 100)

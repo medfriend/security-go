@@ -23,3 +23,8 @@ func InitializeUserRolModule(db *gorm.DB) *controller.UserRolController {
 	wire.Build(UserRoleSet)
 	return nil
 }
+
+func InitializeUserRolModule(db *gorm.DB) service.UserRolService {
+	wire.Build(UserRoleSet)
+	return nil
+}

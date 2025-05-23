@@ -30,7 +30,14 @@ var AuthSet = wire.NewSet(
 	controller.NewAuthController,
 )
 
+// InitializeAuthModule solo para el controlador este funcionalida es exclusiva de httpServer
 func InitializeAuthModule(db *gorm.DB) *controller.AuthController {
+	wire.Build(AuthSet)
+	return nil
+}
+
+// InitilizeAuthService devuelve el servicio para la funcionalidad de scheduler
+func InitilizeAuthService(db *gorm.DB) service.AuthService {
 	wire.Build(AuthSet)
 	return nil
 }

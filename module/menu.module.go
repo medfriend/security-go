@@ -23,3 +23,8 @@ func InitializeMenuModule(db *gorm.DB) *controller.MenuController {
 	wire.Build(MenuSet)
 	return nil
 }
+
+func InitializeMenuService(db *gorm.DB) service.MenuService {
+	wire.Build(MenuSet)
+	return nil
+}

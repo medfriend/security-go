@@ -23,3 +23,8 @@ func InitializeUserModule(db *gorm.DB) *controller.UserController {
 	wire.Build(UserSet)
 	return nil
 }
+
+func InitializeUserService(db *gorm.DB) service.UserService {
+	wire.Build(UserSet)
+	return nil
+}
