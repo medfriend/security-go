@@ -24,7 +24,7 @@ func InitializeResourcePermissionModule(db *gorm.DB) *controller.ResourcePermiss
 	return nil
 }
 
-func InitializeResourcePermissionModule(db *gorm.DB) service.ResourcePermissionService {
+func InitializeResourcePermissionService(db *gorm.DB) service.ResourcePermissionService {
 	wire.Build(resourcePermissionSet)
 	return nil
 }

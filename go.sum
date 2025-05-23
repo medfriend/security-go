@@ -185,16 +185,6 @@ github.com/mattn/go-isatty v0.0.16/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
-github.com/medfriend/shared-commons-go v0.1.98 h1:LU+S6Lhm86TuBulct3qU4VRwfX7pNcTpB1r3SsA9IFY=
-github.com/medfriend/shared-commons-go v0.1.98/go.mod h1:6lMliHcW6wvCTMPUy7j3EXi8Cf80as3+4ePuYKDnHz8=
-github.com/medfriend/shared-commons-go v0.2.0 h1:dcUB0JZRZO4pgECh+aZEgNU+SWIFb+PQIUsMqzFR2HI=
-github.com/medfriend/shared-commons-go v0.2.0/go.mod h1:6lMliHcW6wvCTMPUy7j3EXi8Cf80as3+4ePuYKDnHz8=
-github.com/medfriend/shared-commons-go v0.2.1 h1:BuOLmC393ZKViGsG7BOa96XxEyb3avsA4HH27LQeK9c=
-github.com/medfriend/shared-commons-go v0.2.1/go.mod h1:6lMliHcW6wvCTMPUy7j3EXi8Cf80as3+4ePuYKDnHz8=
-github.com/medfriend/shared-commons-go v0.2.2 h1:cJoosQ7vxEK4ww0cH2D/+uHovpoy2PWChIUqbagghDg=
-github.com/medfriend/shared-commons-go v0.2.2/go.mod h1:6lMliHcW6wvCTMPUy7j3EXi8Cf80as3+4ePuYKDnHz8=
-github.com/medfriend/shared-commons-go v0.2.3 h1:eBgSISW+y1YJDqQq6N4CBMKUl7HJ84ymiBebR7UkBR0=
-github.com/medfriend/shared-commons-go v0.2.3/go.mod h1:9t1qQ9o8SjmkIB9pZnzU+XTuQDTFYGEIeNYrLLb4gg0=
 github.com/medfriend/shared-commons-go v0.2.4 h1:FcSwOgG6FrATIwAh8MMq/enhNhj7VGz74Au++1N8rys=
 github.com/medfriend/shared-commons-go v0.2.4/go.mod h1:9t1qQ9o8SjmkIB9pZnzU+XTuQDTFYGEIeNYrLLb4gg0=
 github.com/miekg/dns v1.1.26/go.mod h1:bPDLeHnStXmXAq1m/Ch/hvfNHr14JKNPMBo3VZKjuso=
@@ -239,6 +229,8 @@ github.com/prometheus/common v0.9.1/go.mod h1:yhUN8i9wzaXS3w1O07YhxHEBxD+W35wd8b
 github.com/prometheus/procfs v0.0.0-20181005140218-185b4288413d/go.mod h1:c3At6R/oaqEKCNdg8wHV1ftS6bRYblBhIjjI8uT2IGk=
 github.com/prometheus/procfs v0.0.2/go.mod h1:TjEm7ze935MbeOT/UhFTIMYKhuLP4wbCsTZCD3I8kEA=
 github.com/prometheus/procfs v0.0.8/go.mod h1:7Qr8sr6344vo1JqZ6HhLceV9o3AJ1Ff+GxbHq6oeK9A=
+github.com/robfig/cron/v3 v3.0.1 h1:WdRxkvbJztn8LMz/QEvLN5sBU+xKpSqwwUO1Pjr4qDs=
+github.com/robfig/cron/v3 v3.0.1/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
 github.com/rogpeppe/go-internal v1.13.1 h1:KvO1DLK/DRN07sQ1LQKScxyZJuNnedQ5/wKSR38lUII=
 github.com/rogpeppe/go-internal v1.13.1/go.mod h1:uMEvuHeurkdAXX61udpOXGD/AzZDWNMNyH2VO9fmH0o=
 github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=

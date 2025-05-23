@@ -24,7 +24,7 @@ func InitializeParameterModule(db *gorm.DB) *controller.ParameterController {
 	return nil
 }
 
-func InitializeMenuService(db *gorm.DB) service.MenuService {
+func InitializeParameterService(db *gorm.DB) service.ParameterService {
 	wire.Build(parameterSet)
 	return nil
 }

@@ -24,7 +24,7 @@ func InitializeRoleResourceModule(db *gorm.DB) *controller.RoleResourceControlle
 	return nil
 }
 
-func InitializeRoleResourceModule(db *gorm.DB) service.RoleResourceService {
+func InitializeRoleResourceService(db *gorm.DB) service.RoleResourceService {
 	wire.Build(RoleResourceSet)
 	return nil
 }

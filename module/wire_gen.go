@@ -62,6 +62,12 @@ func InitializeEntityModule(db *gorm.DB) *controller.EntityController {
 	return entityController
 }
 
+func InitializeEntityService(db *gorm.DB) service.EntityService {
+	entityRepository := repository.NewEntityRepository(db)
+	entityService := service.NewEntityService(entityRepository)
+	return entityService
+}
+
 // Injectors from menu.module.go:
 
 func InitializeMenuModule(db *gorm.DB) *controller.MenuController {
@@ -69,6 +75,12 @@ func InitializeMenuModule(db *gorm.DB) *controller.MenuController {
 	menuService := service.NewMenuService(menuRepository)
 	menuController := controller.NewMenuController(menuService)
 	return menuController
+}
+
+func InitializeMenuService(db *gorm.DB) service.MenuService {
+	menuRepository := repository.NewMenuRepository(db)
+	menuService := service.NewMenuService(menuRepository)
+	return menuService
 }
 
 // Injectors from parameter.module.go:
@@ -80,6 +92,12 @@ func InitializeParameterModule(db *gorm.DB) *controller.ParameterController {
 	return parameterController
 }
 
+func InitializeParameterService(db *gorm.DB) service.ParameterService {
+	parameterRepository := repository.NewParameterRepository(db)
+	parameterService := service.NewParameterService(parameterRepository)
+	return parameterService
+}
+
 // Injectors from permission.module.go:
 
 func InitializePermisoModule(db *gorm.DB) *controller.PermisoController {
@@ -87,6 +105,12 @@ func InitializePermisoModule(db *gorm.DB) *controller.PermisoController {
 	permisoService := service.NewPermisoService(permisoRepository)
 	permisoController := controller.NewPermisoController(permisoService)
 	return permisoController
+}
+
+func InitializePermisoService(db *gorm.DB) service.PermisoService {
+	permisoRepository := repository.NewPermisoRepository(db)
+	permisoService := service.NewPermisoService(permisoRepository)
+	return permisoService
 }
 
 // Injectors from resource.module.go:
@@ -98,6 +122,12 @@ func InitializeResourceModule(db *gorm.DB) *controller.ResourceController {
 	return resourceController
 }
 
+func InitializeResourceService(db *gorm.DB) service.ResourceService {
+	resourceRepository := repository.NewResourceRepository(db)
+	resourceService := service.NewResourceService(resourceRepository)
+	return resourceService
+}
+
 // Injectors from resource_permission.module.go:
 
 func InitializeResourcePermissionModule(db *gorm.DB) *controller.ResourcePermissionController {
@@ -105,6 +135,12 @@ func InitializeResourcePermissionModule(db *gorm.DB) *controller.ResourcePermiss
 	resourcePermissionService := service.NewResourcePermissionService(resourcePermissionRepository)
 	resourcePermissionController := controller.NewResourcePermissionController(resourcePermissionService)
 	return resourcePermissionController
+}
+
+func InitializeResourcePermissionService(db *gorm.DB) service.ResourcePermissionService {
+	resourcePermissionRepository := repository.NewResourcePermissionRepository(db)
+	resourcePermissionService := service.NewResourcePermissionService(resourcePermissionRepository)
+	return resourcePermissionService
 }
 
 // Injectors from rol.module.go:
@@ -116,6 +152,12 @@ func InitializeRolModule(db *gorm.DB) *controller.RolController {
 	return rolController
 }
 
+func InitializeRolService(db *gorm.DB) service.RolService {
+	rolRepository := repository.NewRolRepository(db)
+	rolService := service.NewRolService(rolRepository)
+	return rolService
+}
+
 // Injectors from role_resource.module.go:
 
 func InitializeRoleResourceModule(db *gorm.DB) *controller.RoleResourceController {
@@ -123,6 +165,12 @@ func InitializeRoleResourceModule(db *gorm.DB) *controller.RoleResourceControlle
 	roleResourceService := service.NewRoleResourceService(roleResourceRepository)
 	roleResourceController := controller.NewRoleResourceController(roleResourceService)
 	return roleResourceController
+}
+
+func InitializeRoleResourceService(db *gorm.DB) service.RoleResourceService {
+	roleResourceRepository := repository.NewRoleResourceRepository(db)
+	roleResourceService := service.NewRoleResourceService(roleResourceRepository)
+	return roleResourceService
 }
 
 // Injectors from trazabilidad_usuario_accion.module.go:
@@ -134,6 +182,12 @@ func InitializeTrazabilidadUsuarioAccionModule(db *gorm.DB) *controller.Trazabil
 	return trazabilidadUsuarioAccionController
 }
 
+func InitializeTrazabilidadUsuarioAccionService(db *gorm.DB) service.TrazabilidadUsuarioAccionService {
+	trazabilidadUsuarioAccionRepository := repository.NewTrazabilidadUsuarioAccionRepository(db)
+	trazabilidadUsuarioAccionService := service.NewTrazabilidadUsuarioAccionService(trazabilidadUsuarioAccionRepository)
+	return trazabilidadUsuarioAccionService
+}
+
 // Injectors from user.module.go:
 
 func InitializeUserModule(db *gorm.DB) *controller.UserController {
@@ -143,6 +197,12 @@ func InitializeUserModule(db *gorm.DB) *controller.UserController {
 	return userController
 }
 
+func InitializeUserService(db *gorm.DB) service.UserService {
+	userRepository := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepository)
+	return userService
+}
+
 // Injectors from userRol.module.go:
 
 func InitializeUserRolModule(db *gorm.DB) *controller.UserRolController {
@@ -150,6 +210,12 @@ func InitializeUserRolModule(db *gorm.DB) *controller.UserRolController {
 	userRolService := service.NewUserRolService(userRolRepository)
 	userRolController := controller.NewUserRolController(userRolService)
 	return userRolController
+}
+
+func InitializeUserRolService(db *gorm.DB) service.UserRolService {
+	userRolRepository := repository.NewUserRolRepository(db)
+	userRolService := service.NewUserRolService(userRolRepository)
+	return userRolService
 }
 
 // auth.module.go:

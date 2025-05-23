@@ -33,6 +33,8 @@ import (
 	"os/signal"
 	"runtime"
 	"security-go/httpServer"
+	"security-go/module"
+	"security-go/scheduler"
 	"security-go/util"
 	"syscall"
 )
@@ -81,8 +83,23 @@ func main() {
 		log.Fatalf("Error aplicando migraciones: %v", err)
 	}
 
+	serviceContainer := scheduler.ServiceContainer{
+		AuthService:               module.InitilizeAuthService(initDB),
+		UserService:               module.InitializeUserService(initDB),
+		RolService:                module.InitializeRolService(initDB),
+		MenuService:               module.InitializeMenuService(initDB),
+		PermissionService:         module.InitializePermisoService(initDB),
+		ResourceService:           module.InitializeResourceService(initDB),
+		ResourcePermissionService: module.InitializeResourcePermissionService(initDB),
+		RoleResourceService:       module.InitializeRoleResourceService(initDB),
+		ParameterService:          module.InitializeParameterService(initDB),
+		EntityService:             module.InitializeEntityService(initDB),
+		UserRolService:            module.InitializeUserRolService(initDB),
+		TrazabilidadService:       module.InitializeTrazabilidadUsuarioAccionService(initDB),
+	}
+
 	// Iniciar los scheduler programados
-	// scheduler.CreateSchedule(initDB)
+	scheduler.CreateSchedule(initDB, &serviceContainer)
 
 	// Para mantener compatibilidad con el código existente
 	legacyTaskQueue := make(chan *http.Request, 100)
