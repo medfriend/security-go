@@ -17,6 +17,7 @@ type AuthServiceImpl struct {
 	rolResourceService        RoleResourceService
 	menuService               MenuService
 	resourcePermissionService ResourcePermissionService
+	EntityService             EntityService
 }
 
 func NewAuthService(
@@ -24,7 +25,8 @@ func NewAuthService(
 	userService UserService,
 	rolResourceService RoleResourceService,
 	menuService MenuService,
-	resourcePermissionService ResourcePermissionService) AuthService {
+	resourcePermissionService ResourcePermissionService,
+	entityService EntityService) AuthService {
 
 	return &AuthServiceImpl{
 		userRolService:            userRolService,
@@ -32,6 +34,7 @@ func NewAuthService(
 		rolResourceService:        rolResourceService,
 		menuService:               menuService,
 		resourcePermissionService: resourcePermissionService,
+		EntityService:             entityService,
 	}
 }
 
@@ -59,11 +62,16 @@ func (s *AuthServiceImpl) Auth(auth *dto.AuthDTO) (token *string, userId uint, e
 
 	menus, _ := s.menuService.FindMenuByResourceAndEntity(resource, uint(entity), permissions)
 
+	entityFound, _ := s.EntityService.GetEntityById(uint(entity))
+
 	authResponse := response.AuthResponse{
-		Menus:     *menus,
-		User:      *user,
-		EntidadId: uint(entity),
+		Menus:         *menus,
+		User:          *user,
+		EntidadId:     uint(entity),
+		NombreEntidad: entityFound.RazonSocial,
 	}
+
+	fmt.Println(authResponse)
 
 	/*rabbitMQ := util.GetInstance()
 

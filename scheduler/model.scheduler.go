@@ -2,6 +2,7 @@ package scheduler
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -72,14 +73,33 @@ func (d DatosAccionScript) Validar() error {
 	return nil
 }
 
+// DatosAccionService para ejecutar funciones de servicios internos
+type DatosAccionService struct {
+	Servicio   string                 `json:"servicio"`
+	Funcion    string                 `json:"funcion"`
+	Parametros map[string]interface{} `json:"parametros"`
+}
+
+func (d DatosAccionService) Validar() error {
+	// Validación específica para Services
+	if d.Servicio == "" {
+		return fmt.Errorf("servicio es requerido")
+	}
+	if d.Funcion == "" {
+		return fmt.Errorf("funcion es requerida")
+	}
+	return nil
+}
+
 // TipoAccion define los tipos de acciones disponibles
 type TipoAccion string
 
 const (
-	TipoAccionHTTP   TipoAccion = "HTTP"
-	TipoAccionEmail  TipoAccion = "EMAIL"
-	TipoAccionScript TipoAccion = "SCRIPT"
-	TipoAccionDB     TipoAccion = "DATABASE"
+	TipoAccionHTTP    TipoAccion = "HTTP"
+	TipoAccionEmail   TipoAccion = "EMAIL"
+	TipoAccionScript  TipoAccion = "SCRIPT"
+	TipoAccionDB      TipoAccion = "DATABASE"
+	TipoAccionService TipoAccion = "SERVICE"
 )
 
 // EstadoEjecucion representa el estado de una ejecución

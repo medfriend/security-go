@@ -19,12 +19,14 @@ var AuthSet = wire.NewSet(
 	repository.NewUserRolRepository,
 	repository.NewRoleResourceRepository,
 	repository.NewMenuRepository,
+	repository.NewEntityRepository,
 	service.NewResourcePermissionService,
 	service.NewUserService,
 	service.NewUserRolService,
 	service.NewRoleResourceService,
 	service.NewAuthService,
 	service.NewMenuService,
+	service.NewEntityService,
 	controller.NewAuthController,
 )
 

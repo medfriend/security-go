@@ -36,6 +36,13 @@ func (p *DefaultDataParser) ParseDatosAccion(rawData json.RawMessage, tipoAccion
 		}
 		return datos, nil
 
+	case TipoAccionService:
+		var datos DatosAccionService
+		if err := json.Unmarshal(rawData, &datos); err != nil {
+			return nil, fmt.Errorf("error parseando datos Service: %w", err)
+		}
+		return datos, nil
+
 	default:
 		return nil, fmt.Errorf("tipo de acción no soportado: %s", tipoAccion)
 	}

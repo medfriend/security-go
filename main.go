@@ -33,6 +33,7 @@ import (
 	"os/signal"
 	"runtime"
 	"security-go/httpServer"
+	"security-go/scheduler"
 	"security-go/util"
 	"syscall"
 )
@@ -80,6 +81,9 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error aplicando migraciones: %v", err)
 	}
+
+	// Iniciar los scheduler programados
+	scheduler.CreateSchedule(initDB)
 
 	// Para mantener compatibilidad con el código existente
 	legacyTaskQueue := make(chan *http.Request, 100)
