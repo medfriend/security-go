@@ -39,7 +39,7 @@ func InitHttpServer(taskQueue chan *http.Request, db *gorm.DB, serviceInfo map[s
 }
 
 // InitHttpServerWithWorkerPool inicializa el servidor HTTP con nuestro pool de workers
-func InitHttpServerWithWorkerPool(workerPool *worker.WorkerPool, db *gorm.DB, serviceInfo map[string]string) error {
+func InitHttpServerWithWorkerPool(workerPool *worker.WorkerPool, db *gorm.DB, serviceInfo map[string]string) (*gin.Engine, *gin.RouterGroup) {
 	// Configurar modo de Gin basado en el entorno
 	if gin.Mode() != gin.ReleaseMode {
 		gin.SetMode(gin.DebugMode)
@@ -70,9 +70,9 @@ func InitHttpServerWithWorkerPool(workerPool *worker.WorkerPool, db *gorm.DB, se
 	{
 		// Usar el middleware de worker compartido, excluyendo rutas de salud/métricas
 		apiProcessingGroup.Use(worker.WorkerPoolMiddleware(
-			workerPool,                  // pool a usar
-			5000,                        // timeout middleware en ms
-			30000,                       // timeout procesamiento en ms
+			workerPool,                                  // pool a usar
+			5000,                                        // timeout middleware en ms
+			30000,                                       // timeout procesamiento en ms
 			[]string{"/health", "/metrics", "/swagger"}, // rutas a excluir
 		))
 
@@ -90,7 +90,7 @@ func InitHttpServerWithWorkerPool(workerPool *worker.WorkerPool, db *gorm.DB, se
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Configurar todas las rutas normales
-	router.InitializeAllRouters(api, db)
+	//router.InitializeAllRouters(api, db)
 
 	// Endpoints de estado para monitoreo
 	api.GET("/health", func(c *gin.Context) {
@@ -106,5 +106,6 @@ func InitHttpServerWithWorkerPool(workerPool *worker.WorkerPool, db *gorm.DB, se
 	// Iniciar el servidor HTTP
 	log.Printf("Iniciando servidor en puerto %s con %d workers disponibles",
 		serviceInfo["SERVICE_PORT"], len(workerPool.Workers))
-	return r.Run(fmt.Sprintf(":%s", serviceInfo["SERVICE_PORT"]))
+	
+	return r, api
 }

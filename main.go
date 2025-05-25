@@ -33,6 +33,7 @@ import (
 	"os/signal"
 	"runtime"
 	"security-go/httpServer"
+	"security-go/router"
 	"security-go/scheduler"
 	"security-go/util"
 	"syscall"
@@ -46,6 +47,7 @@ func main() {
 	consulIp := os.Getenv("CONSUL_IP")
 	consulConn := fmt.Sprint(consulIp, ":8500")
 
+	// obtener el cliente de consul
 	consulClient := consul.ConnectToConsulKey(consulConn, "SECURITY")
 
 	serviceInfo := util.HandlerServiceInfo(consulClient)
@@ -96,7 +98,10 @@ func main() {
 	serverChan := make(chan error, 1)
 
 	go func() {
-		if err := httpServer.InitHttpServerWithWorkerPool(workerPool, initDB, serviceInfo); err != nil {
+		r, api := httpServer.InitHttpServerWithWorkerPool(workerPool, initDB, serviceInfo)
+		router.InitializeAllRouters(api, initDB)
+
+		if err := r.Run(fmt.Sprintf(":%s", serviceInfo["SERVICE_PORT"])); err != nil {
 			serverChan <- err
 		}
 	}()
