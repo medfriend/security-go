@@ -9,7 +9,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/google/wire v0.6.0
 	github.com/hashicorp/consul/api v1.30.0
-	github.com/medfriend/shared-commons-go v0.2.4
+	github.com/medfriend/shared-commons-go v0.2.5
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/streadway/amqp v1.1.0
 	github.com/swaggo/files v1.0.1

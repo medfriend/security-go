@@ -4,27 +4,48 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	mdfscheduler "github.com/medfriend/shared-commons-go/util/scheduler"
 	"github.com/robfig/cron/v3"
 	"gorm.io/gorm"
 	"security-go/entity"
+	"security-go/module"
 	"security-go/repository"
 	"time"
 )
 
-func SetupFactory(serviceContainer *ServiceContainer) TaskFactory {
-	factory := NewTaskFactory()
-	parser := &DefaultDataParser{}
+func SetupFactory(serviceContainer *mdfscheduler.ServiceContainer) mdfscheduler.TaskFactory {
+
+	factory := mdfscheduler.NewTaskFactory()
+	parser := &mdfscheduler.DefaultDataParser{}
 
 	// Registrar executor de servicios
 	if serviceContainer != nil {
-		factory.RegisterExecutor(TipoAccionService, NewServiceExecutor(parser, serviceContainer))
+		factory.RegisterExecutor(
+			mdfscheduler.TipoAccionService,
+			mdfscheduler.NewServiceExecutor(parser, serviceContainer))
 	}
 
 	return factory
 }
 
 // CreateSchedule obtiene la informacion de las tareas registradas en la base de datos y las relaciona con las tareas registradas en la programacion
-func CreateSchedule(db *gorm.DB, serviceContainer *ServiceContainer) {
+func CreateSchedule(db *gorm.DB) {
+	// Crear contenedor de servicios y registrar todos los servicios
+	serviceContainer := mdfscheduler.NewServiceContainer()
+
+	serviceContainer.RegisterService("AuthService", module.InitilizeAuthService(db))
+	serviceContainer.RegisterService("UserService", module.InitializeUserService(db))
+	serviceContainer.RegisterService("RolService", module.InitializeRolService(db))
+	serviceContainer.RegisterService("MenuService", module.InitializeMenuService(db))
+	serviceContainer.RegisterService("PermissionService", module.InitializePermisoService(db))
+	serviceContainer.RegisterService("ResourceService", module.InitializeResourceService(db))
+	serviceContainer.RegisterService("ResourcePermissionService", module.InitializeResourcePermissionService(db))
+	serviceContainer.RegisterService("RoleResourceService", module.InitializeRoleResourceService(db))
+	serviceContainer.RegisterService("ParameterService", module.InitializeParameterService(db))
+	serviceContainer.RegisterService("EntityService", module.InitializeEntityService(db))
+	serviceContainer.RegisterService("UserRolService", module.InitializeUserRolService(db))
+	serviceContainer.RegisterService("TrazabilidadService", module.InitializeTrazabilidadUsuarioAccionService(db))
+
 	c := cron.New(cron.WithSeconds())
 
 	tareaProgramadasRepo := repository.NewTareaProgramadaRepository(db)
@@ -47,7 +68,7 @@ func CreateSchedule(db *gorm.DB, serviceContainer *ServiceContainer) {
 		}
 
 		// Obtener el ejecutor apropiado
-		executor, err := factory.CreateExecutor(TipoAccion(tarea.TipoAccion))
+		executor, err := factory.CreateExecutor(mdfscheduler.TipoAccion(tarea.TipoAccion))
 		if err != nil {
 			fmt.Printf("Error obteniendo ejecutor para tarea '%s': %v\n", tarea.Nombre, err)
 			continue
@@ -59,7 +80,9 @@ func CreateSchedule(db *gorm.DB, serviceContainer *ServiceContainer) {
 		c.AddFunc(tarea.ExpresionProgramacion, func() {
 			// Ejecutar la tarea (ejemplo)
 			ctx := context.Background()
+
 			resultado, err := executor.Execute(ctx, schedulerTarea)
+
 			if err != nil {
 				fmt.Printf("Error ejecutando tarea '%s': %v\n", tarea.Nombre, err)
 			} else {
@@ -79,7 +102,7 @@ func CreateSchedule(db *gorm.DB, serviceContainer *ServiceContainer) {
 }
 
 // convertToSchedulerTarea convierte entity.TareaProgramada a scheduler.TareaProgramada
-func convertToSchedulerTarea(entityTarea entity.TareaProgramada) *TareaProgramada {
+func convertToSchedulerTarea(entityTarea entity.TareaProgramada) *mdfscheduler.TareaProgramada {
 	// Convertir DatosAccion de string a json.RawMessage
 	var datosAccion json.RawMessage
 	if entityTarea.DatosAccion != "" {
@@ -111,7 +134,7 @@ func convertToSchedulerTarea(entityTarea entity.TareaProgramada) *TareaProgramad
 		fechaActualizacion = &entityTarea.FechaActualizacion
 	}
 
-	return &TareaProgramada{
+	return &mdfscheduler.TareaProgramada{
 		ID:                    int64(entityTarea.TareasProgramadasID),
 		Nombre:                entityTarea.Nombre,
 		Descripcion:           entityTarea.Descripcion,
